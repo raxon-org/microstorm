@@ -1,13 +1,26 @@
 {
-  frankenphp {
-    admin :2020
-    php_ini {
-        memory_limit 2560M
-        max_execution_time 15
+    servers {
+        enable_full_duplex
     }
-  }
+    frankenphp {
+        admin :2020
+
+        php_ini {
+            memory_limit 2560M
+            max_execution_time 15
+        }
+    }
 }
-api.microstorm.local:443 {
+https:// {
+    encode zstd br gzip
+    rewrite * /worker.php?request={path}&{query}.replace('?','&')
+    php_server {
+        root /Application/Public
+        worker worker.php 2
+        try_files {path} index.php
+    }
+}
+https:// {
     encode zstd br gzip
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
     php_server {
