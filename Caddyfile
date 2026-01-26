@@ -8,12 +8,22 @@
     }
 }
 
-api.workandtravel.world {
+www.workandtravel.world {
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
     php_server {
-       root /Application/Public
-       name workandtravel.world
-       worker worker.php 4
-       try_files {path} index.php
-   }
+        root /Application/Public
+        name workandtravel.world
+        worker worker.php 4
+        try_files {path} index.php
+    }
+}
+
+workandtravel.world {
+    rewrite * /worker.php?request={path}&{query}.replace('?','&')
+    php_server {
+        root /Application/Public
+        name workandtravel.world
+        worker worker.php 4
+        try_files {path} index.php
+    }
 }
