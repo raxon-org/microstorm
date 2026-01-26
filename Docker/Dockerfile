@@ -3,7 +3,7 @@ WORKDIR /Application
 
 # Update & upgrade
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get update && apt-get install init bash cron libzip-dev unzip wget nano php -y
+RUN apt-get update && apt-get install init bash cron libzip-dev unzip wget nano git php -y
 
 # init
 COPY ./Docker/Boot/start.php /usr/bin/start
@@ -17,13 +17,10 @@ RUN chmod +x /usr/bin/composer
 RUN chown www-data:www-data /usr/bin/composer
 RUN composer self-update
 
-# ffmpeg
-#RUN apt-get update && apt-get install ffmpeg -y
-
-RUN apt-get update && apt-get install \
-    git -y
-
 COPY . /Application
+
+RUN curl https://frankenphp.dev/install.sh | sh
+RUN frankenphp php-server -r Public/
 
 # Execute start script
 RUN chmod +x /Application/start.sh
