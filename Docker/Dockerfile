@@ -3,7 +3,7 @@ WORKDIR /Application
 
 # Update & upgrade
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get update && apt-get install init bash cron libzip-dev unzip wget nano git php -y
+RUN apt-get update && apt-get install init bash cron libzip-dev unzip wget curl nano git php -y
 
 # init
 COPY ./Docker/Boot/start.php /usr/bin/start
