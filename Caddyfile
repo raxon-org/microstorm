@@ -1,6 +1,6 @@
 {
   frankenphp {
-    admin on
+    admin :443
     php_ini {
         memory_limit 2560M
         max_execution_time 15
