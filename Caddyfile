@@ -1,20 +1,9 @@
 {
-    servers {
-        enable_full_duplex
-    }
+    admin localhost:7998
     frankenphp {
         php_ini {
             memory_limit 2560M
             max_execution_time 15
         }
-    }
-}
-workandtravel.world {
-    encode zstd br gzip
-    rewrite * /worker.php?request={path}&{query}.replace('?','&')
-    php_server {
-        root /Application/Public
-        worker worker.php 2
-        try_files {path} index.php
     }
 }
