@@ -7,3 +7,12 @@
         }
     }
 }
+
+api.workandtravel.world {
+    rewrite * /worker.php?request={path}&{query}.replace('?','&')
+    php_server {
+       root /Application/Public
+       worker worker.php 2
+       try_files {path} index.php
+   }
+}
