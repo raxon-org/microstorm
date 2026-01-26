@@ -8,7 +8,7 @@
   }
 }
 api.microstorm.local {
-    tls internal
+    encode zstd br gzip
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
     php_server {
 	root /Application/Public
