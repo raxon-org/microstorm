@@ -7,12 +7,12 @@
     }
   }
 }
-api.microstorm.local {
+api.microstorm.local:443 {
     encode zstd br gzip
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
     php_server {
-	root /Application/Public
-	worker worker.php 2
+	    root /Application/Public
+	    worker worker.php 2
         try_files {path} index.php
     }
 }
