@@ -1,16 +1,10 @@
 {
 	frankenphp {
-		worker {
-			file  /Application/Public/worker.php
-			watch
+		php_server {
+			worker {
+				file /Application/Public/worker.php # file can be outside of public path
+				match * # all requests starting with will be handled by this worker
+			}
 		}
 	}
-}
-localhost {
-    rewrite * /worker.php?request={path}&{query}.replace('?','&')
-    php_server {
-	root /Application/Public
-	worker worker.php 2
-        try_files {path} index.php
-    }
 }
