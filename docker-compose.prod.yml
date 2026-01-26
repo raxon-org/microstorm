@@ -15,7 +15,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "2020:2020"
+      - "443:443/udp"
     networks:
       - raxon-org-network
 networks:
