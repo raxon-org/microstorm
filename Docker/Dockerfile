@@ -20,7 +20,7 @@ RUN composer self-update
 COPY . /Application
 
 COPY ./Docker/Packages/frankenphp/frankenphp-linux-x86_64 /usr/bin/frankenphp
-RUN chmod +x /usr/bin/composer
+RUN chmod +x /usr/bin/frankenphp
 
 # Execute start script
 RUN chmod +x /Application/start.sh
