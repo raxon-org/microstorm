@@ -11,7 +11,7 @@
     }
     local_certs
 }
-https:// {
+http:// {
     encode zstd br gzip
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
     php_server {
