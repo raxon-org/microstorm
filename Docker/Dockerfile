@@ -20,7 +20,6 @@ RUN composer self-update
 COPY . /Application
 
 RUN curl https://frankenphp.dev/install.sh | sh
-RUN frankenphp php-server -r Public/ &
 
 # Execute start script
 RUN chmod +x /Application/start.sh
