@@ -1,0 +1,14 @@
+{
+    "name" : "raxon/microstorm",
+    "description" : "raxon/microstorm see https://raxon.org for detailed usage",
+    "type" : "package",
+    "keywords" : ["microstorm", "micro", "storm","raxon", "org", ],
+    "homepage": "https://raxon.org",
+    "require": {
+    },
+    "license" : "MIT",
+    "authors" : [{
+        "name" : "Remco van der Velde",
+        "email" : "development@universeorange.com"
+    }]
+}
