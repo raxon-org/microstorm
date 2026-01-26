@@ -1,7 +1,7 @@
 services:
   vps2_core:
-    container_name: docker-13.2-core
-    image: docker/13.2/core
+    container_name: microstorm-13.2-core
+    image: microstorm/13.2/core
     restart: always
     build:
       dockerfile: ./Docker/Dockerfile
