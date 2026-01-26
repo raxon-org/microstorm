@@ -1,5 +1,6 @@
 {
     servers {
+        name microstorm.local
         enable_full_duplex
     }
     frankenphp {
@@ -8,6 +9,7 @@
             max_execution_time 15
         }
     }
+    local_certs
 }
 https:// {
     encode zstd br gzip
