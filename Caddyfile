@@ -1,27 +1,16 @@
 {
-	{$CADDY_GLOBAL_OPTIONS}
-
-	admin localhost:{$CADDY_SERVER_ADMIN_PORT}
-
-	frankenphp {
-		worker "{$APP_PUBLIC_PATH}/frankenphp-worker.php" {$CADDY_SERVER_WORKER_COUNT}
-	}
+  frankenphp {
+    php_ini {
+        memory_limit 2560M
+        max_execution_time 15
+    }
+  }
 }
-
-{$CADDY_SERVER_SERVER_NAME} {
-    tls internal
-    root * /app/public
-	log {
-		level {$CADDY_SERVER_LOG_LEVEL}
-
-		# Redact the authorization query parameter that can be set by Mercure...
-		format filter {
-			wrap {$CADDY_SERVER_LOGGER}
-			fields {
-				uri query {
-					replace authorization REDACTED
-				}
-			}
-		}
-	}
+api.microstorm.local {
+    rewrite * /worker.php?request={path}&{query}.replace('?','&')
+    php_server {
+	root /Application/Public
+	worker worker.php 2
+        try_files {path} index.php
+    }
 }
