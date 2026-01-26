@@ -12,7 +12,8 @@ api.workandtravel.world {
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
     php_server {
        root /Application/Public
-       worker worker.php 2
+       name workandtravel.world
+       worker worker.php 4
        try_files {path} index.php
    }
 }
