@@ -1,9 +1,26 @@
 {
+	{$CADDY_GLOBAL_OPTIONS}
+
+	admin localhost:{$CADDY_SERVER_ADMIN_PORT}
+
 	frankenphp {
-		php_server {
-			worker {
-				file /Application/Public/worker.php # file can be outside of public path
-				match * # all requests starting with will be handled by this worker
+		worker "{$APP_PUBLIC_PATH}/frankenphp-worker.php" {$CADDY_SERVER_WORKER_COUNT}
+	}
+}
+
+{$CADDY_SERVER_SERVER_NAME} {
+    tls internal
+    root * /app/public
+	log {
+		level {$CADDY_SERVER_LOG_LEVEL}
+
+		# Redact the authorization query parameter that can be set by Mercure...
+		format filter {
+			wrap {$CADDY_SERVER_LOGGER}
+			fields {
+				uri query {
+					replace authorization REDACTED
+				}
 			}
 		}
 	}
