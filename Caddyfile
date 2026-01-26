@@ -1,6 +1,5 @@
 {
     servers {
-        name microstorm.local
         enable_full_duplex
     }
     frankenphp {
@@ -9,23 +8,13 @@
             max_execution_time 15
         }
     }
-    local_certs
 }
-http:// {
+workandtravel.world {
     encode zstd br gzip
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
     php_server {
         root /Application/Public
         worker worker.php 2
-        try_files {path} index.php
-    }
-}
-https:// {
-    encode zstd br gzip
-    rewrite * /worker.php?request={path}&{query}.replace('?','&')
-    php_server {
-	    root /Application/Public
-	    worker worker.php 2
         try_files {path} index.php
     }
 }
