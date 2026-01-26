@@ -1,10 +1,10 @@
 {
-  frankenphp {
-    php_ini {
-        memory_limit 2560M
-        max_execution_time 15
-    }
-  }
+	frankenphp {
+		worker {
+			file  /Application/Public/worker.php
+			watch
+		}
+	}
 }
 localhost {
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
