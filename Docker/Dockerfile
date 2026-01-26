@@ -19,7 +19,8 @@ RUN composer self-update
 
 COPY . /Application
 
-RUN curl https://frankenphp.dev/install.sh | sh
+COPY ./Docker/Packages/frankenphp/frankenphp-linux-x86_64 /usr/bin/frankenphp
+RUN chmod +x /usr/bin/composer
 
 # Execute start script
 RUN chmod +x /Application/start.sh
