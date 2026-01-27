@@ -179,13 +179,8 @@ trait Route {
             $data = Core::object($read);
         }
         foreach($data as $nr => $item){
-            if(!is_object($item)){
-                continue;
-            }
-            if(!property_exists($item, 'resource')){
-                $data[$nr] = $this->route_item_path($data[$nr]);
-                $data[$nr] = $this->route_item_deep($data[$nr]);
-            }
+            $data[$nr] = $this->route_item_path($item);
+            $data[$nr] = $this->route_item_deep($data[$nr]);
         }
         d($data);
     }
