@@ -76,7 +76,7 @@ trait Route {
         }
         $select->method = $this->route_method();
         $request = $this->route_select($config, $select);
-        d($select);
+        d($request);
         return $config;
     }
 
