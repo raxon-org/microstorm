@@ -178,6 +178,7 @@ trait Route {
             $read = File::read($url_route_temp);
             $data = Core::object($read);
         }
+        ddd($data);
         foreach($data as $nr => $item){
             $data[$nr] = $this->route_item_path($item);
             $data[$nr] = $this->route_item_deep($data[$nr]);
