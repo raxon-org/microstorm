@@ -46,6 +46,9 @@ class Boot {
         if($autoload !== null) {
             $this->autoload = $autoload;
         }
+        if($this->autoload === null) {
+            return null;
+        }
         return $this->autoload;
     }
 
@@ -53,12 +56,18 @@ class Boot {
         if($config !== null) {
             $this->config = $config;
         }
+        if($this->config === null) {
+            return null;
+        }
         return $this->config;
     }
 
     public function data(Data $data = null): mixed {
         if($data !== null) {
             $this->data = $data;
+        }
+        if($this->data === null) {
+            return null;
         }
         return $this->data;
     }
