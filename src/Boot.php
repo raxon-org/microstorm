@@ -3,9 +3,10 @@ namespace Microstorm;
 
 use Exception;
 use Plugin;
+
 class Boot {
-    use Plugin\Request;
-    use Plugin\Route;
+    use Plugin\Request\Request;
+    use Plugin\Route\Route;
 
     protected ?object $autoload = null;
     protected ?object $config = null;

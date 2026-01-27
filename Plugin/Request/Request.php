@@ -1,10 +1,10 @@
 <?php
-namespace Plugin;
+namespace Plugin\Request;
 
 use Exception;
 use Exception\ObjectException;
-use Microstorm\Data;
 use Microstorm\Core;
+use Microstorm\Data;
 
 
 trait Request {
