@@ -2,8 +2,10 @@
 namespace Microstorm;
 
 use Exception;
-
+use Plugin;
 class Boot {
+    use Plugin\Server;
+
     protected ?object $autoload = null;
     protected ?object $config = null;
     protected ?object $data = null;
@@ -74,6 +76,7 @@ class Boot {
         $config->set('cookie', $cookie);
         $config->set('time.current', microtime(true));
         $config->set('time.duration', $config->get('time.current') - $config->get('time.start'));
+        $config = $this->server_init($config, $server);
     }
 }
 
