@@ -1,4 +1,5 @@
 <?php
+namespace Microstorm;
 
 class Boot {
     protected object $data;

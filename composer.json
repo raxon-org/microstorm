@@ -6,6 +6,9 @@
     "homepage": "https://raxon.org",
     "require": {
     },
+    "psr-4": {
+      "Microstorm\\": "src/"
+    },
     "license" : "MIT",
     "authors" : [{
         "name" : "Remco van der Velde",
