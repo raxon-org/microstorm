@@ -4,7 +4,7 @@ if(!defined('MICROSTORM')){
 }
 $app = (object) [
     'time' => (object) [
-        'start' => microtime(true)
+        'start' => constant('MICROSTORM')
     ]
 ];
 return $app;
