@@ -84,6 +84,9 @@ class Boot {
         $config->set('time.duration', $config->get('time.current') - $config->get('time.start'));
         $config = $this->request_query_init($config);
         $config = $this->route_init($config);
+        if($config->has('route.current') !== false){
+            $config->set('request', $config->get('route.current'));
+        }
         d($config);
     }
 }
