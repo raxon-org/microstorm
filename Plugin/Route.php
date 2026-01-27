@@ -9,6 +9,29 @@ use Microstorm\Core;
 
 trait Route {
 
+    const METHOD_CLI = 'CLI';
+    const DELETE = 'DELETE';
+    const GET = 'GET';
+    const PATCH = 'PATCH';
+    const POST = 'POST';
+    const PUT = 'PUT';
+    const HEAD = 'HEAD';
+    const CONNECT = 'CONNECT';
+    const OPTIONS = 'OPTIONS';
+    const TRACE = 'TRACE';
+
+    const METHODS = [
+        self::DELETE,
+        self::GET,
+        self::PATCH,
+        self::POST,
+        self::PUT,
+        self::HEAD,
+        self::CONNECT,
+        self::OPTIONS,
+        self::TRACE
+    ];
+
     /**
      * @throws Exception
      */
@@ -48,10 +71,32 @@ trait Route {
         while (end($select->attribute) === '') {
             array_pop($select->attribute);
         }
+        $select->method = $this->route_method();
         d($select);
         return $config;
     }
 
+    /**
+     * @throws Exception
+     */
+    public static function route_method(): string
+    {
+        if(array_key_exists('REQUEST_METHOD', $_SERVER)){
+            if(
+                in_array(
+                    $_SERVER['REQUEST_METHOD'],
+                    self::METHODS,
+                    true
+                )
+            ){
+                return $_SERVER['REQUEST_METHOD'];
+            }
+        }
+        elseif(defined('IS_CLI')){
+            return self::METHOD_CLI;
+        }
+        throw new Exception('Method undefined');
+    }
 
     private static function route_request_explode($input=''): array
     {
