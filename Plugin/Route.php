@@ -284,8 +284,7 @@ trait Route {
             }
         }
         if($current !== false){
-            ddd($current);
-//            return Route::prepare($object, $current, $select);
+            return $this->route_prepare($config, $current, $select);
         }
         return false;
     }
@@ -512,7 +511,7 @@ trait Route {
         return true;
     }
 
-    private function prepare(Data $config, object $route, object $select): object
+    private function route_prepare(Data $config, object $route, object $select): object
     {
         $route->path = str_replace([
             '{{',
@@ -585,7 +584,31 @@ trait Route {
             $route->request->data($key, $record);
         }
         if(property_exists($route, 'controller')){
-            $route = Route::controller($route);
+            $route = $this->route_controller($route);
+        }
+        return $route;
+    }
+
+    public static function route_controller(object $route): object
+    {
+        if(property_exists($route, 'controller')){
+            $is_double_colon = str_contains($route->controller, ':');
+            if($is_double_colon){
+                $controller = explode(':', $route->controller);
+                if(array_key_exists(1, $controller)) {
+                    $function = array_pop($controller);
+                    $route->controller = str_replace('.', '_', implode('\\', $controller));
+                    $function = str_replace('.', '_', $function);
+                    $route->function = $function;
+                }
+            } else {
+                $controller = explode('.', $route->controller);
+                if(array_key_exists(1, $controller)) {
+                    $function = array_pop($controller);
+                    $route->controller = implode('\\', $controller);
+                    $route->function = $function;
+                }
+            }
         }
         return $route;
     }
