@@ -4,9 +4,9 @@ namespace Microstorm;
 use Exception;
 
 class Boot {
-    protected ?object $data = null;
     protected ?object $autoload = null;
     protected ?object $config = null;
+    protected ?object $data = null;
 
     /**
      * @throws Exception
