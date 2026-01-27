@@ -6,7 +6,7 @@ $handler = static function () use ($app) {
     $app->refresh();
     // Called when a request is received,
     // superglobals, php://input and the like are reset
-    var_dump($app->config());
+    var_dump($app);
     var_dump($_GET);
     var_dump($_POST);
     var_dump($_COOKIE);
