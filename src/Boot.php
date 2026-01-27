@@ -5,8 +5,8 @@ use Exception;
 use Plugin;
 
 class Boot {
-    use Plugin\Request\Request;
-    use Plugin\Route\Route;
+    use Plugin\Request;
+    use Plugin\Route;
 
     protected ?object $autoload = null;
     protected ?object $config = null;

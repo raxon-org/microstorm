@@ -1,5 +1,5 @@
 <?php
-namespace Plugin\Request;
+namespace Plugin;
 
 use Exception;
 use Exception\ObjectException;

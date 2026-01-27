@@ -1,5 +1,5 @@
 <?php
-namespace Plugin\Route;
+namespace Plugin;
 
 use Exception;
 use Exception\ObjectException;
