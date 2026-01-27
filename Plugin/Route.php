@@ -248,13 +248,12 @@ trait Route {
     private function route_select(Data $config, object $select): Data
     {
         $data =  $config->get('route.list');
-        ddd($data);
         $match = false;
-        if(empty($data)){
+        if(empty($data->data())){
             return $config;
         }
         $current = false;
-        foreach($data as $nr => $record){
+        foreach($data->data() as $name => $record){
             if(!is_object($record)){
                 continue;
             }
