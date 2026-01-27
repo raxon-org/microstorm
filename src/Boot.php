@@ -85,6 +85,7 @@ class Boot {
         $config = $this->request_query_init($config);
         $config = $this->route_init($config);
         if($config->has('route.current') !== false){
+            dd($config->get('route.current'));
             foreach($config->get('route.current.request')->data() as $key => $value){
                 $config->set('request.' . $key, $value);
             }
