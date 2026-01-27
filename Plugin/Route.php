@@ -512,4 +512,82 @@ trait Route {
         return true;
     }
 
+    private static function prepare(Data $config, object $route, object $select): object
+    {
+        $route->path = str_replace([
+            '{{',
+            '}}'
+        ], [
+            '{',
+            '}'
+        ], $route->path);
+        $explode = explode('/', $route->path);
+        array_pop($explode);
+        $attribute = $select->attribute;
+        $nr = 0;
+        ddd($route);
+        if(property_exists($route, 'request')){
+            $route->request = new Data($route->request);
+        } else {
+            $route->request = new Data();
+        }
+        foreach($explode as $nr => $part){
+            if(Route::is_variable($part)){
+                $get_attribute = Route::get_variable($part);
+                $temp = explode(':', $get_attribute, 2);
+                if(array_key_exists(1, $temp)){
+                    $variable = $temp[0];
+                    if(property_exists($route->request, $variable)){
+                        continue;
+                    }
+                    if(array_key_exists($nr, $attribute)){
+                        $type = ucfirst($temp[1]);
+                        $className = '\\Raxon\\Module\\Route\\Type' . $type;
+                        $exist = class_exists($className);
+                        if(
+                            $exist &&
+                            in_array('cast', get_class_methods($className), true)
+                        ){
+                            $value = $className::cast($object, urldecode($attribute[$nr]));
+                        } else {
+                            $value = urldecode($attribute[$nr]);
+                        }
+                        $route->request->data($variable, $value);
+                    }
+                } else {
+                    $variable = $temp[0];
+                    if(property_exists($route->request, $variable)){
+                        continue;
+                    }
+                    if(array_key_exists($nr, $attribute)){
+                        $value = urldecode($attribute[$nr]);
+                        $route->request->data($variable, $value);
+                    }
+                }
+            }
+        }
+        if(
+            !empty($variable) &&
+            count($attribute) > count($explode)
+        ){
+            $request = '';
+            for($i = $nr; $i < count($attribute); $i++){
+                $request .= $attribute[$i] . '/';
+            }
+            $request = substr($request, 0, -1);
+            $request = urldecode($request);
+            $route->request->data($variable, $request);
+        }
+        foreach($object->data(App::REQUEST) as $key => $record){
+            if($key == 'request'){
+                continue;
+            }
+            $route->request->data($key, $record);
+        }
+        if(property_exists($route, 'controller')){
+            $route = Route::controller($route);
+        }
+        return $route;
+    }
+
 }
