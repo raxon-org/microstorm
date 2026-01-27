@@ -283,7 +283,7 @@ trait Route {
         if($current !== false){
             $current =  $this->route_prepare($config, $current, $select);
             $config->set('route.current', $current);
-            return $current;
+            return $config;
         }
         $config->set('route.current', false);
         return $config;
