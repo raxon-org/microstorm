@@ -514,7 +514,6 @@ trait Route {
      */
     private function route_prepare(Data $config, object $route, object $select): object
     {
-        ddd($route);
         $route->path = str_replace([
             '{{',
             '}}'
@@ -587,6 +586,7 @@ trait Route {
         if(property_exists($route, 'controller')){
             $route = $this->route_controller($route);
         }
+        ddd($route);
         return $route;
     }
 
