@@ -42,7 +42,7 @@ class Boot {
         }
     }
 
-    public function autoload($autoload = null): mixed {
+    public function autoload(object $autoload = null): object | null {
         if($autoload !== null) {
             $this->autoload = $autoload;
         }
@@ -52,7 +52,7 @@ class Boot {
         return $this->autoload;
     }
 
-    public function config(Data $config = null): mixed {
+    public function config(Data $config = null): Data | null {
         if($config !== null) {
             $this->config = $config;
         }
@@ -62,7 +62,7 @@ class Boot {
         return $this->config;
     }
 
-    public function data(Data $data = null): mixed {
+    public function data(Data $data = null): Data | null {
         if($data !== null) {
             $this->data = $data;
         }
