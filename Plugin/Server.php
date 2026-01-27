@@ -14,18 +14,6 @@ trait Server {
      */
     public function server_init(Data $config, array $server): Data
     {
-        /*
-        $uri = ltrim($_SERVER['REQUEST_URI'], '/');
-        $uri = explode('?', $uri, 2);
-        $request = $uri[0];
-        $query_string = $uri[1] ?? '';
-        $query = $this->server_query_string($query_string);
-        if(empty($request)){
-            $request = '/';
-        }
-        var_dump($request);
-        var_dump($query);
-        */
         $request = $this->server_request_input();
         foreach($request as $attribute => $value){
             $config->set($attribute, $value);
