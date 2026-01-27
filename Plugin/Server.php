@@ -15,7 +15,7 @@ trait Server {
     public function server_init(Data $config, array $server): Data
     {
         $request = $this->server_request_input();
-        foreach($request as $attribute => $value){
+        foreach($request->data() as $attribute => $value){
             $config->set($attribute, $value);
         }
         return $config;
