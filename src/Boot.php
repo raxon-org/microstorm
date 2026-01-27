@@ -5,6 +5,7 @@ use Exception;
 use Plugin;
 class Boot {
     use Plugin\Request;
+    use Plugin\Debug;
 
     protected ?object $autoload = null;
     protected ?object $config = null;
@@ -69,6 +70,9 @@ class Boot {
         return $this->data;
     }
 
+    /**
+     * @throws Exception
+     */
     public function run($server, $files, $cookie): void {
         $config = $this->config();
         $config->set('server', $server);
@@ -77,6 +81,7 @@ class Boot {
         $config->set('time.current', microtime(true));
         $config->set('time.duration', $config->get('time.current') - $config->get('time.start'));
         $config = $this->request_query_init($config);
+        d($config);
     }
 }
 
