@@ -1,8 +1,6 @@
 <?php
 namespace Microstorm;
 
-require_once __DIR__ . '/Dir.php';
-
 $dir_tmp = '/tmp/raxon/org/Plugin/';
 if(!Dir::is($dir_tmp)){
     Dir::create($dir_tmp, Dir::CHMOD);
@@ -14,9 +12,7 @@ if(!Dir::is($dir_tmp)){
             try {
                 if(!File::is($dir_tmp . $file->name)){
                     File::copy($dir_plugin . $file->name, $dir_tmp . $file->name);
-                    echo 'Copy ' . $file->name . PHP_EOL;
                 } else {
-                    echo 'Skip ' . $file->name . PHP_EOL;
                 }
             } catch (\Exception $e) {
                 echo $e->getMessage() . PHP_EOL;
