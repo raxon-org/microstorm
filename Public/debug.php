@@ -1,8 +1,7 @@
 <?php
-namespace Plugin;
-
-use Exception\ObjectException;
-
+if(!defined('MICROSTORM')){
+    die( 'Forbidden');
+}
 if(!function_exists('breakpoint')){
     /**
      * @throws ObjectException
@@ -97,7 +96,7 @@ if(!function_exists('trace')){
         // don't need the first one (0)
         // we do, where did we put it...
 
-        $content[] = Cli::debug('Trace') . PHP_EOL;
+        $content[] = 'Trace' . PHP_EOL;
         for($i = 0; $i < $length; $i++){
             if(array_key_exists($i, $trace)){
                 if(
@@ -109,7 +108,7 @@ if(!function_exists('trace')){
                     if($is_return){
                         $content[] = $trace[$i]['function'] . ':' . $trace[$i]['file'] .':' . $trace[$i]['line']  . PHP_EOL;
                     } else {
-                        $content[] = cli::notice($trace[$i]['function']) . ':' . $trace[$i]['file'] .':' . $trace[$i]['line']  . PHP_EOL;
+                        $content[] = $trace[$i]['function'] . ':' . $trace[$i]['file'] .':' . $trace[$i]['line']  . PHP_EOL;
                     }
 
                 }
@@ -131,8 +130,4 @@ if(!function_exists('trace')){
         }
         return null;
     }
-}
-
-trait Debug {
-
 }

@@ -5,7 +5,6 @@ use Exception;
 use Plugin;
 class Boot {
     use Plugin\Request;
-    use Plugin\Debug;
 
     protected ?object $autoload = null;
     protected ?object $config = null;

@@ -6,7 +6,6 @@ $handler = static function () use ($app) {
     $app->run($_SERVER, $_FILES, $_COOKIE);
     // Called when a request is received,
     // superglobals, php://input and the like are reset
-    var_dump($app);
 };
 $count = 0;
 $max = 5 * 1000; //5K requests and then restart
