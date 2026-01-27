@@ -75,8 +75,7 @@ trait Route {
             array_pop($select->attribute);
         }
         $select->method = $this->route_method();
-        $request = $this->route_select($config, $select);
-        d($request);
+        $config = $this->route_select($config, $select);
         return $config;
     }
 
@@ -242,12 +241,12 @@ trait Route {
     /**
      * @throws Exception
      */
-    private function route_select(Data $config, object $select): bool | object
+    private function route_select(Data $config, object $select): Data
     {
         $data =  $config->get('route.list');
         $match = false;
         if(empty($data)){
-            return $select;
+            return $config;
         }
         $current = false;
         foreach($data as $nr => $record){
@@ -282,9 +281,12 @@ trait Route {
             }
         }
         if($current !== false){
-            return $this->route_prepare($config, $current, $select);
+            $current =  $this->route_prepare($config, $current, $select);
+            $config->set('route.current', $current);
+            return $current;
         }
-        return false;
+        $config->set('route.current', false);
+        return $config;
     }
 
     private function route_is_match_by_method(Data $config, object $route, object $select): bool
