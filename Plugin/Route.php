@@ -586,7 +586,6 @@ trait Route {
         if(property_exists($route, 'controller')){
             $route = $this->route_controller($route);
         }
-        ddd($route);
         return $route;
     }
 
