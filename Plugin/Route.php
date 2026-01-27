@@ -291,7 +291,7 @@ trait Route {
         return false;
     }
 
-    private static function route_is_match_by_method(Data $config, object $route, object $select): bool
+    private function route_is_match_by_method(Data $config, object $route, object $select): bool
     {
         if(!property_exists($route, 'method')){
             return true;
@@ -501,22 +501,6 @@ trait Route {
             }
         }
         return true;
-    }
-
-    private static function route_is_match_by_method(Data $config, object $route, object $select): bool
-    {
-        if(!property_exists($route, 'method')){
-            return true;
-        }
-        if(!is_array($route->method)){
-            return false;
-        }
-        foreach($route->method as $method){
-            if(strtoupper($method) == strtoupper($select->method)){
-                return true;
-            }
-        }
-        return false;
     }
 
 }

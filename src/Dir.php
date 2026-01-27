@@ -13,9 +13,9 @@ namespace Microstorm;
 use stdClass;
 use Exception;
 
-use Raxon\Exception\ErrorException;
-use Raxon\Exception\DirectoryCreateException;
-use Raxon\Exception\FileMoveException;
+use Exception\ErrorException;
+use Exception\DirectoryCreateException;
+use Exception\FileMoveException;
 
 class Dir {
     const CHMOD = 0750;

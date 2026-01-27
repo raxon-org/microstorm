@@ -10,6 +10,7 @@
       "psr-4": {
         "Microstorm\\": "src/",
         "Plugin\\": "/tmp/raxon/org/Plugin/",
+        "Route\\": "/tmp/raxon/org/Route/",
         "Exception\\": "Exception/"
       }
     },
