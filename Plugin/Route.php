@@ -578,7 +578,7 @@ trait Route {
             $request = urldecode($request);
             $route->request->data($variable, $request);
         }
-        foreach($object->data(App::REQUEST) as $key => $record){
+        foreach($config->data('request') as $key => $record){
             if($key == 'request'){
                 continue;
             }
