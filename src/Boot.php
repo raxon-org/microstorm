@@ -11,7 +11,7 @@ class Boot {
     /**
      * @throws Exception
      */
-    public function __construct(object $autoload=null, Data $config = null, Data $data = null) {
+    public function __construct(null|object $autoload=null, null|Data $config = null, null|Data $data = null) {
         $this->autoload($autoload);
         $this->config($config);
         $this->data($data);
@@ -21,7 +21,7 @@ class Boot {
     /**
      * @throws Exception
      */
-    private function init(Data $config=null, Data $data=null): void
+    private function init(): void
     {
         $config = $this->config();
         if($config === null) {
@@ -42,21 +42,21 @@ class Boot {
         }
     }
 
-    public function autoload(object $autoload = null): object | null {
+    public function autoload(null|object $autoload = null): object | null {
         if($autoload !== null) {
             $this->autoload = $autoload;
         }
         return $this->autoload;
     }
 
-    public function config(Data $config = null): Data | null {
+    public function config(null|Data $config = null): Data | null {
         if($config !== null) {
             $this->config = $config;
         }
         return $this->config;
     }
 
-    public function data(Data $data = null): Data | null {
+    public function data(null|Data $data = null): Data | null {
         if($data !== null) {
             $this->data = $data;
         }
@@ -68,14 +68,6 @@ class Boot {
         $config->set('time.current', microtime(true));
         $config->set('time.duration', $config->get('time.current') - $config->get('time.start'));
     }
-
-    public static function app(object $config = null): Boot
-    {
-        return new Boot($config);
-    }
-
-
-
 }
 
 
