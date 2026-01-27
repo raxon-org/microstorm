@@ -1,9 +1,9 @@
 <?php
 
-$host = 'example.com';
+$host = 'workandtravel.world';
 $port = 22;
-$username = 'your_username';
-$password = 'your_password';
+$username = 'remco';
+$password = 'Charlie2020Borne!';
 
 // Attempt SSH connection
 $connection = @ssh2_connect($host, $port);
@@ -26,6 +26,7 @@ if (!$shell) {
 fwrite($shell, "echo 'Connected successfully'\n");
 fwrite($shell, "uname -a\n");
 fwrite($shell, "whoami\n");
+fwrite($shell, "ls\n");
 fwrite($shell, "exit\n");
 
 // Read output from the shell
