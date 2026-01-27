@@ -246,15 +246,10 @@ trait Route {
     {
         $data =  $config->get('route.list');
         $match = false;
-        ddd($data);
         if(empty($data)){
             return $select;
         }
-        if(!is_object($data)){
-            return $select;
-        }
         $current = false;
-        ddd($data);
         foreach($data as $nr => $record){
             if(!is_object($record)){
                 continue;
