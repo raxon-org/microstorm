@@ -244,10 +244,9 @@ trait Route {
      */
     private function route_select(Data $config, object $select): bool | object
     {
-        ddd($config);
         $data =  $config->get('route.list');
         $match = false;
-        d($data);
+        ddd($data);
         if(empty($data)){
             return $select;
         }
