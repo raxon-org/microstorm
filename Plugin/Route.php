@@ -516,6 +516,7 @@ trait Route {
      */
     private function route_prepare(Data $config, object $route, object $select): object
     {
+        $route = clone $route;
         $route->path = str_replace([
             '{{',
             '}}'
