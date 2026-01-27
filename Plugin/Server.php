@@ -182,7 +182,7 @@ trait Server {
         }
         $response = new Data();
         $response->set('query', $query);
-        $response->set('request', $data);
+        $response->set('request', $data->data());
         return $response;
     }
 
