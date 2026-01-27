@@ -182,7 +182,11 @@ trait Route {
             $list[$nr] = $this->route_item_path($item);
             $list[$nr] = $this->route_item_deep($list[$nr]);
         }
-        $config->data('route.list', $list);
+        $data = new Data();
+        foreach($list as $item){
+            $data->set($item->name, $item);
+        }
+        $config->data('route.list', $data);
         return $config;
     }
 
@@ -281,12 +285,44 @@ trait Route {
             }
         }
         if($current !== false){
-            $current =  $this->route_prepare($config, $current, $select);
+            $current = $this->route_prepare($config, $current, $select);
             $config->set('route.current', $current);
             return $config;
+        } else {
+            $current = $this->route_wildcard($config);
         }
         $config->set('route.current', false);
         return $config;
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public static function wildcard(Data $config): bool | Destination
+    {
+        if(defined('IS_CLI')){
+
+        } else {
+            $route = $config->get('route.list');
+            $request = $route->get('*');
+            ddd($request);
+            if(empty($request)){
+                return false;
+            }
+            elseif(
+                is_object($request) &&
+                property_exists($request, 'request')
+            ){
+                $request->request = new Data($request->request);
+            } else {
+                $request->request = new Data();
+            }
+            Route::add_request($object, $request);
+            $request = Route::controller($request);
+            return $route->current(new Destination($request));
+        }
+        return false;
     }
 
     private function route_is_match_by_method(Data $config, object $route, object $select): bool
