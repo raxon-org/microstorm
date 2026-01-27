@@ -307,7 +307,7 @@ trait Route {
         return false;
     }
 
-    private static function route_is_match_by_attribute(Data $config, object $route, object $select): bool
+    private function route_is_match_by_attribute(Data $config, object $route, object $select): bool
     {
         if(!property_exists($route, 'path')){
             return false;
@@ -352,7 +352,7 @@ trait Route {
                         if(count($temp) === 2){
                             $attribute = $temp[0];
                             $type = ucfirst($temp[1]);
-                            $className = '\\Raxon\\Module\\Route\\Type' . $type;
+                            $className = '\\Route\\Type' . $type;
                             $exist = class_exists($className);
                             if($exist){
                                 $value = null;
@@ -366,7 +366,7 @@ trait Route {
                                     }
                                 }
                                 if($value){
-                                    $validate = $className::validate($object, $value);
+                                    $validate = $className::validate($value);
                                     if(!$validate){
                                         return false;
                                     }
@@ -380,7 +380,7 @@ trait Route {
         return true;
     }
 
-    private static function route_is_match_has_slash_in_attribute(Data $config, object $route, object $select): bool
+    private function route_is_match_has_slash_in_attribute(Data $config, object $route, object $select): bool
     {
         $is_match = $this->route_is_match_by_method($config, $route, $select);
         if($is_match === false){
@@ -441,7 +441,7 @@ trait Route {
         return false;
     }
 
-    private static function route_get_variable($string): ?string
+    private function route_get_variable($string): ?string
     {
         $string = trim($string);
         $string = str_replace([
@@ -460,7 +460,7 @@ trait Route {
         return null;
     }
 
-    private static function route_is_match_by_condition(Data $config, object $route, object $select): bool
+    private function route_is_match_by_condition(Data $config, object $route, object $select): bool
     {
         if(!property_exists($route, 'path')){
             return false;
@@ -503,7 +503,7 @@ trait Route {
         return true;
     }
 
-    private static function is_match_by_method(Data $config, object $route, object $select): bool
+    private static function route_is_match_by_method(Data $config, object $route, object $select): bool
     {
         if(!property_exists($route, 'method')){
             return true;
