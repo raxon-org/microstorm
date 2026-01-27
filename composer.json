@@ -10,6 +10,7 @@
       "psr-4": {
         "Microstorm\\": "src/",
         "Plugin\\": "/tmp/microstorm/Plugin/",
+        "Exception\\": "Exception/"
       }
     },
     "license" : "MIT",
