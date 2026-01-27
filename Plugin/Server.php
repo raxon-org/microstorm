@@ -2,6 +2,7 @@
 namespace Plugin;
 
 use Exception;
+use Exception\ObjectException;
 use Microstorm\Data;
 use Microstorm\Core;
 
@@ -13,6 +14,7 @@ trait Server {
      */
     public function server_init(Data $config, array $server): Data
     {
+        /*
         $uri = ltrim($_SERVER['REQUEST_URI'], '/');
         $uri = explode('?', $uri, 2);
         $request = $uri[0];
@@ -23,14 +25,16 @@ trait Server {
         }
         var_dump($request);
         var_dump($query);
+        */
+        $request = $this->server_request_input();
+        var_dump($request);
         return $config;
     }
 
     /**
      * @throws ObjectException
-     * @throws ObjectException
      */
-    private static function request_key_group(array|object $data): object
+    private static function server_request_key_group(array|object $data): object
     {
         $result = (object) [];
         foreach($data as $key => $value){
@@ -49,10 +53,9 @@ trait Server {
      * @throws ObjectException
      * @throws Exception
      */
-    private static function request_input(): Data
+    private function server_request_input(): Data
     {
         $data = new Data();
-        $query_string = '';
         $query = [];
         if(defined('IS_CLI')){
             global $argc, $argv;
@@ -65,13 +68,13 @@ trait Server {
                 $data->set($key, trim($value));
             }
         } else {
-            $request = Handler::request_key_group($_REQUEST);
+            $request = $this->server_request_key_group($_REQUEST);
             if(!property_exists($request, 'request')){
                 $uri = ltrim($_SERVER['REQUEST_URI'], '/');
                 $uri = explode('?', $uri, 2);
                 $request->request = $uri[0];
                 $query_string = $uri[1] ?? '';
-                $query = Handler::query($query_string);
+                $query = $this->server_query_string($query_string);
                 if(empty($request->request)){
                     $request->request = '/';
                 }
@@ -80,7 +83,7 @@ trait Server {
                 $uri = explode('?', $uri, 2);
                 $request->request = $uri[0];
                 $query_string = $uri[1] ?? '';
-                $query = Handler::query($query_string);
+                $query = $this->server_query_string($query_string);
                 if(empty($request->request)){
                     $request->request = '/';
                 }
@@ -177,13 +180,10 @@ trait Server {
                 }
             }
         }
-        $request = Core::deep_clone(
-            $data->data()
-        );
-        $object->config('request.query', $query_string);
-        $object->config('request.input', $request);
-        $object->config('request.get', $query);
-        return $data;
+        $response = new Data();
+        $response->set('query', $query);
+        $response->set('request', $data);
+        return $response;
     }
 
 
