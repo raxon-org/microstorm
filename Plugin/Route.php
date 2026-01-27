@@ -306,6 +306,20 @@ trait Route {
         return false;
     }
 
+    private function route_is_match_by_deep(Data $config, object $route, object $select): bool
+    {
+        if(!property_exists($route, 'deep')){
+            return false;
+        }
+        if(!property_exists($select, 'deep')){
+            return false;
+        }
+        if($route->deep != $select->deep){
+            return false;
+        }
+        return true;
+    }
+
     private function route_is_match_by_attribute(Data $config, object $route, object $select): bool
     {
         if(!property_exists($route, 'path')){
@@ -399,19 +413,19 @@ trait Route {
     private function route_is_match(Data $config, object $route, object $select): bool
     {
         $is_match = $this->route_is_match_by_method($config, $route, $select);
-        if($is_match === false){
+        if ($is_match === false) {
             return $is_match;
         }
         $is_match = $this->route_is_match_by_deep($config, $route, $select);
-        if($is_match === false){
+        if ($is_match === false) {
             return $is_match;
         }
         $is_match = $this->route_is_match_by_attribute($config, $route, $select);
-        if($is_match === false){
+        if ($is_match === false) {
             return $is_match;
         }
         $is_match = $this->route_is_match_by_condition($config, $route, $select);
-        if($is_match === false){
+        if ($is_match === false) {
             return $is_match;
         }
         return $is_match;
