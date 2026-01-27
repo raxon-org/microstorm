@@ -31,6 +31,13 @@ class Boot {
         return $this->config;
     }
 
+    public function refresh(): void {
+        $config = $this->config();
+        $config->time->current = microtime(true);
+        $config->time->duration = $config->time->current - $config->time->start;
+        $this->config($config);
+    }
+
     public static function app(object $config = null): Boot
     {
         return new Boot($config);

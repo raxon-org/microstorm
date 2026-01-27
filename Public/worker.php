@@ -3,8 +3,7 @@ ignore_user_abort(true);
 define('MICROSTORM', microtime(true));
 $app = require __DIR__ . '/app.php';
 $handler = static function () use ($app) {
-    $app->time->current = microtime(true);
-    $app->time->duration = $app->time->current - $app->time->start;
+    $app->refresh();
     // Called when a request is received,
     // superglobals, php://input and the like are reset
     var_dump($app);
