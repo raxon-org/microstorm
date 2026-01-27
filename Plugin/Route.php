@@ -178,14 +178,13 @@ trait Route {
             $read = File::read($url_route_temp);
             $data = Core::object($read);
         }
-        foreach($data as $item){
+        foreach($data as $nr => $item){
             if(!is_object($item)){
                 continue;
             }
             if(!property_exists($item, 'resource')){
-                $item = $this->route_item_path($item);
-                $item = $this->route_item_deep($item);
-                continue;
+                $data[$nr] = $this->route_item_path($data[$nr]);
+                $data[$nr] = $this->route_item_deep($data[$nr]);
             }
         }
         d($data);
