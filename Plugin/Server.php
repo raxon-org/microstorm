@@ -28,7 +28,7 @@ trait Server {
     {
         if(is_array($result)){
             foreach($result as $key => $value){
-                $value = $this->query_result($value);
+                $value = $this->server_query_result($value);
                 $key_original =  $key;
                 if(
                     in_array(
