@@ -41,7 +41,7 @@ trait Route {
     {
 
         //route_find $config->get('request.request')
-        $this->route_load($config);
+        $config = $this->route_load($config);
         d($config->get('request.request'));
 
         if (substr($config->get('request.request'), -1) != '/') {
@@ -164,10 +164,10 @@ trait Route {
      * @throws ObjectException
      * @throws Exception
      */
-    public function route_load(Data $config): void
+    public function route_load(Data $config): Data
     {
-        $data = $config->data('route.list');
-        if(empty($data)){
+        $list = $config->data('route.list');
+        if(empty($list)){
             $dir_route_temp = $config->get('directory.temp') . 'Data' . DIRECTORY_SEPARATOR;
             Dir::create($dir_route_temp, Dir::CHMOD);
             $url_route_temp =  $dir_route_temp . 'Route.json';
@@ -177,15 +177,43 @@ trait Route {
             }
             $read = File::read($url_route_temp);
             $data = new Data(Core::object($read));
+            $list = $data->get('Route');
         }
-        $list = [];
-        foreach($data->get('Route') as $nr => $item){
+        foreach($list as $nr => $item){
             $list[$nr] = $this->route_item_path($item);
             $list[$nr] = $this->route_item_deep($list[$nr]);
         }
-        d($list);
+        $config->data('route.list', $list);
+        return $config;
     }
 
+
+    /**
+     * @throws Exception
+     */
+    public function route_parse(Data $config, string $resource): string
+    {
+        $resource = str_replace([
+            '{{',
+            '}}'
+        ], [
+            '{',
+            '}'
+        ], $resource);
+        $explode = explode('}', $resource, 2);
+        if(!isset($explode[1])){
+            return $resource;
+        }
+        $temp = explode('{', $explode[0], 2);
+        if(isset($temp[1])){
+            $attribute = substr($temp[1], 1);
+            $value = $config->get($attribute);
+            $resource = str_replace('{$' . $attribute . '}', $value, $resource);
+            return $this->route_parse($config, $resource);
+        } else {
+            return $resource;
+        }
+    }
 
     public function route_item_path(object $item): object
     {
@@ -211,7 +239,10 @@ trait Route {
         return $item;
     }
 
-    private static function route_select(Data $config, object $select): bool | object
+    /**
+     * @throws Exception
+     */
+    private function route_select(Data $config, object $select): bool | object
     {
         $data =  $config->get('route.list');
         $match = false;
@@ -222,7 +253,7 @@ trait Route {
             return $select;
         }
         $current = false;
-        foreach($data as $name => $record){
+        foreach($data as $nr => $record){
             if(!is_object($record)){
                 continue;
             }
@@ -232,32 +263,258 @@ trait Route {
             if(!property_exists($record, 'deep')){
                 continue;
             }
-
-            $match = Route::is_match($object, $record, $select);
+            $match = $this->route_is_match($config, $record, $select);
             if($match === true){
                 $current = $record;
-                $current->name = $name;
                 break;
             }
         }
         if($match === false){
-            foreach($data as $name => $record){
+            foreach($data as $nr => $record){
                 if(property_exists($record, 'resource')){
                     continue;
                 }
                 if(!property_exists($record, 'deep')){
                     continue;
                 }
-                $match = Route::is_match_has_slash_in_attribute($object, $record, $select);
+                $match = $this->route_is_match_has_slash_in_attribute($config, $record, $select);
                 if($match === true){
                     $current = $record;
-                    $current->name = $name;
                     break;
                 }
             }
         }
         if($current !== false){
-            return Route::prepare($object, $current, $select);
+            ddd($current);
+//            return Route::prepare($object, $current, $select);
+        }
+        return false;
+    }
+
+    private static function route_is_match_by_method(Data $config, object $route, object $select): bool
+    {
+        if(!property_exists($route, 'method')){
+            return true;
+        }
+        if(!is_array($route->method)){
+            return false;
+        }
+        foreach($route->method as $method){
+            if(strtoupper($method) == strtoupper($select->method)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static function route_is_match_by_attribute(Data $config, object $route, object $select): bool
+    {
+        if(!property_exists($route, 'path')){
+            return false;
+        }
+        $explode = explode('/', $route->path);
+        array_pop($explode);
+        $attribute = $select->attribute;
+        if(empty($attribute) && $route->path === '/'){
+            return true;
+        }
+        elseif(empty($attribute)){
+            if(!empty($explode)){
+                return false;
+            }
+            return true;
+        }
+        $path_attribute = [];
+        foreach($explode as $nr => $part){
+            if($this->route_is_variable($part)){
+                $variable = $this->route_get_variable($part);
+                if($variable){
+                    $temp = explode(':', $variable, 2);
+                    if(array_key_exists(1, $temp)){
+                        $path_attribute[$nr] = $temp[0];
+                    }
+                }
+                continue;
+            }
+            if(array_key_exists($nr, $attribute) === false){
+                return false;
+            }
+            if(strtolower($part) != strtolower($attribute[$nr])){
+                return false;
+            }
+        }
+        if(!empty($path_attribute)){
+            foreach($explode as $nr => $part){
+                if($this->route_is_variable($part)){
+                    $variable = $this->route_get_variable($part);
+                    if($variable){
+                        $temp = explode(':', $variable, 2);
+                        if(count($temp) === 2){
+                            $attribute = $temp[0];
+                            $type = ucfirst($temp[1]);
+                            $className = '\\Raxon\\Module\\Route\\Type' . $type;
+                            $exist = class_exists($className);
+                            if($exist){
+                                $value = null;
+                                foreach($path_attribute as $path_nr => $path_value){
+                                    if(
+                                        $path_value == $attribute &&
+                                        array_key_exists($path_nr, $select->attribute)
+                                    ){
+                                        $value = $select->attribute[$path_nr];
+                                        break;
+                                    }
+                                }
+                                if($value){
+                                    $validate = $className::validate($object, $value);
+                                    if(!$validate){
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private static function route_is_match_has_slash_in_attribute(Data $config, object $route, object $select): bool
+    {
+        $is_match = $this->route_is_match_by_method($config, $route, $select);
+        if($is_match === false){
+            return $is_match;
+        }
+        $is_match = $this->route_is_match_by_attribute($config, $route, $select);
+        if($is_match === false){
+            return $is_match;
+        }
+        $is_match = $this->route_is_match_by_condition($config, $route, $select);
+        if($is_match === false){
+            return $is_match;
+        }
+        return $is_match;
+    }
+
+    private function route_is_match(Data $config, object $route, object $select): bool
+    {
+        d($route);
+        ddd($select);
+
+
+        $is_match = $this->route_is_match_by_method($config, $route, $select);
+        if($is_match === false){
+            return $is_match;
+        }
+        $is_match = $this->route_is_match_by_deep($config, $route, $select);
+        if($is_match === false){
+            return $is_match;
+        }
+        $is_match = $this->route_is_match_by_attribute($config, $route, $select);
+        if($is_match === false){
+            return $is_match;
+        }
+        $is_match = $this->route_is_match_by_condition($config, $route, $select);
+        if($is_match === false){
+            return $is_match;
+        }
+        return $is_match;
+    }
+
+    private function route_is_variable($string): bool
+    {
+        $string = trim($string);
+        $string = str_replace([
+            '{{',
+            '}}'
+        ], [
+            '{',
+            '}'
+        ], $string);
+        if(
+            substr($string, 0, 2) == '{$' &&
+            substr($string, -1) == '}'
+        ){
+            return true;
+        }
+        return false;
+    }
+
+    private static function route_get_variable($string): ?string
+    {
+        $string = trim($string);
+        $string = str_replace([
+            '{{',
+            '}}'
+        ], [
+            '{',
+            '}'
+        ], $string);
+        if(
+            substr($string, 0, 2) == '{$' &&
+            substr($string, -1) == '}'
+        ){
+            return substr($string, 2, -1);
+        }
+        return null;
+    }
+
+    private static function route_is_match_by_condition(Data $config, object $route, object $select): bool
+    {
+        if(!property_exists($route, 'path')){
+            return false;
+        }
+        $explode = explode('/', $route->path);
+        array_pop($explode);
+        $attribute = $select->attribute;
+        if(empty($attribute)){
+            return true;
+        }
+        foreach($explode as $nr => $part){
+            if($this->route_is_variable($part)){
+                if(
+                    property_exists($route, 'condition') &&
+                    is_array($route->condition)
+                ){
+                    foreach($route->condition as $condition_nr => $value){
+                        if(substr($value, 0, 1) == '!'){
+                            //invalid conditions
+                            if(strtolower(substr($value, 1)) == strtolower($attribute[$nr])){
+                                return false;
+                            }
+                        } else {
+                            //valid conditions
+                            if(strtolower($value) == strtolower($attribute[$nr])){
+                                return true;
+                            }
+                        }
+                    }
+                }
+                continue;
+            }
+            if(array_key_exists($nr, $attribute) === false){
+                return false;
+            }
+            if(strtolower($part) != strtolower($attribute[$nr])){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static function is_match_by_method(Data $config, object $route, object $select): bool
+    {
+        if(!property_exists($route, 'method')){
+            return true;
+        }
+        if(!is_array($route->method)){
+            return false;
+        }
+        foreach($route->method as $method){
+            if(strtoupper($method) == strtoupper($select->method)){
+                return true;
+            }
         }
         return false;
     }
