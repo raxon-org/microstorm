@@ -6,7 +6,7 @@
         }
     }
 }
-www.workandtravel.local {
+https:// {
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
     php_server {
         root /Application/Public
@@ -14,7 +14,7 @@ www.workandtravel.local {
         try_files {path} index.php
     }
 }
-workandtravel.local {
+http:// {
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
     php_server {
         root /Application/Public
