@@ -13,12 +13,6 @@ namespace Microstorm;
 use Raxon\Exception\DirectoryCreateException;
 use Raxon\Exception\FileWriteException;
 use Raxon\Exception\ObjectException;
-
-use Raxon\Module\Core;
-use Raxon\Module\Dir;
-use Raxon\Module\File;
-use stdClass;
-
 use Exception;
 
 class Data {
