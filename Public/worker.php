@@ -1,6 +1,6 @@
 <?php
 $app = (object) [
-    'time' => [
+    'time' => (object) [
         'start' => microtime(true)
     ]
 ];
