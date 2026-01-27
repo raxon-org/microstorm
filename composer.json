@@ -9,7 +9,7 @@
     "autoload": {
       "psr-4": {
         "Microstorm\\": "src/",
-        "Plugin\\": "/tmp/microstorm/Plugin/",
+        "Plugin\\": "/tmp/raxon/org/Plugin/",
         "Exception\\": "Exception/"
       }
     },
