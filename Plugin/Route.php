@@ -176,8 +176,7 @@ trait Route {
                 File::copy($url_route, $url_route_temp);
             }
             $read = File::read($url_route_temp);
-            $data = new Data(Core::object($read));
-            ddd($data);
+            $data = Core::object($read);
         }
         foreach($data as $item){
             if(!is_object($item)){
@@ -189,6 +188,7 @@ trait Route {
                 continue;
             }
         }
+        d($data);
     }
 
 
