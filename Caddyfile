@@ -6,15 +6,7 @@
         }
     }
 }
-https:// {
-    rewrite * /worker.php?request={path}&{query}.replace('?','&')
-    php_server {
-        root /Application/Public
-        worker worker.php 4
-        try_files {path} index.php
-    }
-}
-http:// {
+localhost {
     rewrite * /worker.php?request={path}&{query}.replace('?','&')
     php_server {
         root /Application/Public
