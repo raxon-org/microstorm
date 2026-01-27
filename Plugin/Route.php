@@ -169,14 +169,14 @@ trait Route {
         $data = $config->data('route.list');
         if(empty($data)){
             $dir_route_temp = $config->get('directory.temp') . 'Data' . DIRECTORY_SEPARATOR;
-            Dir::create($dir_route_temp);
+            Dir::create($dir_route_temp, Dir::CHMOD);
             $url_route_temp =  $dir_route_temp . 'Route.json';
             if(!File::exist($url_route_temp)){
                 $url_route = $config->get('directory.data') . 'Route.json';
                 File::copy($url_route, $url_route_temp);
             }
             $read = File::read($url_route_temp);
-            $data = Core::object($read);
+            $data = new Data(Core::object($read));
             ddd($data);
         }
         foreach($data as $item){
