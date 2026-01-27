@@ -4,6 +4,7 @@ namespace Plugin;
 use Exception;
 use Exception\ObjectException;
 use Microstorm\Data;
+use Microstorm\Destination;
 use Microstorm\Dir;
 use Microstorm\Core;
 use Microstorm\File;
@@ -280,18 +281,17 @@ trait Route {
                 $match = $this->route_is_match_has_slash_in_attribute($config, $record, $select);
                 if($match === true){
                     $current = $record;
-                    ddd($select);
                     break;
                 }
             }
         }
         if($current !== false){
             $current = $this->route_prepare($config, $current, $select);
-            $config->set('route.current', $current);
+            $config->set('route.current', new Destination($current));
             return $config;
         } else {
             $current = $this->route_wildcard($config);
-            $config->set('route.current', $current);
+            $config->set('route.current', new Destination($current));
             return $config;
         }
         $config->set('route.current', false);
