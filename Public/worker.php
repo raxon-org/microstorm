@@ -1,3 +1,3 @@
 <?php
 echo '<h1>Worker</h1>';
-echo phpinfo();
+frankenphp_handle_request();
