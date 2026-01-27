@@ -253,6 +253,7 @@ trait Route {
             return $select;
         }
         $current = false;
+        ddd($data);
         foreach($data as $nr => $record){
             if(!is_object($record)){
                 continue;
