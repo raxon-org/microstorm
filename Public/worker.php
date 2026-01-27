@@ -1,4 +1,5 @@
 <?php
+ignore_user_abort(true);
 $app = (object) [
     'time' => (object) [
         'start' => microtime(true)
@@ -9,7 +10,6 @@ $handler = static function () use ($app) {
     $app->time->duration = $app->time->current - $app->time->start;
     // Called when a request is received,
     // superglobals, php://input and the like are reset
-
     var_dump($app);
     var_dump($_GET);
     var_dump($_POST);
@@ -25,3 +25,4 @@ while (frankenphp_handle_request($handler)) {
         break;
     }
 }
+exit(0);
