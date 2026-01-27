@@ -65,7 +65,7 @@ class Boot {
 
     public function refresh(): void {
         $config = $this->config();
-        $config->set('time.current', microtime(true))
+        $config->set('time.current', microtime(true));
         $config->set('time.duration', $config->get('time.current') - $config->get('time.start'));
     }
 
