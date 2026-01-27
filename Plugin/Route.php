@@ -176,14 +176,14 @@ trait Route {
                 File::copy($url_route, $url_route_temp);
             }
             $read = File::read($url_route_temp);
-            $data = Core::object($read);
+            $data = new Data(Core::object($read));
         }
-        ddd($data);
-        foreach($data as $nr => $item){
-            $data[$nr] = $this->route_item_path($item);
-            $data[$nr] = $this->route_item_deep($data[$nr]);
+        $list = [];
+        foreach($data->get('Route') as $nr => $item){
+            $list[$nr] = $this->route_item_path($item);
+            $list[$nr] = $this->route_item_deep($list[$nr]);
         }
-        d($data);
+        d($list);
     }
 
 
