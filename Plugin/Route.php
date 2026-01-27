@@ -39,6 +39,7 @@ trait Route {
     {
 
         //route_find $config->get('request.request')
+        $this->route_load($config);
         d($config->get('request.request'));
 
         if (substr($config->get('request.request'), -1) != '/') {
@@ -72,6 +73,7 @@ trait Route {
             array_pop($select->attribute);
         }
         $select->method = $this->route_method();
+        $request = $this->route_select($config, $select);
         d($select);
         return $config;
     }
@@ -156,6 +158,105 @@ trait Route {
         return $explode;
     }
 
+    /**
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public function route_load(Data $config): void
+    {
+        $data = $config->data('route.list');
+        if(empty($data)){
+            $url_route = $config->get('directory.data') . 'Route.json';
+            $read = File::read($url_route);
+            $data = Core::object($read);
+            ddd($data);
+        }
+        foreach($data as $item){
+            if(!is_object($item)){
+                continue;
+            }
+            if(!property_exists($item, 'resource')){
+                $item = $this->route_item_path($item);
+                $item = $this->route_item_deep($item);
+                continue;
+            }
+        }
+    }
 
+
+    public function route_item_path(object $item): object
+    {
+        if(!property_exists($item, 'path')){
+            return $item;
+        }
+        if(substr($item->path, 0, 1) == '/'){
+            $item->path = substr($item->path, 1);
+        }
+        if(substr($item->path, -1) !== '/'){
+            $item->path .= '/';
+        }
+        return $item;
+    }
+
+    public function route_item_deep(object $item): object
+    {
+        if(!property_exists($item, 'path')){
+            $item->deep = 0;
+            return $item;
+        }
+        $item->deep = substr_count($item->path, '/');
+        return $item;
+    }
+
+    private static function route_select(Data $config, object $select): bool | object
+    {
+        $data =  $config->get('route.list');
+        $match = false;
+        if(empty($data)){
+            return $select;
+        }
+        if(!is_object($data)){
+            return $select;
+        }
+        $current = false;
+        foreach($data as $name => $record){
+            if(!is_object($record)){
+                continue;
+            }
+            if(property_exists($record, 'resource')){
+                continue;
+            }
+            if(!property_exists($record, 'deep')){
+                continue;
+            }
+
+            $match = Route::is_match($object, $record, $select);
+            if($match === true){
+                $current = $record;
+                $current->name = $name;
+                break;
+            }
+        }
+        if($match === false){
+            foreach($data as $name => $record){
+                if(property_exists($record, 'resource')){
+                    continue;
+                }
+                if(!property_exists($record, 'deep')){
+                    continue;
+                }
+                $match = Route::is_match_has_slash_in_attribute($object, $record, $select);
+                if($match === true){
+                    $current = $record;
+                    $current->name = $name;
+                    break;
+                }
+            }
+        }
+        if($current !== false){
+            return Route::prepare($object, $current, $select);
+        }
+        return false;
+    }
 
 }

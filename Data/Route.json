@@ -1,0 +1,23 @@
+{
+  "Route": [
+    {
+      "name": "*",
+      "controller": "Controller:Index:main",
+      "priority": 2001,
+      "method": [
+        "GET",
+        "POST"
+      ]
+    },
+    {
+      "name": "index",
+      "controller": "Controller:Index:main",
+      "path": "\/",
+      "priority": 2002,
+      "method": [
+        "GET",
+        "POST"
+      ]
+    }
+  ]
+}
