@@ -2,10 +2,9 @@
     "name" : "raxon/microstorm",
     "description" : "raxon/microstorm see https://raxon.org for detailed usage",
     "type" : "package",
-    "keywords" : ["microstorm", "micro", "storm","raxon", "org" ],
+    "keywords" : ["operation","microstorm", "micro", "storm","raxon", "org" ],
     "homepage": "https://raxon.org",
     "require": {
-      "ext-ssh2": "*"
     },
     "license" : "MIT",
     "authors" : [{
