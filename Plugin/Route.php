@@ -288,10 +288,16 @@ trait Route {
         if($current !== false){
             $current = $this->route_prepare($config, $current, $select);
             $config->set('route.current', new Destination($current));
+            foreach($config->get('route.current')->get('request')->data() as $key => $value){
+                $config->set('request.' . $key, $value);
+            }
             return $config;
         } else {
             $current = $this->route_wildcard($config);
             $config->set('route.current', new Destination($current));
+            foreach($config->get('route.current')->get('request')->data() as $key => $value){
+                $config->set('request.' . $key, $value);
+            }
             return $config;
         }
         $config->set('route.current', false);
