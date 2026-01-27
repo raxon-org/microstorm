@@ -398,10 +398,6 @@ trait Route {
 
     private function route_is_match(Data $config, object $route, object $select): bool
     {
-        d($route);
-        ddd($select);
-
-
         $is_match = $this->route_is_match_by_method($config, $route, $select);
         if($is_match === false){
             return $is_match;
