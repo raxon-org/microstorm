@@ -63,8 +63,11 @@ class Boot {
         return $this->data;
     }
 
-    public function refresh(): void {
+    public function run($server, $files, $cookie): void {
         $config = $this->config();
+        $config->set('server', $server);
+        $config->set('files', $files);
+        $config->set('cookie', $cookie);
         $config->set('time.current', microtime(true));
         $config->set('time.duration', $config->get('time.current') - $config->get('time.start'));
     }
