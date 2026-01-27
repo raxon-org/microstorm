@@ -8,19 +8,13 @@
  * @changeLog
  *  -    all
  */
-namespace Raxon\Module;
+namespace Microstorm;
 
 use stdClass;
 use ReflectionObject;
 use ReflectionProperty;
 
 use Defuse\Crypto\Key;
-
-use Raxon\App;
-use Raxon\Config;
-
-use Raxon\Parse\Module\Parse;
-
 
 use Defuse\Crypto\Exception\BadFormatException;
 use Defuse\Crypto\Exception\EnvironmentIsBrokenException;
@@ -1931,36 +1925,5 @@ class Core
             }
             return null;
         }
-    }
-
-    public static function array_codepoint(App $object){
-        $codepoints = [];
-        $dir = $object->config('project.dir.data') . '/Unicode/';
-        $url = $dir . 'Data.json';
-        if(File::exist($url)){
-            $data = $object->data_read($url);
-            if($data){
-                return $data->get('codepoint');
-            }
-        } else {
-            $lines = file('https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt');
-            foreach ($lines as $line) {
-                $fields = explode(';', $line);            
-                $hex = $fields[0];
-                $codepoints[] = ['int' => hexdec($hex), 'description' => $fields[1]];
-            }
-            usort($codepoints, function($a, $b) {
-                return $a['int'] <=> $b['int'];
-            });        
-            $data = new Data();
-            $data->data('codepoint', $codepoints);        
-            Dir::create($dir, Dir::CHMOD);        
-            $data->write($url);
-            File::permission($object, [
-                'dir' => $dir,
-                'file' => $url,
-            ]);
-        }
-        return $codepoints;
     }
 }
