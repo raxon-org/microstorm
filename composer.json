@@ -9,7 +9,8 @@
     "autoload": {
       "psr-4": {
         "Microstorm\\": "src/",
-        "Plugin\\": "Plugin/"
+        "Plugin\\": "Plugin/",
+        "Exception\\": "Exception/"
       }
     },
     "license" : "MIT",

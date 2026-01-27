@@ -3,6 +3,8 @@ namespace Plugin;
 
 use Exception;
 use Microstorm\Data;
+use Microstorm\Core;
+
 
 trait Server {
 
@@ -23,6 +25,167 @@ trait Server {
         var_dump($query);
         return $config;
     }
+
+    /**
+     * @throws ObjectException
+     * @throws ObjectException
+     */
+    private static function request_key_group(array|object $data): object
+    {
+        $result = (object) [];
+        foreach($data as $key => $value){
+            $explode = explode('.', $key, 4);
+            if(!isset($explode[1])){
+                $result->{$key} = $value;
+                continue;
+            }
+            $temp = Core::object_horizontal($explode, $value);
+            $result = Core::object_merge($result, $temp);
+        }
+        return $result;
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws Exception
+     */
+    private static function request_input(): Data
+    {
+        $data = new Data();
+        $query_string = '';
+        $query = [];
+        if(defined('IS_CLI')){
+            global $argc, $argv;
+            $temp = $argv;
+            array_shift($temp);
+            $request = $temp;
+            $request = Core::array_object($request);
+            foreach($request as $key => $value){
+                $key = str_replace(['-', '_'], ['.', '.'], $key);
+                $data->set($key, trim($value));
+            }
+        } else {
+            $request = Handler::request_key_group($_REQUEST);
+            if(!property_exists($request, 'request')){
+                $uri = ltrim($_SERVER['REQUEST_URI'], '/');
+                $uri = explode('?', $uri, 2);
+                $request->request = $uri[0];
+                $query_string = $uri[1] ?? '';
+                $query = Handler::query($query_string);
+                if(empty($request->request)){
+                    $request->request = '/';
+                }
+            } else {
+                $uri = ltrim($_SERVER['REQUEST_URI'], '/');
+                $uri = explode('?', $uri, 2);
+                $request->request = $uri[0];
+                $query_string = $uri[1] ?? '';
+                $query = Handler::query($query_string);
+                if(empty($request->request)){
+                    $request->request = '/';
+                }
+            }
+            foreach($request as $attribute => $value){
+                if(is_numeric($value)){
+                    $value = $value + 0;
+                } else {
+                    switch($value){
+                        case 'true':
+                            $value = true;
+                            break;
+                        case 'false':
+                            $value = false;
+                            break;
+                        case 'null':
+                            $value = null;
+                            break;
+                    }
+                }
+                $data->set($attribute, $value);
+            }
+            foreach($query as $attribute => $value){
+                $data->set($attribute, $value);
+            }
+            /* --backend-disabled
+            $input =
+                htmlspecialchars(
+                    htmlspecialchars_decode(
+                        implode(
+                            '',
+                            file('php://input')
+                        ),
+                        ENT_NOQUOTES
+                    ),
+                    ENT_NOQUOTES,
+                    'UTF-8'
+                );
+            */
+            $input = implode('', file('php://input'));
+            if(!empty($input)){
+                $input = json_decode($input);
+            }
+            if(!empty($input)){
+                if(is_object($input) || is_array($input)){
+                    foreach($input as $key => $record){
+                        if(
+                            is_object($record) &&
+                            property_exists($record, 'name') &&
+                            property_exists($record, 'value') &&
+                            $record->name != 'request'
+                        ){
+                            if($record->value !== null){
+                                if(is_numeric($record->value)){
+                                    $record->value = $record->value + 0;
+                                } else {
+                                    switch($record->value){
+                                        case 'true':
+                                            $record->value = true;
+                                            break;
+                                        case 'false':
+                                            $record->value = false;
+                                            break;
+                                        case 'null':
+                                            $record->value = null;
+                                            break;
+                                    }
+                                }
+                                //$record->name = str_replace(['-', '_'], ['.', '.'], $record->name);
+                                $data->set($record->name, $record->value);
+                            }
+                        } else {
+                            if($record !== null){
+                                if(is_numeric($record)){
+                                    $record = $record + 0;
+                                } else {
+                                    switch($record){
+                                        case 'true':
+                                            $record = true;
+                                            break;
+                                        case 'false':
+                                            $record = false;
+                                            break;
+                                        case 'null':
+                                            $record = null;
+                                            break;
+                                    }
+                                }
+                                //$key = str_replace(['-', '_'],  ['.', '.'], $key);
+                                $data->set($key, $record);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $request = Core::deep_clone(
+            $data->data()
+        );
+        $object->config('request.query', $query_string);
+        $object->config('request.input', $request);
+        $object->config('request.get', $query);
+        return $data;
+    }
+
 
     public function server_query_result(mixed $result=null): mixed
     {

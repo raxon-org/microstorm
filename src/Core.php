@@ -23,9 +23,9 @@ use Error;
 use Exception;
 use ReflectionException;
 
-use Raxon\Exception\UrlEmptyException;
-use Raxon\Exception\ObjectException;
-use Raxon\Exception\FileWriteException;
+use Exception\UrlEmptyException;
+use Exception\ObjectException;
+use Exception\FileWriteException;
 
 class Core
 {
