@@ -524,7 +524,6 @@ trait Route {
         array_pop($explode);
         $attribute = $select->attribute;
         $nr = 0;
-        ddd($route);
         if(property_exists($route, 'request')){
             $route->request = new Data($route->request);
         } else {
