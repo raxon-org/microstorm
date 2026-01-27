@@ -5,6 +5,7 @@
     "keywords" : ["microstorm", "micro", "storm","raxon", "org" ],
     "homepage": "https://raxon.org",
     "require": {
+      "ext-ssh2": "*"
     },
     "license" : "MIT",
     "authors" : [{
