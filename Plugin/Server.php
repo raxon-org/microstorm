@@ -27,7 +27,9 @@ trait Server {
         var_dump($query);
         */
         $request = $this->server_request_input();
-        $config->set('request', $request->data());
+        foreach($request as $attribute => $value){
+            $config->set($attribute, $value);
+        }
         return $config;
     }
 
