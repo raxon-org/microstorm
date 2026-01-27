@@ -299,28 +299,20 @@ trait Route {
      * @throws ObjectException
      * @throws Exception
      */
-    public static function route_wildcard(Data $config): bool | Destination
+    public function route_wildcard(Data $config): bool | Destination
     {
         if(defined('IS_CLI')){
 
         } else {
             $route = $config->get('route.list');
             $request = $route->get('*');
-            ddd($request);
-            if(empty($request)){
-                return false;
+            if($request !== false){
+                if(property_exists($request, 'controller')){
+                    $request = $this->route_controller($request);
+                }
+                return $request;
             }
-            elseif(
-                is_object($request) &&
-                property_exists($request, 'request')
-            ){
-                $request->request = new Data($request->request);
-            } else {
-                $request->request = new Data();
-            }
-            Route::add_request($object, $request);
-            $request = Route::controller($request);
-            return $route->current(new Destination($request));
+
         }
         return false;
     }
@@ -564,11 +556,6 @@ trait Route {
         array_pop($explode);
         $attribute = $select->attribute;
         $nr = 0;
-        if(property_exists($route, 'request')){
-            $route->request = new Data($route->request);
-        } else {
-            $route->request = new Data();
-        }
         foreach($explode as $nr => $part){
             if($this->route_is_variable($part)){
                 $get_attribute = $this->route_get_variable($part);
