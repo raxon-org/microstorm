@@ -7,14 +7,14 @@ use Microstorm\Data;
 use Microstorm\Core;
 
 
-trait Server {
+trait Request {
 
     /**
      * @throws Exception
      */
-    public function server_init(Data $config, array $server): Data
+    public function request_query_init(Data $config): Data
     {
-        $request = $this->server_request_input();
+        $request = $this->request_input();
         foreach($request->data() as $attribute => $value){
             $config->set($attribute, $value);
         }
@@ -24,7 +24,7 @@ trait Server {
     /**
      * @throws ObjectException
      */
-    private static function server_request_key_group(array|object $data): object
+    private static function request_key_group(array|object $data): object
     {
         $result = (object) [];
         foreach($data as $key => $value){
@@ -43,7 +43,7 @@ trait Server {
      * @throws ObjectException
      * @throws Exception
      */
-    private function server_request_input(): Data
+    private function request_input(): Data
     {
         $data = new Data();
         $query = [];
@@ -58,13 +58,13 @@ trait Server {
                 $data->set($key, trim($value));
             }
         } else {
-            $request = $this->server_request_key_group($_REQUEST);
+            $request = $this->request_key_group($_REQUEST);
             if(!property_exists($request, 'request')){
                 $uri = ltrim($_SERVER['REQUEST_URI'], '/');
                 $uri = explode('?', $uri, 2);
                 $request->request = $uri[0];
                 $query_string = $uri[1] ?? '';
-                $query = $this->server_query_string($query_string);
+                $query = $this->request_query_string($query_string);
                 if(empty($request->request)){
                     $request->request = '/';
                 }
@@ -73,7 +73,7 @@ trait Server {
                 $uri = explode('?', $uri, 2);
                 $request->request = $uri[0];
                 $query_string = $uri[1] ?? '';
-                $query = $this->server_query_string($query_string);
+                $query = $this->request_query_string($query_string);
                 if(empty($request->request)){
                     $request->request = '/';
                 }
@@ -177,11 +177,11 @@ trait Server {
     }
 
 
-    public function server_query_result(mixed $result=null): mixed
+    public function request_query_result(mixed $result=null): mixed
     {
         if(is_array($result)){
             foreach($result as $key => $value){
-                $value = $this->server_query_result($value);
+                $value = $this->request_query_result($value);
                 $key_original =  $key;
                 if(
                     in_array(
@@ -235,10 +235,10 @@ trait Server {
     /**
      * @throws ObjectException
      */
-    public function server_query_string($query=''): object
+    public function request_query_string($query=''): object
     {
         parse_str($query, $result);
-        $result = $this->server_query_result($result);
+        $result = $this->request_query_result($result);
         return (object) $result;
     }
 
