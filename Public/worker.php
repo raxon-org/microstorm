@@ -1,7 +1,6 @@
 <?php
 ignore_user_abort(true);
 define('MICROSTORM', microtime(true));
-require_once __DIR__ . '/../vendor/autoload.php';
 $app = require __DIR__ . '/app.php';
 $handler = static function () use ($app) {
     $app->time->current = microtime(true);
