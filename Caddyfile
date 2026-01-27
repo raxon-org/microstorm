@@ -7,7 +7,7 @@
     }
 }
 localhost {
-    rewrite * /worker.php?request={path}&{query}.replace('?','&')
+    rewrite * /worker.php?request={path}&{query}
     php_server {
         root /Application/Public
         worker worker.php 4
