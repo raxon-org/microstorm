@@ -40,6 +40,10 @@ class Boot {
             ]);
             $this->config($config);
         }
+        $data = $this->data();
+        if($data === null) {
+            $this->data(new Data());
+        }
     }
 
     public function autoload(null|object $autoload = null): object | null {
