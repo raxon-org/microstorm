@@ -246,6 +246,7 @@ trait Route {
     {
         $data =  $config->get('route.list');
         $match = false;
+        d($data);
         if(empty($data)){
             return $select;
         }
