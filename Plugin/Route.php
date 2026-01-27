@@ -299,7 +299,7 @@ trait Route {
      * @throws ObjectException
      * @throws Exception
      */
-    public static function wildcard(Data $config): bool | Destination
+    public static function route_wildcard(Data $config): bool | Destination
     {
         if(defined('IS_CLI')){
 
