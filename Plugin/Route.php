@@ -290,6 +290,8 @@ trait Route {
             return $config;
         } else {
             $current = $this->route_wildcard($config);
+            $config->set('route.current', $current);
+            return $config;
         }
         $config->set('route.current', false);
         return $config;
