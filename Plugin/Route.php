@@ -547,6 +547,12 @@ trait Route {
     private function route_prepare(Data $config, object $route, object $select): object
     {
         $route = clone $route;
+        if(property_exists($route, 'request') && get_Class($route->request) !== 'Data'){
+            $route->request = new Data($route->request);
+        }
+        elseif(!property_exists($route, 'request')){
+            $route->request = new Data();
+        }
         $route->path = str_replace([
             '{{',
             '}}'
@@ -605,6 +611,7 @@ trait Route {
             $request = urldecode($request);
             $route->request->data($variable, $request);
         }
+
         foreach($config->data('request') as $key => $record){
             if($key == 'request'){
                 continue;
