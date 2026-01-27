@@ -35,6 +35,7 @@ class Boot {
                     'duration' => null
                 ],
                 'directory' => (object)[
+                    'temp' => '/tmp/raxon/org/',
                     'root' => dirname(__DIR__) . DIRECTORY_SEPARATOR,
                     'data' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Data' . DIRECTORY_SEPARATOR,
                     'public' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Public' . DIRECTORY_SEPARATOR,

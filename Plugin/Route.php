@@ -4,7 +4,9 @@ namespace Plugin;
 use Exception;
 use Exception\ObjectException;
 use Microstorm\Data;
+use Microstorm\Dir;
 use Microstorm\Core;
+use Microstorm\File;
 
 
 trait Route {
@@ -166,8 +168,14 @@ trait Route {
     {
         $data = $config->data('route.list');
         if(empty($data)){
-            $url_route = $config->get('directory.data') . 'Route.json';
-            $read = File::read($url_route);
+            $dir_route_temp = $config->get('directory.temp') . 'Data' . DIRECTORY_SEPARATOR;
+            Dir::create($dir_route_temp);
+            $url_route_temp =  $dir_route_temp . 'Route.json';
+            if(!File::exist($url_route_temp)){
+                $url_route = $config->get('directory.data') . 'Route.json';
+                File::copy($url_route, $url_route_temp);
+            }
+            $read = File::read($url_route_temp);
             $data = Core::object($read);
             ddd($data);
         }
