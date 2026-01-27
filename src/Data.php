@@ -10,9 +10,9 @@
  */
 namespace Microstorm;
 
-use Raxon\Exception\DirectoryCreateException;
-use Raxon\Exception\FileWriteException;
-use Raxon\Exception\ObjectException;
+use Exception\DirectoryCreateException;
+use Exception\FileWriteException;
+use Exception\ObjectException;
 use Exception;
 
 class Data {
