@@ -512,7 +512,7 @@ trait Route {
         return true;
     }
 
-    private static function prepare(Data $config, object $route, object $select): object
+    private function prepare(Data $config, object $route, object $select): object
     {
         $route->path = str_replace([
             '{{',
@@ -532,8 +532,8 @@ trait Route {
             $route->request = new Data();
         }
         foreach($explode as $nr => $part){
-            if(Route::is_variable($part)){
-                $get_attribute = Route::get_variable($part);
+            if($this->route_is_variable($part)){
+                $get_attribute = $this->route_get_variable($part);
                 $temp = explode(':', $get_attribute, 2);
                 if(array_key_exists(1, $temp)){
                     $variable = $temp[0];
@@ -542,13 +542,13 @@ trait Route {
                     }
                     if(array_key_exists($nr, $attribute)){
                         $type = ucfirst($temp[1]);
-                        $className = '\\Raxon\\Module\\Route\\Type' . $type;
+                        $className = '\\Route\\Type' . $type;
                         $exist = class_exists($className);
                         if(
                             $exist &&
                             in_array('cast', get_class_methods($className), true)
                         ){
-                            $value = $className::cast($object, urldecode($attribute[$nr]));
+                            $value = $className::cast(urldecode($attribute[$nr]));
                         } else {
                             $value = urldecode($attribute[$nr]);
                         }
