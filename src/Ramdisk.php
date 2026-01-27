@@ -12,8 +12,12 @@ if(!Dir::is($dir_tmp)){
     if($read){
         foreach($read as $file){
             try {
-                File::copy($dir_plugin . $file->name, $dir_tmp . $file->name);
-                echo 'Copy ' . $file->name . PHP_EOL;
+                if(!File::is($dir_tmp . $file->name)){
+                    File::copy($dir_plugin . $file->name, $dir_tmp . $file->name);
+                    echo 'Copy ' . $file->name . PHP_EOL;
+                } else {
+                    echo 'Skip ' . $file->name . PHP_EOL;
+                }
             } catch (\Exception $e) {
                 echo $e->getMessage() . PHP_EOL;
             }
