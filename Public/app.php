@@ -3,13 +3,8 @@ if(!defined('MICROSTORM')){
     die( 'Forbidden');
 }
 $autoload = require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
-
-var_dump($autoload);
-frankenphp_handle_request();
-
-$app = new Boot();
+$app = new Microstorm\\Boot();
 var_dump($app);
-
 die;
 
 
