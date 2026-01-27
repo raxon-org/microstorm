@@ -263,6 +263,8 @@ trait Route {
             if(!property_exists($record, 'deep')){
                 continue;
             }
+            d($record);
+            d($select);
             $match = $this->route_is_match($config, $record, $select);
             if($match === true){
                 $current = $record;
