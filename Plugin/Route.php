@@ -260,8 +260,6 @@ trait Route {
             if(!property_exists($record, 'deep')){
                 continue;
             }
-            d($record);
-            d($select);
             $match = $this->route_is_match($config, $record, $select);
             if($match === true){
                 $current = $record;
@@ -511,8 +509,12 @@ trait Route {
         return true;
     }
 
+    /**
+     * @throws Exception
+     */
     private function route_prepare(Data $config, object $route, object $select): object
     {
+        ddd($route);
         $route->path = str_replace([
             '{{',
             '}}'
