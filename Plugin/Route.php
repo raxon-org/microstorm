@@ -280,6 +280,7 @@ trait Route {
                 $match = $this->route_is_match_has_slash_in_attribute($config, $record, $select);
                 if($match === true){
                     $current = $record;
+                    ddd($select);
                     break;
                 }
             }
