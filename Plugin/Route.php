@@ -308,7 +308,7 @@ trait Route {
         } else {
             $route = $config->get('route.list');
             $request = $route->get('*');
-            if($request !== false){
+            if($request !== null){
                 if(property_exists($request, 'controller')){
                     $request = $this->route_controller($request);
                 }
