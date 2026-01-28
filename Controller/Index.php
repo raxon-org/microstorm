@@ -14,6 +14,9 @@ class Index
         $default = [
             '__LANGUAGE__' => 'en',
             '__TITLE__' => 'Microstorm',
+            '__CONTENT_TYPE__' => 'text/html; charset=UTF-8',
+            '__COMPATIBILITY__' => 'IE=edge,chrome=1',
+            '__VIEWPORT__' => 'width=device-width, initial-scale=1.0',
             '__DESCRIPTION__' => 'Microstorm is a PHP framework.',
             '__KEYWORDS__' => 'microstorm, php, framework',
             '__AUTHOR__' => 'Remco van der Velde',
