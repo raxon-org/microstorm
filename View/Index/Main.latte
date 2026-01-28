@@ -177,7 +177,9 @@
     </div>
 
     <div class="terminal" id="terminal">
-        {$shell}
+        {foreach($shell as $line)}
+        {$line} <br>
+        {/foreach}
     </div>
 
     <div class="inputbar">

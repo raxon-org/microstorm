@@ -42,15 +42,15 @@ class Index {
 
 // Read output from the shell
         stream_set_blocking($shell, true); // Wait for output
-        $output = '';
+        $output = [];
         while ($line = fgets($shell)) {
-            $output .= $line;
+            $output[] = $line;
         }
 // Close the shell
         fclose($shell);
         /* template variables */
         $params = [
-            'shell' => str_replace("\n", "<br>\n", $output)
+            'shell' => $output
         ];
         // or $params = new TemplateParameters(/* ... */);
 
