@@ -20,6 +20,6 @@ trait Run {
         $this->request_configure();
         $this->route_configure();
         $destination = $this->destination();
-        d($destination);
+        d($config);
     }
 }
