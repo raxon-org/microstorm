@@ -12,6 +12,15 @@ trait Request {
     /**
      * @throws Exception
      */
+    public function request_configure(Data $config): Data
+    {
+        return $this->request_query_init($config);
+    }
+
+
+    /**
+     * @throws Exception
+     */
     public function request_query_init(Data $config): Data
     {
         $request = $this->request_input();

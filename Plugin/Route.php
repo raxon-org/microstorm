@@ -38,13 +38,11 @@ trait Route {
     /**
      * @throws Exception
      */
-    public function route_init(Data $config): Data
+    public function route_configure(Data $config): Data
     {
 
         //route_find $config->get('request.request')
         $config = $this->route_load($config);
-        d($config->get('request.request'));
-
         if (substr($config->get('request.request'), -1) != '/') {
             $config->set('request.request', $config->get('request.request') . '/');
         }
@@ -76,8 +74,7 @@ trait Route {
             array_pop($select->attribute);
         }
         $select->method = $this->route_method();
-        $config = $this->route_select($config, $select);
-        return $config;
+        return $this->route_select($config, $select);
     }
 
     /**

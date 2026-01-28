@@ -83,8 +83,8 @@ class Boot {
         $config->set('cookie', $cookie);
         $config->set('time.current', microtime(true));
         $config->set('time.duration', $config->get('time.current') - $config->get('time.start'));
-        $config = $this->request_query_init($config);
-        $config = $this->route_init($config);
+        $config = $this->request_configure($config);
+        $config = $this->route_configure($config);
 
         d($config);
     }
