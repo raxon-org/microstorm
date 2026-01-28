@@ -9,19 +9,32 @@ use Microstorm\Data;
 
 trait Request {
 
+
     /**
      * @throws Exception
      */
-    public function request_configure(Data $config): Data
+    public function request($attribute, $value=null): mixed
     {
-        return $this->request_query_init($config);
+        $config = $this->config();
+        if($value !== null){
+            $config->set($attribute, $value);
+        }
+        return $config->get($attribute);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function request_configure(): void
+    {
+        $this->config($this->request_query_init($this->config()));
     }
 
 
     /**
      * @throws Exception
      */
-    public function request_query_init(Data $config): Data
+    private function request_query_init(Data $config): Data
     {
         $request = $this->request_input();
         foreach($request->data() as $attribute => $value){
@@ -186,7 +199,7 @@ trait Request {
     }
 
 
-    public function request_query_result(mixed $result=null): mixed
+    private function request_query_result(mixed $result=null): mixed
     {
         if(is_array($result)){
             foreach($result as $key => $value){
@@ -244,7 +257,7 @@ trait Request {
     /**
      * @throws ObjectException
      */
-    public function request_query_string($query=''): object
+    private function request_query_string($query=''): object
     {
         parse_str($query, $result);
         $result = $this->request_query_result($result);
