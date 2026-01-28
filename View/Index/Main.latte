@@ -1,1 +1,189 @@
-hello latte!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graphical SSH Client</title>
+    <style>
+        :root {
+            --bg: #0f1220;
+            --panel: #171a2e;
+            --accent: #6cf2c2;
+            --text: #e6e8ff;
+            --muted: #9aa0d6;
+            --danger: #ff6b6b;
+            --radius: 14px;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, sans-serif;
+            background: radial-gradient(1200px 600px at 20% -10%, #1b1f4a, transparent), var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, #12152a, #0c0e1c);
+            padding: 20px;
+            border-right: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            color: var(--accent);
+        }
+
+        .host-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .host {
+            padding: 12px 14px;
+            border-radius: var(--radius);
+            background: var(--panel);
+            cursor: pointer;
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+
+        .host:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .host span {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        /* Main */
+        .main {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        .topbar {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: rgba(15,18,32,0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--danger);
+        }
+
+        .dot.connected {
+            background: var(--accent);
+        }
+
+        .terminal {
+            padding: 20px;
+            font-family: "JetBrains Mono", Consolas, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            background: repeating-linear-gradient(
+                    180deg,
+                    #0d1022 0px,
+                    #0d1022 24px,
+                    #0b0e1d 24px,
+                    #0b0e1d 48px
+            );
+            overflow-y: auto;
+        }
+
+        .prompt { color: var(--accent); }
+        .cmd { color: #fff; }
+
+        .inputbar {
+            padding: 14px 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            background: #0c0f1f;
+            display: flex;
+            gap: 10px;
+        }
+
+        .inputbar input {
+            flex: 1;
+            background: var(--panel);
+            border: none;
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .inputbar button {
+            background: var(--accent);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .inputbar button:hover {
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+<aside class="sidebar">
+    <div class="logo">🖥️ Graphical SSH</div>
+    <div class="host-list">
+        <div class="host">
+            new
+            <span>root@192.168.1.10</span>
+        </div>
+    </div>
+</aside>
+
+<main class="main">
+    <div class="topbar">
+        <div class="status">
+            <div class="dot connected"></div>
+            Connected to <strong>prod-server</strong>
+        </div>
+    </div>
+
+    <div class="terminal" id="terminal" contenteditable>
+        __GET_TERMINAL_CONTENT__ through SSE (Server Sent Events)
+    </div>
+
+    <div class="inputbar">
+        <input type="text" placeholder="Type a command…" />
+        <button>Send</button>
+    </div>
+</main>
+</body>
+</html>
