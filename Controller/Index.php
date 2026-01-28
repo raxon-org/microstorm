@@ -20,6 +20,7 @@ class Index
             '__DESCRIPTION__' => 'Microstorm is a PHP framework.',
             '__KEYWORDS__' => 'microstorm, php, framework',
             '__AUTHOR__' => 'Remco van der Velde',
+            '__FAVICON__' => '',
             '__SCRIPT__' => '',
             '__LINK__' => '',
             '__BODY__' => 'Hello World!'
