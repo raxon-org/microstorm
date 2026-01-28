@@ -5,10 +5,15 @@ namespace Controller;
 use Microstorm\Data;
 use Microstorm\File;
 
+use Plugin;
+
 class Index
 {
-    public static function main(Data $config): string
+    use Plugin\ContentType;
+
+    public function main(Data $config): string
     {
+        $content_type = $this->content_type($config);;
 
         ddd($config);
 
