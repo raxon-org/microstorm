@@ -9,7 +9,6 @@ use Microstorm\Data;
 
 trait Request {
 
-
     /**
      * @throws Exception
      */
