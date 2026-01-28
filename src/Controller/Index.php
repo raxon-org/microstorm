@@ -36,7 +36,7 @@ class Index {
 // Send commands to the shell
         fwrite($shell, "echo 'Connected successfully'\n");
         fwrite($shell, "uname -a\n");
-        fwrite($shell, '\'hello world!\' >> /tmp/hello.txt' . "\n");
+        fwrite($shell, "echo 'hello world!' >> /tmp/hello.txt\n");
         fwrite($shell, "cat /tmp/hello.txt\n");
         fwrite($shell, "exit\n");
 
