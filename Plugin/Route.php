@@ -181,12 +181,8 @@ trait Route {
             $list[$nr] = $this->route_item_path($item);
             $list[$nr] = $this->route_item_deep($list[$nr]);
         }
-        $data = new Data();
-        foreach($list as $item){
-            $data->set($item->name, $item);
-        }
         //add filter (no cli)
-        $data = Sort::list($data)->with([
+        $data = Sort::list($list)->with([
             'priority' => 'asc',
             'name' => 'asc'
         ]);
