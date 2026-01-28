@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Exception;
 use Microstorm\Data;
 use Microstorm\File;
 
@@ -11,6 +12,9 @@ class Index
 {
     use Plugin\Content;
 
+    /**
+     * @throws Exception
+     */
     public function main(Data $config): string
     {
         $content_type = $this->content_type($config);
