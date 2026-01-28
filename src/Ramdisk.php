@@ -1,7 +1,7 @@
 <?php
 namespace Microstorm;
 
-use Raxon\Exception\DirectoryCreateException;
+use Exception\DirectoryCreateException;
 
 $list = [
     'Plugin',
@@ -15,16 +15,16 @@ foreach($list as $item){
         try {
             Dir::create($dir_tmp, Dir::CHMOD);
         } catch (DirectoryCreateException $e) {
-
+            echo $e->getMessage() . PHP_EOL;
         }
-        $dir_plugin = dirname(__DIR__) . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR;
+        $dir_source = dirname(__DIR__) . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR;
         $dir = new Dir();
-        $read = $dir->read($dir_plugin);
+        $read = $dir->read($dir_source);
         if($read){
             foreach($read as $file){
                 try {
                     if(!File::is($dir_tmp . $file->name)){
-                        File::copy($dir_plugin . $file->name, $dir_tmp . $file->name);
+                        File::copy($dir_source . $file->name, $dir_tmp . $file->name);
                     } else {
                     }
                 } catch (\Exception $e) {
@@ -33,7 +33,6 @@ foreach($list as $item){
             }
         }
     }
-
 }
 
 
