@@ -5,15 +5,13 @@
     "keywords" : ["operation","microstorm", "micro", "storm","raxon", "org" ],
     "homepage": "https://raxon.org",
     "require": {
-      "raxon/module": ">=2026.01.01"
+      "raxon/module": ">=2026.01.01",
+      "raxon/router": ">=2026.01.01"
     },
     "autoload": {
       "psr-4": {
         "Microstorm\\": "src/",
-        "Plugin\\": "Plugin/",
-        "Route\\": "Route/",
-        "Controller\\": "Controller_old/",
-        "Exception\\": "Exception_ol/"
+        "Plugin\\": "Plugin/"
       }
     },
     "license" : "MIT",
