@@ -2,13 +2,11 @@
 
 namespace Controller;
 
-use Plugin;
+use Microstorm\Data;
+
 class Index
 {
-    use Plugin\Config;
-
-    public static function main(){
-        $config = self::config();
+    public static function main(Data $config){
         d($config);
         echo 'Hello World!';
     }
