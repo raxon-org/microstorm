@@ -25,7 +25,7 @@ class Boot {
         $this->autoload($autoload);
         $this->config($config);
         $this->data($data);
-        $this->init(__DIR__);
+        $this->init();
     }
 }
 
