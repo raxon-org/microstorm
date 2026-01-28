@@ -10,6 +10,10 @@ class Index
     public static function main(Data $config): string
     {
 
+        ddd($config);
+
+
+
         $result = File::read($config->get('directory.view') . File::basename(__CLASS__) . '/' . ucfirst(__FUNCTION__) . '.html');
         $default = [
             '__LANGUAGE__' => 'en',
