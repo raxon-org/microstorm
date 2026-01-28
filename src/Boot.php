@@ -86,8 +86,8 @@ class Boot {
         $this->config($config);
         $this->request_configure();
         $this->route_configure();
-
-        d($this->request('test', 'whahala'));
+        $this->request('test', 'whahala');
+        d($this->request());
     }
 }
 
