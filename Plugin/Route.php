@@ -8,6 +8,7 @@ use Microstorm\Data;
 use Microstorm\Destination;
 use Microstorm\Dir;
 use Microstorm\File;
+use Microstorm\Sort;
 
 
 trait Route {
@@ -184,6 +185,10 @@ trait Route {
         foreach($list as $item){
             $data->set($item->name, $item);
         }
+        $data = Sort::list($data)->with([
+            'priority' => 'asc',
+            'name' => 'asc'
+        ]);
         $config->data('route.list', $data);
         return $config;
     }
