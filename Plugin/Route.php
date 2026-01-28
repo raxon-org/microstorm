@@ -552,7 +552,7 @@ trait Route {
     {
         $route = clone $route;
         if(property_exists($route, 'request') && get_Class($route->request) !== 'Data'){
-            $route->request = new Data($route->request);
+            $route->request = new Data(clone $route->request);
         }
         elseif(!property_exists($route, 'request')){
             $route->request = new Data();
