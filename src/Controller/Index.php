@@ -36,6 +36,8 @@ class Index {
 // Send commands to the shell
         fwrite($shell, "echo 'Connected successfully'\n");
         fwrite($shell, "uname -a\n");
+        fwrite($shell, '\'hello world!\' >> /tmp/hello.txt');
+        fwrite($shell, "cat /tmp/hello.txt\n");
         fwrite($shell, "whoami\n");
         fwrite($shell, "ls\n");
         fwrite($shell, "exit\n");
@@ -50,7 +52,7 @@ class Index {
         fclose($shell);
         /* template variables */
         $params = [
-            'shell' => $output
+            'shell' => str_replace("\n", "<br>\n", $output)
         ];
         // or $params = new TemplateParameters(/* ... */);
 
