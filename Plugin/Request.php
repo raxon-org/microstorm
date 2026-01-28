@@ -19,7 +19,7 @@ trait Request {
             $config->set('request.' . $attribute, $value);
         }
         elseif($attribute !== null){
-            return $config->get('request.' .$attribute);
+            return $config->get('request.' . $attribute);
         } else {
             return $config->get('request');
         }
