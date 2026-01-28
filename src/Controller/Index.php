@@ -14,7 +14,7 @@ class Index {
         $params = [ /* template variables */ ];
         // or $params = new TemplateParameters(/* ... */);
 
-        return $latte->renderToString('template.latte', $params);
+        return $latte->renderToString($config->get('directory.view') .'Index/' . ucfirst(str_replace('_','.',__FUNCTION__)) . '.latte', $params);
 
     }
 }
