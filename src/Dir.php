@@ -11,11 +11,11 @@
 namespace Microstorm;
 
 use stdClass;
-use Exception;
+use Exception_ol;
 
-use Exception\ErrorException;
-use Exception\DirectoryCreateException;
-use Exception\FileMoveException;
+use Exception_ol\ErrorException;
+use Exception_ol\DirectoryCreateException;
+use Exception_ol\FileMoveException;
 
 class Dir {
     const CHMOD = 0750;

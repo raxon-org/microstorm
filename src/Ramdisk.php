@@ -1,7 +1,7 @@
 <?php
 namespace Microstorm;
 
-use Exception\DirectoryCreateException;
+use Exception_ol\DirectoryCreateException;
 
 $list = [
     'Plugin',

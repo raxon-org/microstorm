@@ -1,7 +1,7 @@
 <?php
 namespace Microstorm;
 
-use Exception;
+use Exception_ol;
 use Plugin;
 
 class Boot {

@@ -1,7 +1,7 @@
 <?php
-namespace Exception;
+namespace Exception_ol;
 
-use Exception;
+use Exception_ol;
 
 class FileCopyException extends Exception {
 

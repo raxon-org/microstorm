@@ -1,6 +1,6 @@
 <?php
-namespace Exception;
-use Exception;
+namespace Exception_ol;
+use Exception_ol;
 
 class ObjectException extends Exception {
 

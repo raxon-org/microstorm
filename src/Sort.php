@@ -10,7 +10,7 @@
  */
 namespace Microstorm;
 
-use Exception;
+use Exception_ol;
 use Microstorm\Core;
 use Microstorm\Data;
 

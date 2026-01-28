@@ -1,7 +1,7 @@
 <?php
 namespace Plugin;
 
-use Exception;
+use Exception_ol;
 use Microstorm\Data;
 
 trait Content {

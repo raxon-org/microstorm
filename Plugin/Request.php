@@ -1,8 +1,8 @@
 <?php
 namespace Plugin;
 
-use Exception;
-use Exception\ObjectException;
+use Exception_ol;
+use Exception_ol\ObjectException;
 use Microstorm\Core;
 use Microstorm\Data;
 

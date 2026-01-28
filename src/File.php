@@ -10,11 +10,11 @@
  */
 namespace Microstorm;
 
-use Exception;
-use Exception\ErrorException;
-use Exception\FileAppendException;
-use Exception\FileMoveException;
-use Exception\FileWriteException;
+use Exception_ol;
+use Exception_ol\ErrorException;
+use Exception_ol\FileAppendException;
+use Exception_ol\FileMoveException;
+use Exception_ol\FileWriteException;
 
 class File {
     const CHMOD = 0640;

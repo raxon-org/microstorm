@@ -1,7 +1,7 @@
 <?php
 namespace Plugin;
 
-use Exception;
+use Exception_ol;
 
 trait Run {
 

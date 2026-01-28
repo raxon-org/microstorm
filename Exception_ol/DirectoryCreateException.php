@@ -8,9 +8,9 @@
  * @changeLog
  *  -    all
  */
-namespace Exception;
+namespace Exception_ol;
 
-use Exception;
+use Exception_ol;
 
 class DirectoryCreateException extends Exception {
 

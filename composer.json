@@ -12,8 +12,8 @@
         "Microstorm\\": "src/",
         "Plugin\\": "Plugin/",
         "Route\\": "Route/",
-        "Controller\\": "Controller/",
-        "Exception\\": "Exception/"
+        "Controller\\": "Controller_old/",
+        "Exception\\": "Exception_ol/"
       }
     },
     "license" : "MIT",
