@@ -186,7 +186,7 @@ trait Route {
             'priority' => 'asc',
             'name' => 'asc'
         ]);
-        $data = new Data($this->route_decorator($data));
+        $data = $this->route_decorator($data);
         $config->data('route.list', $data);
         return $config;
     }
@@ -277,12 +277,11 @@ trait Route {
     {
         $data =  $config->get('route.list');
         $match = false;
-        ddd($data);
-        if(empty($data->data())){
+        if(empty($data)){
             return $config;
         }
         $current = false;
-        foreach($data->data() as $name => $record){
+        foreach($data as $name => $record){
             if(!is_object($record)){
                 continue;
             }
@@ -315,18 +314,22 @@ trait Route {
         }
         if($current !== false){
             $current = $this->route_prepare($config, $current, $select);
-            $config->set('route.current', new Destination($current));
-            foreach($config->get('route.current')->get('request')->data() as $key => $value){
-                $config->set('request.' . $key, $value);
+            if($current){
+                $config->set('route.current', new Destination($current));
+                foreach($config->get('route.current')->get('request')->data() as $key => $value){
+                    $config->set('request.' . $key, $value);
+                }
+                return $config;
             }
-            return $config;
         } else {
             $current = $this->route_wildcard($config);
-            $config->set('route.current', new Destination($current));
-            foreach($config->get('route.current')->get('request')->data() as $key => $value){
-                $config->set('request.' . $key, $value);
+            if($current){
+                $config->set('route.current', new Destination($current));
+                foreach($config->get('route.current')->get('request')->data() as $key => $value){
+                    $config->set('request.' . $key, $value);
+                }
+                return $config;
             }
-            return $config;
         }
         $config->set('route.current', false);
         return $config;
