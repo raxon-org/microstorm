@@ -499,6 +499,9 @@ class File {
     public static function copy(string $source, string $destination): bool
     {
         try {
+            d($source);
+            d($destination);
+            trace();
             return copy($source, $destination);
         }
         catch(\ErrorException $exception){
