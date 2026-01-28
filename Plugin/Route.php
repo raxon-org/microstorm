@@ -252,6 +252,7 @@ trait Route {
     {
         $data =  $config->get('route.list');
         $match = false;
+        ddd($data);
         if(empty($data->data())){
             return $config;
         }
