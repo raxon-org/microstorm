@@ -185,7 +185,7 @@ trait Route {
         $data = Sort::list($list)->with([
             'priority' => 'asc',
             'name' => 'asc'
-        ]);
+        ], []);
         $data = $this->route_decorator($data);
         $config->data('route.list', $data);
         return $config;
@@ -212,6 +212,18 @@ trait Route {
                 ){
                     $name = str_replace('.', '-', strtolower($record->name));
                     $result[strtolower($name)] = $record;
+                }
+                if(
+                    is_array($record) &&
+                    array_key_exists('uuid', $record)
+                ){
+                    unset($record['uuid']);
+                }
+                elseif(
+                    is_object($record) &&
+                    property_exists($record, 'uuid')
+                ){
+                    unset($record->uuid);
                 }
             }
         }
