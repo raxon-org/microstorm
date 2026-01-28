@@ -78,15 +78,6 @@ trait Route {
         $this->config($this->route_select($config, $select));
     }
 
-    public function destination(): mixed
-    {
-        $config = $this->config();
-        if($config){
-            return $this->config()->get('route.current');
-        }
-        return null;
-    }
-
     /**
      * @throws Exception
      */
