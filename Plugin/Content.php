@@ -4,7 +4,7 @@ namespace Plugin;
 use Exception;
 use Microstorm\Data;
 
-trait ContentType {
+trait Content {
 
     /**
      * @throws Exception
@@ -14,8 +14,8 @@ trait ContentType {
         $content_type = $config->get('content_type');
         if(empty($content_type)) {
             $content_type = 'text/html';
-            if (array_key_exists('CONTENT_TYPE', $_SERVER)) {
-                ddd($_SERVER['CONTENT_TYPE']);
+            if (array_key_exists('CONTENT_TYPE', $_SERVER) && !empty($_SERVER['CONTENT_TYPE'])) {
+                $content_type = $_SERVER['CONTENT_TYPE'];
             }
             $config->set('content_type', $content_type);
         }

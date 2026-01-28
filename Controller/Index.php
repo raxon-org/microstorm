@@ -9,13 +9,13 @@ use Plugin;
 
 class Index
 {
-    use Plugin\ContentType;
+    use Plugin\Content;
 
     public function main(Data $config): string
     {
         $content_type = $this->content_type($config);;
 
-        ddd($config);
+        ddd($content_type);
 
 
 
