@@ -12,13 +12,18 @@ trait Request {
     /**
      * @throws Exception
      */
-    public function request($attribute, $value=null): mixed
+    public function request($attribute=null, $value=null): mixed
     {
         $config = $this->config();
-        if($value !== null){
-            $config->set($attribute, $value);
+        if($attribute!== null && $value !== null){
+            $config->set('request.' . $attribute, $value);
         }
-        return $config->get($attribute);
+        elseif($attribute !== null){
+            return $config->get('request.' .$attribute);
+        } else {
+            return $config->get('request');
+        }
+        return null;
     }
 
     /**
