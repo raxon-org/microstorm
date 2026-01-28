@@ -1,11 +1,13 @@
 <?php
 namespace Microstorm\Controller;
 
+use Latte\Engine;
+
 class Index {
 
     public function main($config): string
     {
-        $latte = new Latte\Engine;
+        $latte = new Engine;
         // cache directory
         $latte->setTempDirectory($config->get('directory.temp') . 'Latte' . DIRECTORY_SEPARATOR);
 
