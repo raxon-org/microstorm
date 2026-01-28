@@ -20,9 +20,6 @@ trait Run {
         if(!in_array($method, $methods)){
             throw new Exception('Cannot call controller function in controller:' . (string) $controller);
         }
-        $controller::$method();
-        d($controller);
-        d($methods);
-        d($destination);
+        $controller::$method($this->config());
     }
 }
