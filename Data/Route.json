@@ -21,19 +21,6 @@
       "request": {
         "page" : "home"
       }
-    },
-    {
-      "name": "2index",
-      "controller": "Controller:2Index:main",
-      "path": "\/",
-      "priority": 2002,
-      "method": [
-        "GET",
-        "POST"
-      ],
-      "request": {
-        "page" : "home"
-      }
     }
   ]
 }
