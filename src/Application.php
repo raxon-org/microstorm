@@ -13,7 +13,6 @@ class Application {
     use Plugin\Init;
     use Plugin\Request;
     use Plugin\Route;
-    use Plugin\Run;
     */
 
     protected ?object $autoload = null;
@@ -31,6 +30,25 @@ class Application {
         $this->init(__DIR__);
         */
         echo 'Hello Microstorm!' . PHP_EOL;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function run($server, $files, $cookie): void
+    {
+        $this->config_update($server, $files, $cookie);
+        $this->request_configure();
+        $this->route_configure();
+        $destination = $this->destination();
+        $controller = $destination->get('controller');
+        $method = $destination->get('function');
+        $methods = get_class_methods($controller);
+        if(!in_array($method, $methods)){
+            throw new Exception('Cannot call controller function in controller:' . (string) $controller);
+        }
+        $controller = new $controller();
+        echo $controller->$method($this->config());
     }
 }
 
