@@ -5,7 +5,6 @@ use Exception;
 use Plugin;
 
 trait Run {
-    use Plugin\Config;
     /**
      * @throws Exception
      */

@@ -12,6 +12,7 @@ class Boot {
     use Plugin\Init;
     use Plugin\Request;
     use Plugin\Route;
+    use Plugin\Run;
 
     protected ?object $autoload = null;
     protected ?object $config = null;
