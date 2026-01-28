@@ -6,7 +6,7 @@ use Raxon\Exception\DirectoryCreateException;
 $list = [
     'Plugin',
     'Route',
-    'src'
+    'Controller'
 ];
 
 foreach($list as $item){
