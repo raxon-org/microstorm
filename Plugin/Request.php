@@ -14,14 +14,33 @@ trait Request {
      */
     public function request($attribute=null, $value=null): mixed
     {
+        $prefix = __FUNCTION__;
         $config = $this->config();
         if($attribute!== null && $value !== null){
-            $config->set('request.' . $attribute, $value);
+            $config->set($prefix . '.' . $attribute, $value);
         }
         elseif($attribute !== null){
-            return $config->get('request.' . $attribute);
+            return $config->get($prefix . '.' . $attribute);
         } else {
-            return $config->get('request');
+            return $config->get($prefix);
+        }
+        return null;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function query($attribute=null, $value=null): mixed
+    {
+        $prefix = __FUNCTION__;
+        $config = $this->config();
+        if($attribute!== null && $value !== null){
+            $config->set($prefix . '.' . $attribute, $value);
+        }
+        elseif($attribute !== null){
+            return $config->get($prefix . '.' . $attribute);
+        } else {
+            return $config->get($prefix);
         }
         return null;
     }
