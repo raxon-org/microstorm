@@ -14,6 +14,10 @@ trait Run {
         $this->request_configure();
         $this->route_configure();
         $destination = $this->destination();
+        $controller = $destination->get('controller');
+        $methods = get_class_methods($controller);
+        d($controller);
+        d($methods);
         d($destination);
     }
 }
