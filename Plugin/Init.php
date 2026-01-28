@@ -22,10 +22,12 @@ trait Init {
                 'directory' => (object)[
                     'temp' => '/tmp/raxon/org/',
                     'root' => dirname($dir) . DIRECTORY_SEPARATOR,
+                    'controller' => dirname($dir) . DIRECTORY_SEPARATOR . 'Controller' . DIRECTORY_SEPARATOR,
                     'data' => dirname($dir) . DIRECTORY_SEPARATOR . 'Data' . DIRECTORY_SEPARATOR,
                     'public' => dirname($dir) . DIRECTORY_SEPARATOR . 'Public' . DIRECTORY_SEPARATOR,
                     'source' => dirname($dir) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR,
                     'vendor' => dirname($dir) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR,
+                    'view' => dirname($dir) . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR,
                 ]
             ]);
             if($config->get('directory.root') === $config->get('directory.temp')){
