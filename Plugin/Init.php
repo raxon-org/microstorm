@@ -28,6 +28,9 @@ trait Init {
                     'vendor' => dirname($dir) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR,
                 ]
             ]);
+            if($config->get('directory.root') === $config->get('directory.temp')){
+                throw new Exception('$dir argument is invalid.');
+            }
             $this->config($config);
         }
         $data = $this->data();
