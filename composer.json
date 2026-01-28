@@ -6,7 +6,8 @@
     "homepage": "https://raxon.org",
     "require": {
       "raxon/module": ">=2026.01.01",
-      "raxon/router": ">=2026.01.01"
+      "raxon/router": ">=2026.01.01",
+      "latte/latte": "^3.2"
     },
     "autoload": {
       "psr-4": {
