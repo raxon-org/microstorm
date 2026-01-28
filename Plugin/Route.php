@@ -185,12 +185,41 @@ trait Route {
         foreach($list as $item){
             $data->set($item->name, $item);
         }
+        //add filter (no cli)
         $data = Sort::list($data)->with([
             'priority' => 'asc',
             'name' => 'asc'
         ]);
+        $data = new Data($this->route_decorator($data));
         $config->data('route.list', $data);
         return $config;
+    }
+
+    public function route_decorator(array $response): object
+    {
+        $result = [];
+        if(
+            !empty($response) &&
+            is_array($response)
+        ){
+            foreach($response as $nr => $record){
+                if(
+                    is_array($record) &&
+                    array_key_exists('name', $record)
+                ){
+                    $name = str_replace('.', '-', strtolower($record['name']));
+                    $result[$name] = $record;
+                }
+                elseif(
+                    is_object($record) &&
+                    property_exists($record, 'name')
+                ){
+                    $name = str_replace('.', '-', strtolower($record->name));
+                    $result[strtolower($name)] = $record;
+                }
+            }
+        }
+        return (object) $result;
     }
 
 
