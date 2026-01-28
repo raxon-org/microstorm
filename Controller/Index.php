@@ -11,6 +11,19 @@ class Index
     {
 
         $result = File::read($config->get('directory.view') . File::basename(__CLASS__) . '/' . ucfirst(__FUNCTION__) . '.html');
+        $default = [
+            '__LANGUAGE__' => 'en',
+            '__TITLE__' => 'Microstorm',
+            '__DESCRIPTION__' => 'Microstorm is a PHP framework.',
+            '__KEYWORDS__' => 'microstorm, php, framework',
+            '__AUTHOR__' => 'Remco van der Velde',
+            '__SCRIPT__' => '',
+            '__LINK__' => '',
+            '__BODY__' => 'Hello World!'
+        ];
+        foreach($default as $key => $value) {
+            $result = str_replace($key, $value, $result);
+        }
         return $result;
     }
 
