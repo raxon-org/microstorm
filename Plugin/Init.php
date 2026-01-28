@@ -29,7 +29,7 @@ trait Init {
                 ]
             ]);
             if($config->get('directory.root') === $config->get('directory.temp')){
-//                throw new Exception('$dir argument is invalid.');
+                throw new Exception('$dir argument is invalid.');
             }
             $this->config($config);
         }
