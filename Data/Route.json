@@ -2,7 +2,7 @@
   "Route": [
     {
       "name": "*",
-      "controller": "Controller:Index:main",
+      "controller": "Microstorm:Controller:Index:main",
       "priority": 2001,
       "method": [
         "GET",
@@ -11,7 +11,7 @@
     },
     {
       "name": "index",
-      "controller": "Controller:Index:main",
+      "controller": "Microstorm:Controller:Index:main",
       "path": "\/",
       "priority": 2002,
       "method": [

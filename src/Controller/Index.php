@@ -1,4 +1,5 @@
 <?php
+namespace Microstorm\Controller;
 
 class Index {
 
