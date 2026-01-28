@@ -170,8 +170,10 @@ trait Route {
             Dir::create($dir_route_temp, Dir::CHMOD);
             $url_route_temp =  $dir_route_temp . 'Route.json';
             if(!File::exist($url_route_temp)){
-                ddd($config);
                 $url_route = $config->get('directory.data') . 'Route.json';
+                if($url_route === $url_route_temp){
+                    throw new Exception('Route.json not found');
+                }
                 File::copy($url_route, $url_route_temp);
             }
             $read = File::read($url_route_temp);
