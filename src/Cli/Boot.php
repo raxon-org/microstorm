@@ -9,6 +9,8 @@ class Boot {
     use Plugin\Config;
     use Plugin\Request;
 
+    protected ?object $config = null;
+
     /**
      * @throws Exception
      */
