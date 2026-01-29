@@ -189,6 +189,19 @@ class Task {
                     File::delete($url_stderr);
                 }
                 $record = array_merge($record, $patch);
+                $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
+                Dir::create($dir_task, Dir::CHMOD);
+                $url_task= $dir_task . 'Task.json';
+                if(File::exists($url_task)){
+                    $data = Core::object(File::read($url_task));
+                    ddd($data);
+                } else {
+                    $data = new Data();
+                    $task = (object) [];
+                    $task->{$record['uuid']} = $record;
+                    $data->set('task', $task);
+                    $data->write($url_task);
+                }
                 break;
             } else {
                 //updates the task output / notification every half a second.
@@ -204,6 +217,19 @@ class Task {
                     $patch['notification'] = $stderr;
                 }
                 $record = array_merge($record, $patch);
+                $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
+                Dir::create($dir_task, Dir::CHMOD);
+                $url_task= $dir_task . 'Task.json';
+                if(File::exists($url_task)){
+                    $data = Core::object(File::read($url_task));
+                    ddd($data);
+                } else {
+                    $data = new Data();
+                    $task = (object) [];
+                    $task->{$record['uuid']} = $record;
+                    $data->set('task', $task);
+                    $data->write($url_task);
+                }
             }
 
         }
