@@ -29,7 +29,9 @@ class Boot {
             $data = new Data();
             $data->set('time.start', microtime(true));
             $data->write($url);
-            $this->cron_init();
+            if(!File::exists($url)){
+                $this->cron_init();
+            }
             return 'Installing...' .PHP_EOL;
         }
         return '';
