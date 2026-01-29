@@ -20,11 +20,11 @@ class Boot {
     public function run(Data $config): string
     {
         $this->config($config);
-        if($this->flags('update') && !File::exists($this->config->get('directory.temp') . 'Boot/Boot.json')){
+        if(!File::exists($this->config->get('directory.temp') . 'Boot/Boot.json')){
             $this->flags('install', true);
         }
         if($this->flags('install')){
-            return 'Installing...';
+            return 'Installing...' .PHP_EOL;
         }
         return '';
     }
