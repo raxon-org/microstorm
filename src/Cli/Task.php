@@ -104,6 +104,7 @@ class Task {
                             $command .= ' -process[]=' . $proc_id;
                         }
                         exec($command, $output, $code);
+                        echo implode(PHP_EOL, $output) . PHP_EOL;
                     }
                 }
             }
