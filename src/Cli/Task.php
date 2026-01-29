@@ -40,7 +40,7 @@ class Task {
                 $info[] = '    - create';
                 $info[] = '    - list';
                 $info[] = '    - run';
-                return implode(PHP_EOL, $info);
+                return implode(PHP_EOL, $info) . PHP_EOL;
         }
         return '';
     }
