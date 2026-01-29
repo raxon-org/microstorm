@@ -56,6 +56,8 @@ class Task {
 
     public function task_get(Data $config): array
     {
+        $task_uuid = $this->option('task.uuid');
+        d($task_uuid);
         return [
             'uuid' => Core::uuid(),
             'command' => [
@@ -178,7 +180,7 @@ class Task {
             if($time_current - $time_start > 120 * 60 * 60){ // 2 hours time-out
                 //timeout
                 $patch = [
-                    'id' => $record['id'],
+                    'uuid' => $record['uuid'],
                     'status' => self::ERROR,
                 ];
                 if(File::exists($url_stdout)){
@@ -212,7 +214,7 @@ class Task {
             } else {
                 //updates the task output / notification every half a second.
                 $patch = [
-                    'id' => $record['node']['id'],
+                    'uuid' => $record['uuid'],
                 ];
                 if(File::exists($url_stdout)){
                     $stdout = File::read($url_stdout, ['return' => File::ARRAY]);
