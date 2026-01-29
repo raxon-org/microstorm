@@ -2,6 +2,7 @@
 namespace Microstorm\Cli;
 
 use Exception;
+use Module\Data;
 use Plugin;
 
 class Boot {
@@ -10,8 +11,9 @@ class Boot {
     /**
      * @throws Exception
      */
-    public function run(Data $config){
+    public function run(Data $config): string
+    {
         ddd($this->request());
-        echo 'boot options & flags' . PHP_EOL;
+        return 'boot options & flags' . PHP_EOL;
     }
 }
