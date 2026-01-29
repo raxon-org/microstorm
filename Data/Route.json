@@ -1,6 +1,18 @@
 {
   "Route": [
     {
+      "name": "boot",
+      "path": "boot",
+      "priority": 1000,
+      "controller": "Microstorm:Cli:Boot.run",
+      "request": {
+        "language": "en"
+      },
+      "method": [
+        "CLI"
+      ]
+    },
+    {
       "name": "*",
       "controller": "Microstorm:Controller:Index:main",
       "priority": 2001,
