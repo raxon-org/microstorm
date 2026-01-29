@@ -59,8 +59,7 @@ class Task {
      */
     public function task_get(Data $config): array
     {
-        $task_uuid = $this->options('task.uuid');
-        d($task_uuid);
+       d($config);
         return [
             'uuid' => Core::uuid(),
             'command' => [
