@@ -87,6 +87,7 @@ class Application {
             }
         }
         catch (TypeError $e) {
+
             throw new Exception('Cannot find controller: ' . (string) $controller . ' with method: ' . $method);
         }
         $controller = new $controller();
