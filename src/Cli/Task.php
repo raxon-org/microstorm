@@ -58,7 +58,7 @@ class Task {
     /**
      * @throws Exception
      */
-    public function task_get(Data $config): bool|object
+    public function task_get_pending(Data $config): bool|object
     {
         $url_task = $config->get('directory.data') . 'Task' . DIRECTORY_SEPARATOR . 'Task.json';
         if(!File::exists($url_task)){
@@ -76,12 +76,30 @@ class Task {
     /**
      * @throws Exception
      */
+    public function task_get_by_uuid(Data $config): bool|object
+    {
+        $url_task = $config->get('directory.data') . 'Task' . DIRECTORY_SEPARATOR . 'Task.json';
+        if(!File::exists($url_task)){
+            return false;
+        }
+        $data = new Data(Core::object(File::read($url_task)));
+        foreach($data->get('task') as $task){
+            if($task->uuid === $this->options('task.uuid')){
+                return $task;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @throws Exception
+     */
     private function task_run(Data $config): void
     {
         $time_start = time();
         while(true) {
             $is_busy = false;
-            $record = $this->task_get($config);
+            $record = $this->task_get_pending($config);
             if(property_exists($record, 'uuid')){
                 $record->status = self::IN_PROGRESS;
                 $is_busy = true;
@@ -108,6 +126,7 @@ class Task {
                     foreach ($process_list as $proc_id) {
                         $command .= ' -process[]=' . $proc_id;
                     }
+                    echo $command . PHP_EOL;
                     exec($command, $output, $code);
 
                 }
