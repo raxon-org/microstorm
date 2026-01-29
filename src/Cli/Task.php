@@ -19,6 +19,7 @@ class Task {
      */
     public function run(Data $config): string
     {
+        $this->config($config);
         $module = $this->request('module');
         switch($module){
             case 'create':
