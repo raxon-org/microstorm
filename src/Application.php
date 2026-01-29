@@ -44,6 +44,7 @@ class Application {
                     'current' => null,
                     'duration' => null
                 ],
+                'environment' => 'production',
                 'directory' => (object)[
                     'temp' => '/tmp/raxon/org/',
                     'root' => dirname($dir) . DIRECTORY_SEPARATOR,
