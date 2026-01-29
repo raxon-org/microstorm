@@ -6,6 +6,7 @@ use Module\Data;
 use Plugin;
 
 class Boot {
+    use Plugin\Config;
     use Plugin\Request;
 
     /**
