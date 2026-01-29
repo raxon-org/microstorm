@@ -93,7 +93,7 @@ class Task {
                     ) {
                         $url_stdout = $dir_stdout . $record['uuid'];
                         $url_stderr = $dir_stderr . $record['uuid'];
-                        foreach ($record['node']['command'] as $nr => $command) {
+                        foreach ($record['command'] as $nr => $command) {
                             $command = 'nohup ' . $command . ' >> ' . $url_stdout . ' 2>> ' . $url_stderr . ' &  echo $!';
                             exec($command, $output, $code);
                             $proc_id = trim($output[0]);
