@@ -1,6 +1,7 @@
 <?php
 namespace Microstorm;
 
+use TypeError;
 use Exception;
 use Module\Data;
 use Plugin;
@@ -85,7 +86,7 @@ class Application {
                 throw new Exception('Cannot call controller function in controller:' . (string) $controller);
             }
         }
-        catch (Exception $e) {
+        catch (TypeError $e) {
             throw new Exception('Cannot find controller:' . (string) $controller);
         }
         $controller = new $controller();
