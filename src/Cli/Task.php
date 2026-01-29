@@ -158,8 +158,11 @@ class Task {
                 Dir::create($dir_task, Dir::CHMOD);
                 $url_task= $dir_task . 'Task.json';
                 if(File::exists($url_task)){
-                    $data = Core::object(File::read($url_task));
-                    ddd($data);
+                    $data = new Data(Core::object(File::read($url_task)));
+                    $task = $data->get('task.' . $record['uuid']);
+                    $task = array_merge(Core::object_array($task), $patch);
+                    $data->set('task.' . $record['uuid'], $task);
+                    $data->write($url_task);
                 } else {
                     $data = new Data();
                     $task = (object) [];
