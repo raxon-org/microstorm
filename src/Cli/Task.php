@@ -14,6 +14,10 @@ class Task {
     use Plugin\Flags;
     use Plugin\Options;
 
+    const IN_PROGRESS = 'IN_PROGRESS';
+    const COMPLETED = 'COMPLETED';
+    const ERROR = 'ERROR';
+
     protected ?object $config = null;
 
     /**
@@ -69,7 +73,7 @@ class Task {
             if (array_key_exists('uuid', $record)) {
                 $patch = [
                     'uuid' => $record['uuid'],
-                    'status' => Status::IN_PROGRESS,
+                    'status' => self::IN_PROGRESS,
                 ];
                 //status IN_PROGRESS after 120 mins it should be set to ERROR
                 $is_busy = true;
@@ -111,12 +115,15 @@ class Task {
         }
     }
 
+    /**
+     * @throws Exception
+     */
     private function task_monitor(Data $config): string
     {
         $flags = $this->flags();
         $options = $this->options();
         $record = $this->task_get($config);
-        $dir_package = $config->config('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
+        $dir_package = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
         $dir_stdout = $dir_package . 'stdout' . DIRECTORY_SEPARATOR;
         $dir_stderr = $dir_package . 'stderr' . DIRECTORY_SEPARATOR;
         $url_stdout = $dir_stdout . $record['uuid'];
@@ -133,14 +140,14 @@ class Task {
                 //task completed
                 $patch = [
                     'uuid' => $record['uuid'],
-                    'status' => Status::COMPLETED,
+                    'status' => self::COMPLETED,
                 ];
-                if(File::exist($url_stdout)){
+                if(File::exists($url_stdout)){
                     $stdout = File::read($url_stdout, ['return' => File::ARRAY]);
                     $patch['output'] = $stdout;
                     File::delete($url_stdout);
                 }
-                if(File::exist($url_stderr)){
+                if(File::exists($url_stderr)){
                     $stderr = File::read($url_stderr, ['return' => File::ARRAY]);
                     $patch['notification'] = $stderr;
                     File::delete($url_stderr);
@@ -155,14 +162,14 @@ class Task {
                 //timeout
                 $patch = [
                     'id' => $record['id'],
-                    'status' => Status::ERROR,
+                    'status' => self::ERROR,
                 ];
-                if(File::exist($url_stdout)){
+                if(File::exists($url_stdout)){
                     $stdout = File::read($url_stdout, ['return' => File::ARRAY]);
                     $patch['output'] = $stdout;
                     File::delete($url_stdout);
                 }
-                if(File::exist($url_stderr)){
+                if(File::exists($url_stderr)){
                     $stderr = File::read($url_stderr, ['return' => File::ARRAY]);
                     $patch['notification'] = $stderr;
                     File::delete($url_stderr);
@@ -174,11 +181,11 @@ class Task {
                 $patch = [
                     'id' => $record['node']['id'],
                 ];
-                if(File::exist($url_stdout)){
+                if(File::exists($url_stdout)){
                     $stdout = File::read($url_stdout, ['return' => File::ARRAY]);
                     $patch['output'] = $stdout;
                 }
-                if(File::exist($url_stderr)){
+                if(File::exists($url_stderr)){
                     $stderr = File::read($url_stderr, ['return' => File::ARRAY]);
                     $patch['notification'] = $stderr;
                 }
