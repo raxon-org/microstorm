@@ -20,6 +20,7 @@ class Boot {
     {
         $this->config($config);
         d($this->flags());
+        d($this->options());
         return 'boot options & flags' . PHP_EOL;
     }
 }
