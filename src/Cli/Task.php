@@ -53,7 +53,10 @@ class Task {
     public function task_get(Data $config): array
     {
         return [
-            'uuid' => Core::uuid()
+            'uuid' => Core::uuid(),
+            'command' => [
+                'ls -al'
+            ]
         ];
     }
 
