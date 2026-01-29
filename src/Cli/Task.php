@@ -60,7 +60,7 @@ class Task {
      */
     public function task_get_pending(Data $config): bool|object
     {
-        $url_task = $config->get('directory.data') . 'Task' . DIRECTORY_SEPARATOR . 'Task.json';
+        $url_task = $config->get('directory.data') . DIRECTORY_SEPARATOR . 'Task.json';
         if(!File::exists($url_task)){
             return false;
         }
