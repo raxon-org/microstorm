@@ -4,7 +4,7 @@
       "name": "boot",
       "path": "boot",
       "priority": 1000,
-      "controller": "Microstorm:Cli:Boot.run",
+      "controller": "Microstorm:Cli:Boot:run",
       "request": {
         "language": "en"
       },
