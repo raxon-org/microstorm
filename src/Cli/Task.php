@@ -74,6 +74,8 @@ class Task {
     private function task_run(Data $config): void
     {
         $time_start = time();
+        echo Core::uuid() . PHP_EOL;
+        die;
         while(true) {
             $is_busy = false;
             $record = $this->task_get($config);
