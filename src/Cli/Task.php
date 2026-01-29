@@ -14,6 +14,7 @@ class Task {
     use Plugin\Flags;
     use Plugin\Options;
 
+    const PENDING = 'PENDING';
     const IN_PROGRESS = 'IN_PROGRESS';
     const COMPLETED = 'COMPLETED';
     const ERROR = 'ERROR';
@@ -57,15 +58,19 @@ class Task {
     /**
      * @throws Exception
      */
-    public function task_get(Data $config): array
+    public function task_get(Data $config): bool|object
     {
-       d($config);
-        return [
-            'uuid' => Core::uuid(),
-            'command' => [
-                'ls -al'
-            ]
-        ];
+        $url_task = $config->get('directory.data') . 'Task' . DIRECTORY_SEPARATOR . 'Task.json';
+        if(!File::exists($url_task)){
+            return false;
+        }
+        $data = new Data(Core::object(File::read($url_task)));
+        foreach($data->get('task') as $task){
+            if($task->status === self::PENDING){
+                return $task;
+            }
+        }
+        return false;
     }
 
     /**
@@ -74,17 +79,11 @@ class Task {
     private function task_run(Data $config): void
     {
         $time_start = time();
-        echo Core::uuid() . PHP_EOL;
-        die;
         while(true) {
             $is_busy = false;
             $record = $this->task_get($config);
-            if (array_key_exists('uuid', $record)) {
-                $patch = [
-                    'uuid' => $record['uuid'],
-                    'status' => self::IN_PROGRESS,
-                ];
-                //status IN_PROGRESS after 120 mins it should be set to ERROR
+            if(property_exists($record, 'uuid')){
+                $record->status = self::IN_PROGRESS;
                 $is_busy = true;
             }
             if ($is_busy === false) {
@@ -96,24 +95,21 @@ class Task {
                 Dir::create($dir_stdout, Dir::CHMOD);
                 Dir::create($dir_stderr, Dir::CHMOD);
                 $process_list = [];
-                if (array_key_exists('uuid', $record)) {
-                    if (
-                        array_key_exists('command', $record)
-                    ) {
-                        $url_stdout = $dir_stdout . $record['uuid'];
-                        $url_stderr = $dir_stderr . $record['uuid'];
-                        foreach ($record['command'] as $nr => $command) {
-                            $command = 'nohup ' . $command . ' >> ' . $url_stdout . ' 2>> ' . $url_stderr . ' &  echo $!';
-                            exec($command, $output, $code);
-                            $proc_id = trim($output[0]);
-                            $process_list[] = $proc_id;
-                        }
-                        $command = 'nohup microstorm task monitor -task.uuid=' . $record['uuid'];
-                        foreach ($process_list as $proc_id) {
-                            $command .= ' -process[]=' . $proc_id;
-                        }
+                if(property_exists($record, 'uuid')){
+                    $url_stdout = $dir_stdout . $record->uuid;
+                    $url_stderr = $dir_stderr . $record->uuid;
+                    foreach ($record->command as $nr => $command) {
+                        $command = 'nohup ' . $command . ' >> ' . $url_stdout . ' 2>> ' . $url_stderr . ' &  echo $!';
                         exec($command, $output, $code);
+                        $proc_id = trim($output[0]);
+                        $process_list[] = $proc_id;
                     }
+                    $command = 'nohup microstorm task monitor -task.uuid=' . $record->uuid;
+                    foreach ($process_list as $proc_id) {
+                        $command .= ' -process[]=' . $proc_id;
+                    }
+                    exec($command, $output, $code);
+
                 }
             }
             $time_current = time();
@@ -131,12 +127,14 @@ class Task {
     {
         $flags = $this->flags();
         $options = $this->options();
+        d($flags);
+        ddd($options);
         $record = $this->task_get($config);
         $dir_package = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
         $dir_stdout = $dir_package . 'stdout' . DIRECTORY_SEPARATOR;
         $dir_stderr = $dir_package . 'stderr' . DIRECTORY_SEPARATOR;
-        $url_stdout = $dir_stdout . $record['uuid'];
-        $url_stderr = $dir_stderr . $record['uuid'];
+        $url_stdout = $dir_stdout . $record->uuid;
+        $url_stderr = $dir_stderr . $record->uuid;
         $time_start = time();
         while(true){
             $process_active = [];

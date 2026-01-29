@@ -1,0 +1,11 @@
+{
+  "task" : {
+    "cb5f3dae-2aa0-410e-a55e-f62dcd02bf37" : {
+      "uuid": "cb5f3dae-2aa0-410e-a55e-f62dcd02bf37",
+      "command": [
+        "ls -al"
+      ],
+      "status": "pending"
+    }
+  }
+}
