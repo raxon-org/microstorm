@@ -3,6 +3,7 @@ namespace Microstorm\Cli;
 
 use Exception;
 use Module\Data;
+use Module\File;
 use Plugin;
 
 class Boot {
