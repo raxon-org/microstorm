@@ -54,6 +54,9 @@ class Task {
         return '';
     }
 
+    /**
+     * @throws Exception
+     */
     public function task_get(Data $config): array
     {
         $task_uuid = $this->options('task.uuid');
@@ -66,6 +69,9 @@ class Task {
         ];
     }
 
+    /**
+     * @throws Exception
+     */
     private function task_run(Data $config): void
     {
         $time_start = time();
