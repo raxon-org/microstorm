@@ -12,7 +12,8 @@
     "autoload": {
       "psr-4": {
         "Microstorm\\": "src/",
-        "Microstorm\\Controller\\": "src/Controller/"
+        "Microstorm\\Controller\\": "src/Controller/",
+        "Microstorm\\Cli\\": "src/Cli/"
       }
     },
     "license" : "MIT",
