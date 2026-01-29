@@ -19,7 +19,7 @@ class Boot {
     public function run(Data $config): string
     {
         $this->config($config);
-        d($this->request());
+        d($this->flags());
         return 'boot options & flags' . PHP_EOL;
     }
 }
