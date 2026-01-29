@@ -14,10 +14,10 @@ class Task {
     use Plugin\Flags;
     use Plugin\Options;
 
-    const PENDING = 'PENDING';
-    const IN_PROGRESS = 'IN_PROGRESS';
-    const COMPLETED = 'COMPLETED';
-    const ERROR = 'ERROR';
+    const PENDING = 'pending';
+    const IN_PROGRESS = 'in_progress';
+    const COMPLETED = 'completed';
+    const ERROR = 'error';
 
     protected ?object $config = null;
 
