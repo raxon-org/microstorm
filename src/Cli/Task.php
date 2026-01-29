@@ -30,6 +30,16 @@ class Task {
             case 'run':
                 return 'Task run...' . PHP_EOL;
                 break;
+            case 'info':
+            default:
+                $info = [];
+                $info[] = 'Task info...';
+                $info[] = 'Module: ' . $module;
+                $info[] = 'Modules:';
+                $info[] = '    - create';
+                $info[] = '    - list';
+                $info[] = '    - run';
+                return implode(PHP_EOL, $info);
         }
         return '';
     }
