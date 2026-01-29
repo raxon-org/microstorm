@@ -16,7 +16,6 @@ class Boot {
      */
     public function run(Data $config): string
     {
-        ddd($config);
         $this->config($config);
         d($this->request());
         return 'boot options & flags' . PHP_EOL;
