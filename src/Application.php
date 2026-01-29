@@ -83,11 +83,11 @@ class Application {
         try {
             $methods = get_class_methods($controller) ?? [];
             if(!in_array($method, $methods)){
-                throw new Exception('Cannot call controller function in controller:' . (string) $controller);
+                throw new Exception('Cannot call controller function in controller: ' . (string) $controller);
             }
         }
         catch (TypeError $e) {
-            throw new Exception('Cannot find controller:' . (string) $controller);
+            throw new Exception('Cannot find controller: ' . (string) $controller . ' with method: ' . $method);
         }
         $controller = new $controller();
         echo $controller->$method($this->config());
