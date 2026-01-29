@@ -74,6 +74,9 @@ class Application {
         $this->request_configure();
         $this->route_configure();
         $destination = $this->destination();
+        if($destination === false){
+            throw new Exception('Cannot find route.');
+        }
         $controller = $destination->get('controller');
         $method = $destination->get('function');
         $methods = @get_class_methods($controller) ?? [];
