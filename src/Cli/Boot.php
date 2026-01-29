@@ -19,8 +19,12 @@ class Boot {
     public function run(Data $config): string
     {
         $this->config($config);
-        d($this->flags());
-        d($this->options('update'));
-        return 'boot options & flags' . PHP_EOL;
+        if($this->flags('update') && !File::exists($this->config->get('directory.temp') . 'Boot/Boot.json')){
+            $this->flags('install', true);
+        }
+        if($this->flags('install')){
+            return 'Installing...';
+        }
+        return '';
     }
 }
