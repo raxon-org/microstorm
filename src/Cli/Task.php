@@ -35,7 +35,15 @@ class Task {
             case 'create':
                 $command = $this->options('command');
                 $controller = $this->options('controller');
-                if(!is_array($command) || !is_array($controller)){
+                if(is_array($command)){
+                    //nothing
+                }
+                elseif(is_array($controller)){
+                    //nothing
+                }
+                elseif(is_array($command) && is_array($controller)){
+                    //nothing
+                } else {
                     throw new Exception('option -command[] or -controller[] is not an array.');
                 }
                 $this->task_create($config);
