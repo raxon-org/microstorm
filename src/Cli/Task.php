@@ -2,6 +2,7 @@
 namespace Microstorm\Cli;
 
 use Exception;
+use Exception\ObjectException;
 use Module\Core;
 use Module\Data;
 use Module\Dir;
@@ -33,6 +34,11 @@ class Task {
         switch($module){
             case 'create':
                 $command = $this->options('command');
+                $controller = $this->options('controller');
+                if(!is_array($command) || !is_array($controller)){
+                    throw new Exception('option -command[] or -controller[] is not an array.');
+                }
+                $this->task_create($config);
                 ddd($command);
                 //create a task
                 break;
@@ -57,6 +63,36 @@ class Task {
                 return implode(PHP_EOL, $info) . PHP_EOL;
         }
         return '';
+    }
+
+    /**
+     * @throws ObjectException
+     * @throws Exception
+     */
+    public function task_create(Data $config): void
+    {
+        $task = (object) [
+            'uuid' => Core::uuid(),
+            'status' => self::PENDING,
+            'command' => $this->options('command'),
+            'controller' => $this->options('controller'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+        $dir_task = $config->get('directory.temp') . ' Task' . DIRECTORY_SEPARATOR;
+        if(!Dir::is($dir_task)){
+            Dir::create($dir_task, Dir::CHMOD);
+        }
+        $url_task = $dir_task . 'Task.json';
+        if(!File::exists($url_task)){
+            $data = new Data();
+            $data->set('task.' . $task->uuid, $task);
+            $data->write($url_task);
+        } else {
+            $data = new Data(Core::object(File::read($url_task)));
+            $data->set('task.' . $task->uuid, $task);
+            $data->write($url_task);
+        }
     }
 
     /**
