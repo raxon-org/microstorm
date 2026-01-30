@@ -79,11 +79,14 @@ class Task {
      */
     public function task_create(Data $config): object
     {
+        $command = $this->options('command') ?? [];
+        $controller = $this->options('controller') ?? [];
+
         $task = (object) [
             'uuid' => Core::uuid(),
             'status' => self::PENDING,
-            'command' => $this->options('command'),
-            'controller' => $this->options('controller'),
+            'command' => $command,
+            'controller' => $controller,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
