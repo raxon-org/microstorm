@@ -100,7 +100,7 @@ class Task {
      */
     public function task_get_pending(Data $config): bool|object
     {
-        $url_task = $config->get('directory.data') . 'Task.json';
+        $url_task = $config->get('directory.temp') . 'Task/Task.json';
         if(!File::exists($url_task)){
             return false;
         }
@@ -127,17 +127,12 @@ class Task {
      */
     public function task_get_by_uuid(Data $config): bool|object
     {
-        $url_task = $config->get('directory.data') . 'Task.json';
+        $url_task = $config->get('directory.temp') . 'Task/Task.json';
         if(!File::exists($url_task)){
             return false;
         }
         $data = new Data(Core::object(File::read($url_task)));
-        foreach($data->get('task') as $task){
-            if($task->uuid === $this->options('task.uuid')){
-                return $task;
-            }
-        }
-        return false;
+        return $data->get('task.' . $this->options('task.uuid'));
     }
 
     /**
@@ -226,8 +221,7 @@ class Task {
                     File::delete($url_stderr);
                 }
                 $record = Core::object_merge($record, $patch);
-                $dir_task = $config->get('directory.data');// . 'Task' . DIRECTORY_SEPARATOR;
-//                Dir::create($dir_task, Dir::CHMOD);
+                $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
                 $url_task= $dir_task . 'Task.json';
                 if(File::exists($url_task)){
                     $data = new Data(Core::object(File::read($url_task)));
@@ -236,9 +230,10 @@ class Task {
                     $data->set('task.' . $record->uuid, $task);
                     $data->write($url_task);
                 } else {
+                    Dir::create($dir_task, Dir::CHMOD);
                     $data = new Data();
                     $task = (object) [];
-                    $task->{$record['uuid']} = $record;
+                    $task->{$record->uuid} = $record;
                     $data->set('task', $task);
                     $data->write($url_task);
                 }
@@ -249,7 +244,7 @@ class Task {
             $time_current = time();
             if($time_current - $time_start > 120 * 60 * 60){ // 2 hours time-out
                 //timeout
-                $patch = [
+                $patch = (object) [
                     'uuid' => $record['uuid'],
                     'status' => self::ERROR,
                 ];
@@ -263,51 +258,53 @@ class Task {
                     $patch['notification'] = $stderr;
                     File::delete($url_stderr);
                 }
-                $record = array_merge($record, $patch);
+                $record = Core::object_merge($record, $patch);
                 $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
-                Dir::create($dir_task, Dir::CHMOD);
                 $url_task= $dir_task . 'Task.json';
                 if(File::exists($url_task)){
                     $data = new Data(Core::object(File::read($url_task)));
-                    $task = $data->get('task.' . $record['uuid']);
+                    $task = $data->get('task.' . $record->uuid);
                     $task = array_merge(Core::object_array($task), $record);
-                    $data->set('task.' . $record['uuid'], $task);
+                    $data->set('task.' . $record->uuid, $task);
                     $data->write($url_task);
                 } else {
+                    Dir::create($dir_task, Dir::CHMOD);
                     $data = new Data();
                     $task = (object) [];
-                    $task->{$record['uuid']} = $record;
+                    $task->{$record->uuid} = $record;
                     $data->set('task', $task);
                     $data->write($url_task);
                 }
                 break;
             } else {
                 //updates the task output / notification every half a second.
-                $patch = [
+                $patch = (object) [
                     'uuid' => $record['uuid'],
+                    'output' => [],
+                    'notification' => []
                 ];
                 if(File::exists($url_stdout)){
                     $stdout = File::read($url_stdout, ['return' => File::ARRAY]);
-                    $patch['output'] = $stdout;
+                    $patch->output = $stdout;
                 }
                 if(File::exists($url_stderr)){
                     $stderr = File::read($url_stderr, ['return' => File::ARRAY]);
-                    $patch['notification'] = $stderr;
+                    $patch->notification = $stderr;
                 }
-                $record = array_merge($record, $patch);
+                $record = Core::object_merge($record, $patch);
                 $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
-                Dir::create($dir_task, Dir::CHMOD);
                 $url_task= $dir_task . 'Task.json';
                 if(File::exists($url_task)){
                     $data = new Data(Core::object(File::read($url_task)));
-                    $task = $data->get('task.' . $record['uuid']);
+                    $task = $data->get('task.' . $record->uuid);
                     $task = array_merge(Core::object_array($task), $record);
-                    $data->set('task.' . $record['uuid'], $task);
+                    $data->set('task.' . $record->uuid, $task);
                     $data->write($url_task);
                 } else {
+                    Dir::create($dir_task, Dir::CHMOD);
                     $data = new Data();
                     $task = (object) [];
-                    $task->{$record['uuid']} = $record;
+                    $task->{$record->uuid} = $record;
                     $data->set('task', $task);
                     $data->write($url_task);
                 }
