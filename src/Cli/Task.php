@@ -117,16 +117,14 @@ class Task {
             return false;
         }
         $data = new Data(Core::object(File::read($url_task)));
-        d($data);
         $filter = Filter::list($data->get('task'))->where([
             'status' => [
                 'value' => self::PENDING,
                 'operator' => '==='
             ]
         ]);
-        ddd($filter);
-        $sort = Sort::list($data->get('task'))->with(['created_at' => 'desc']);
-        foreach($data->get('task') as $task){
+        $sort = Sort::list($filter)->with(['created_at' => 'desc']);
+        foreach($sort as $task){
             if($task->status === self::PENDING){
                 return $task;
             }
