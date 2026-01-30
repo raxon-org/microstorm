@@ -100,7 +100,7 @@ class Task {
         while(true) {
             $is_busy = false;
             $record = $this->task_get_pending($config);
-            if(property_exists($record, 'uuid')){
+            if($record && property_exists($record, 'uuid')){
                 $record->status = self::IN_PROGRESS;
                 $is_busy = true;
             }
