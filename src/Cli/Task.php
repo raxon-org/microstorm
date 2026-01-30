@@ -221,6 +221,7 @@ class Task {
                 $patch = (object) [
                     'uuid' => $record->uuid,
                     'status' => self::COMPLETED,
+                    'updated_at' => date('Y-m-d H:i:s')
                 ];
                 if(File::exists($url_stdout)){
                     $stdout = File::read($url_stdout, ['return' => File::ARRAY]);
@@ -259,6 +260,7 @@ class Task {
                 $patch = (object) [
                     'uuid' => $record['uuid'],
                     'status' => self::ERROR,
+                    'updated_at' => date('Y-m-d H:i:s')
                 ];
                 if(File::exists($url_stdout)){
                     $stdout = File::read($url_stdout, ['return' => File::ARRAY]);
@@ -321,7 +323,6 @@ class Task {
                     $data->write($url_task);
                 }
             }
-
         }
         return 'Task run...' . PHP_EOL;
     }
