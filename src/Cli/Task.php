@@ -123,10 +123,12 @@ class Task {
                 'operator' => '==='
             ]
         ]);
-        $sort = Sort::list($filter)->with(['created_at' => 'desc']);
-        foreach($sort as $task){
-            if($task->status === self::PENDING){
-                return $task;
+        if($filter){
+            $sort = Sort::list($filter)->with(['created_at' => 'desc']);
+            foreach($sort as $task){
+                if($task->status === self::PENDING){
+                    return $task;
+                }
             }
         }
         return false;
