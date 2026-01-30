@@ -70,7 +70,6 @@ class Task {
                 return $task;
             }
         }
-        ddd($data);
         return false;
     }
 
@@ -148,7 +147,6 @@ class Task {
         $flags = $this->flags();
         $options = $this->options();
         $record = $this->task_get_by_uuid($config);
-        ddd($record);
         $dir_package = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
         $dir_stdout = $dir_package . 'stdout' . DIRECTORY_SEPARATOR;
         $dir_stderr = $dir_package . 'stderr' . DIRECTORY_SEPARATOR;
@@ -178,6 +176,8 @@ class Task {
                     $patch['notification'] = $stderr;
                     File::delete($url_stderr);
                 }
+                d($record);
+                ddd($patch);
                 $record = array_merge($record, $patch);
 
                 $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
