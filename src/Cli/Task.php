@@ -107,6 +107,9 @@ class Task {
         return $task;
     }
 
+    /**
+     * @throws ObjectException
+     */
     public function task_list(Data $config): string
     {
         $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
@@ -115,10 +118,9 @@ class Task {
         }
         $url_task = $dir_task . 'Task.json';
         if(!File::exists($url_task)){
-            return 'No tasks found.' . PHP_EOL;
+            return '{}' . PHP_EOL;
         }
-        $result = Core::object(File::read($url_task));
-        ddd($result);
+        return File::read($url_task);
     }
 
 
