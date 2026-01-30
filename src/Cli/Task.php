@@ -84,7 +84,6 @@ class Task {
             return false;
         }
         $data = new Data(Core::object(File::read($url_task)));
-        ddd($data);
         foreach($data->get('task') as $task){
             if($task->uuid === $this->options('task.uuid')){
                 return $task;
