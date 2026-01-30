@@ -51,11 +51,11 @@ class Task {
                 //create a task
                 break;
             case 'list':
+                return $this->task_list($config);
                 //list all tasks
                 break;
             case 'run':
                 $this->task_run($config);
-                return '';
                 break;
             case 'monitor':
                 return $this->task_monitor($config);
@@ -106,6 +106,21 @@ class Task {
         }
         return $task;
     }
+
+    public function task_list(Data $config): string
+    {
+        $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
+        if(!Dir::is($dir_task)){
+            Dir::create($dir_task, Dir::CHMOD);
+        }
+        $url_task = $dir_task . 'Task.json';
+        if(!File::exists($url_task)){
+            return 'No tasks found.' . PHP_EOL;
+        }
+        $result = Core::object(File::read($url_task));
+        ddd($result);
+    }
+
 
     /**
      * @throws Exception
