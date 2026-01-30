@@ -47,7 +47,7 @@ class Task {
                     throw new Exception('option -command[] or -controller[] is not an array.');
                 }
                 $task = $this->task_create($config);
-                return Core::object($task, Core::OBJECT_JSON);
+                return Core::object($task, Core::OBJECT_JSON) . PHP_EOL;
                 //create a task
                 break;
             case 'list':
