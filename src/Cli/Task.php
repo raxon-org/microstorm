@@ -182,7 +182,7 @@ class Task {
                     foreach ($process_list as $proc_id) {
                         $command .= ' -process[]=' . $proc_id;
                     }
-                    echo $command . PHP_EOL;
+                    $command .= ' >> /dev/null';
                     exec($command, $output, $code);
 
                 }
