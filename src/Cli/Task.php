@@ -162,24 +162,23 @@ class Task {
             }
             if(!in_array(0, $process_active)) {
                 //task completed
-                $patch = [
-                    'uuid' => $record['uuid'],
+                $patch = (object) [
+                    'uuid' => $record->uuid,
                     'status' => self::COMPLETED,
                 ];
                 if(File::exists($url_stdout)){
                     $stdout = File::read($url_stdout, ['return' => File::ARRAY]);
-                    $patch['output'] = $stdout;
+                    $patch->output = $stdout;
                     File::delete($url_stdout);
                 }
                 if(File::exists($url_stderr)){
                     $stderr = File::read($url_stderr, ['return' => File::ARRAY]);
-                    $patch['notification'] = $stderr;
+                    $patch->notification = $stderr;
                     File::delete($url_stderr);
                 }
+                $record = Core::object_merge($record, $patch);
                 d($record);
                 ddd($patch);
-                $record = array_merge($record, $patch);
-
                 $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
                 Dir::create($dir_task, Dir::CHMOD);
                 $url_task= $dir_task . 'Task.json';
