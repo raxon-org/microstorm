@@ -46,8 +46,8 @@ class Task {
                 } else {
                     throw new Exception('option -command[] or -controller[] is not an array.');
                 }
-                $this->task_create($config);
-                ddd($command);
+                $task = $this->task_create($config);
+                return Core::object($task, Core::OBJECT_JSON);
                 //create a task
                 break;
             case 'list':
@@ -77,7 +77,7 @@ class Task {
      * @throws ObjectException
      * @throws Exception
      */
-    public function task_create(Data $config): void
+    public function task_create(Data $config): object
     {
         $task = (object) [
             'uuid' => Core::uuid(),
@@ -101,6 +101,7 @@ class Task {
             $data->set('task.' . $task->uuid, $task);
             $data->write($url_task);
         }
+        return $task;
     }
 
     /**
