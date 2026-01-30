@@ -13,3 +13,5 @@
 # |  |  |  |  |
 # *  *  *  *  * user-name command to be executed
 #
+
+root /usr/bin/microstorm task run >> /dev/null 2>&1

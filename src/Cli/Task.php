@@ -182,7 +182,7 @@ class Task {
                     foreach ($process_list as $proc_id) {
                         $command .= ' -process[]=' . $proc_id;
                     }
-                    $command .= ' >> /dev/null';
+                    $command .= ' >> /dev/null 2>&1';
                     exec($command, $output, $code);
 
                 }
