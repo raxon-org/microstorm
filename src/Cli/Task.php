@@ -147,9 +147,8 @@ class Task {
     {
         $flags = $this->flags();
         $options = $this->options();
-        d($flags);
-        ddd($options);
         $record = $this->task_get_by_uuid($config);
+        ddd($record);
         $dir_package = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
         $dir_stdout = $dir_package . 'stdout' . DIRECTORY_SEPARATOR;
         $dir_stderr = $dir_package . 'stderr' . DIRECTORY_SEPARATOR;
