@@ -119,9 +119,8 @@ class Task {
         $data = new Data(Core::object(File::read($url_task)));
         d($data);
         $filter = Filter::list($data->get('task'))->where([
-            [
+            'status' => [
                 'value' => self::PENDING,
-                'attribute' => 'status',
                 'operator' => '==='
             ]
         ]);
