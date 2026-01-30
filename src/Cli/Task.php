@@ -177,16 +177,14 @@ class Task {
                     File::delete($url_stderr);
                 }
                 $record = Core::object_merge($record, $patch);
-                d($record);
-                ddd($patch);
-                $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
-                Dir::create($dir_task, Dir::CHMOD);
+                $dir_task = $config->get('directory.data');// . 'Task' . DIRECTORY_SEPARATOR;
+//                Dir::create($dir_task, Dir::CHMOD);
                 $url_task= $dir_task . 'Task.json';
                 if(File::exists($url_task)){
                     $data = new Data(Core::object(File::read($url_task)));
-                    $task = $data->get('task.' . $record['uuid']);
-                    $task = array_merge(Core::object_array($task), $patch);
-                    $data->set('task.' . $record['uuid'], $task);
+                    $task = $data->get('task.' . $record->uuid);
+                    $task = Core::object_merge($task, $record);
+                    $data->set('task.' . $record->uuid, $task);
                     $data->write($url_task);
                 } else {
                     $data = new Data();
