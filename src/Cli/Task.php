@@ -294,8 +294,6 @@ class Task {
                 //updates the task output / notification every half a second.
                 $patch = (object) [
                     'uuid' => $record['uuid'],
-                    'output' => [],
-                    'notification' => []
                 ];
                 if(File::exists($url_stdout)){
                     $stdout = File::read($url_stdout, ['return' => File::ARRAY]);
