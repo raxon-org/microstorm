@@ -40,8 +40,8 @@ class Task {
                 //list all tasks
                 break;
             case 'run':
-                echo $this->task_run($config);
-                return 'Task run...' . PHP_EOL;
+                $this->task_run($config);
+                return '';
                 break;
             case 'monitor':
                 return $this->task_monitor($config);
