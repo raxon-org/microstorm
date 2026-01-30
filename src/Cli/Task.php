@@ -6,6 +6,8 @@ use Module\Core;
 use Module\Data;
 use Module\Dir;
 use Module\File;
+use Module\Sort;
+use Module\Filter;
 use Plugin;
 
 class Task {
@@ -30,6 +32,8 @@ class Task {
         $module = $this->request('module');
         switch($module){
             case 'create':
+                $command = $this->options('command');
+                ddd($command);
                 //create a task
                 break;
             case 'list':
@@ -65,6 +69,15 @@ class Task {
             return false;
         }
         $data = new Data(Core::object(File::read($url_task)));
+        $filter = Filter::list($data->get('task'))->where([
+            [
+                'value' => self::PENDING,
+                'attribute' => 'status',
+                'operator' => '==='
+            ]
+        ]);
+        ddd($filter);
+        $sort = Sort::list($data->get('task'))->with(['created_at' => 'desc']);
         foreach($data->get('task') as $task){
             if($task->status === self::PENDING){
                 return $task;
