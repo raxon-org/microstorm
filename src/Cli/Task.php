@@ -90,7 +90,7 @@ class Task {
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
-        $dir_task = $config->get('directory.temp') . ' Task' . DIRECTORY_SEPARATOR;
+        $dir_task = $config->get('directory.temp') . 'Task' . DIRECTORY_SEPARATOR;
         if(!Dir::is($dir_task)){
             Dir::create($dir_task, Dir::CHMOD);
         }
