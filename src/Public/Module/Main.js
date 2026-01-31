@@ -99,6 +99,7 @@ main.event_source = (options) => {
             if(ping_data?.action && ping_data?.action === 'login'){
                 content.html(content.html() + 'Login: ' + '<span class="cursor"></span>');
                 let line_nr = main.line_count(content);
+                console.log(line_nr);
                 main.goto_line(content, line_nr);
             }
             console.log(ping_data);
