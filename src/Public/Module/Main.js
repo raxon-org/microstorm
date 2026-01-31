@@ -66,7 +66,7 @@ main.line_column = (editable, line, column) => {
                 console.log(currentOffset);
                 console.log(nextOffset);
                 console.log(offset);
-                range.setStart(node, offset - currentOffset);
+                range.setStart(node, offset - currentOffset + nextOffset);
                 range.collapse(true);
                 selection.removeAllRanges();
                 selection.addRange(range);
