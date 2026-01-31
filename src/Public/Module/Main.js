@@ -13,7 +13,7 @@ main.init = (options) => {
 
 main.goto_line = (editor, line_nr) => {
         const text = editor.innerText.split("\n");
-
+        console.log(text.length);
         // Validate line number
         if (line_nr < 1 || line_nr > text.length) {
             alert("Line number out of range.");
