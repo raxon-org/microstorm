@@ -45,7 +45,7 @@
     },
     {
       "name": "api/sse",
-      "controller": "Microstorm:Controller:Api:Sse:main",
+      "controller": "Microstorm:Api:Sse:main",
       "path": "\/api\/sse\/",
       "priority": 2003,
       "method": [

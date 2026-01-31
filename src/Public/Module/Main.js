@@ -15,7 +15,6 @@ main.goto_line_find_node = (node, line_nr) => {
     let line_count = 0;
     if (node.nodeType === Node.TEXT_NODE) {
         const lines = node.textContent.split("\n");
-        console.log('lines: ' + lines.length);
         for (let i = 0; i < lines.length; i++) {
             line_count++;
             if (line_count === line_nr) {
