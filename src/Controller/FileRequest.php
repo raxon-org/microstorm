@@ -12,7 +12,7 @@ class FileRequest {
         if(!$current){
             return '';
         }
-        $url = $config->get('directory.source') . $current->get('path');
+        $url = str_replace('../', '', $config->get('directory.source') . 'Public/' . $current->get('path'));
         return File::read($url);
     }
 }
