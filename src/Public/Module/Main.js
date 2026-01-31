@@ -3,8 +3,9 @@ let main = {};
 main.init = (options) => {
     let terminal = select(options?.selector);
     if(terminal){
-        terminal.html('Initializing terminal...<br>');
-        terminal.focus();
+        terminal.html('Initializing terminal...<br><span class="prompt" contenteditable="true"></span>');
+        let prompt = terminal.select('.prompt');
+        prompt.focus();
     } else {
         return;
     }
