@@ -3,7 +3,7 @@ let main = {};
 main.init = (options) => {
     let terminal = select(options?.selector);
     if(terminal){
-        terminal.html('Initializing terminal...<br><span class="cursor">|</span>');
+        terminal.html('Initializing terminal...<br>');
     } else {
         return;
     }

@@ -41,10 +41,17 @@
       "method": [
         "GET",
         "POST"
-      ],
-      "request": {
-        "page" : "home"
-      }
+      ]
+    },
+    {
+      "name": "api/sse",
+      "controller": "Microstorm:Controller:Api:Sse:main",
+      "path": "\/",
+      "priority": 2002,
+      "method": [
+        "GET",
+        "POST"
+      ]
     }
   ]
 }
