@@ -63,10 +63,7 @@ main.line_column = (editable, line, column) => {
         if (node.nodeType === Node.TEXT_NODE) {
             const nextOffset = currentOffset + node.length;
             if (offset <= nextOffset) {
-                console.log(currentOffset);
-                console.log(nextOffset);
-                console.log(offset);
-                range.setStart(node, offset - currentOffset + nextOffset);
+                range.setStart(node, node.length - 1);
                 range.collapse(true);
                 selection.removeAllRanges();
                 selection.addRange(range);
