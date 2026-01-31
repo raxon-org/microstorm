@@ -29,19 +29,19 @@ main.keyboard_backspace = (options) => {
 
     const { startContainer, startOffset } = range;
 
-        // Case 1: Cursor is inside the protected span
-    if (stopSpan.contains(startContainer)) {
-        event.preventDefault();
-            return;
+    for (const span of stopSpan) {
+        if (span.contains(startContainer)) {
+            event.preventDefault();
+                return;
+            }
         }
-
         // Case 2: Cursor is immediately after the protected span
         if (
             startContainer.nodeType === Node.TEXT_NODE &&
             startOffset === 0
         ) {
             const prev = startContainer.previousSibling;
-            if (prev === stopSpan) {
+            if (prev === span) {
                 event.preventDefault();
             }
         }
