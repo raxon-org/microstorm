@@ -41,7 +41,7 @@ main.line_column = (editable, line, column) => {
     console.log(line);
 
     const targetLine = lines[line -1];
-    const col = Math.min(column , targetLine.length);
+    const col = Math.min(column-1 , targetLine.length);
 
     console.log(targetLine);
 
