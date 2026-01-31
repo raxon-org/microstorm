@@ -4,6 +4,7 @@ namespace Microstorm\Api;
 use Exception;
 use Module\Core;
 use Module\Data;
+use Module\Dir;
 use Module\File;
 use Plugin;
 
@@ -30,16 +31,21 @@ class Sse {
         flush();
         $id = 1;
         $time_start = time();
+        $uuid = Core::uuid();
         while(true){
             $time_current = time();
             //read command line
-            $url_command = $config->get('directory.temp') . 'Command/Command.json';;
+            $dir_command = $config->get('directory.temp') . 'Command/';
+            Dir::create($dir_command, Dir::CHMOD);
+            $url_command = $dir_command. $uuid . '.json';;
             if(!File::exists($url_command)){
                 $data = new Data();
                 $data->set('Command.action', 'login');
+                $data->set('Command.uuid', $uuid);
+                $data->write($url_command);
             } else {
-                $data = new Data();
-                $data->set('Command.action', 'welcome');
+                $data = new Data(Core::object(File::read($url_command)));
+                $data->delete('Command.action');
             }
             echo "id: $id\n";
             echo "event: ping\n";
