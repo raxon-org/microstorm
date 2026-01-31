@@ -31,3 +31,5 @@ main.event_source = (selector) => {
         }
     });
 }
+
+export { main }
