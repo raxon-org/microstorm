@@ -39,13 +39,13 @@ main.goto_line_find_node = (node, line_nr) => {
 
 main.line_count = (editor) => {
     const text = editor.innerText.split("\n");
-    return text.length - 1;
+    return text.length;
 }
 
 main.goto_line = (editor, line_nr) => {
-    const text = editor.innerText.split("\n");
+    const length = main.line_count(editor);
     // Validate line number
-    if (line_nr < 1 || line_nr > text.length) {
+    if (line_nr < 1 || line_nr > length) {
         alert("Line number out of range.");
         return;
     }
