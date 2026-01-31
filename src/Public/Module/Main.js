@@ -69,7 +69,7 @@ main.goto_colum = (editor, column_nr) => {
 
     while ((node = walker.nextNode())) {
         const text = node.textContent;
-
+        console.log(text);
         for (let i = 0; i < text.length; i++) {
             if (text[i] === '\n') {
                 offset = 0; // reset column on new line
