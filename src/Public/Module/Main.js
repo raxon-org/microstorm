@@ -37,8 +37,7 @@ main.keyboard_backspace = (options) => {
         }
         // Case 2: Cursor is immediately after the protected span
         if (
-            startContainer.nodeType === Node.TEXT_NODE &&
-            startOffset === 0
+            startContainer.nodeType === Node.TEXT_NODE
         ) {
             const prev = startContainer.previousSibling;
             if (prev === span) {
