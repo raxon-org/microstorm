@@ -39,7 +39,7 @@ main.goto_line_find_node = (node, line_nr) => {
 
 main.line_count = (editor) => {
     const text = editor.innerText.split("\n");
-    return text.length;
+    return text.length - 1;
 }
 
 main.goto_line = (editor, line_nr) => {
@@ -97,7 +97,7 @@ main.event_source = (options) => {
         if(event?.data) {
             let ping_data = JSON.parse(event.data);
             if(ping_data?.action && ping_data?.action === 'login'){
-                content.html(content.html() + 'Login: ' + '<span class="cursor"></span>');
+                content.html(content.html() + "\n" + 'Login: ' + '<span class="cursor"></span>');
                 let line_nr = main.line_count(content);
                 console.log(line_nr);
                 main.goto_line(content, line_nr);
