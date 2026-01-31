@@ -28,9 +28,10 @@ class Sse {
         echo "\n\n";
         flush();
         $id = 1;
+        $time_start = time();
         while(true){
-            $time = microtime();
-            $line = $time . PHP_EOL;
+            $time_current = time();
+            $line = ($time_current - $time_start) . 'seconds' . PHP_EOL;
             echo "id: $id\n";
             echo "event: ping\n";
             echo 'data: ' . $line;
