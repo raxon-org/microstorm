@@ -11,60 +11,70 @@ main.init = (options) => {
     main.event_source(options);
 }
 
-main.goto_line = (editor, line_nr) => {
-        const text = editor.innerText.split("\n");
-        console.log(text.length);
-        // Validate line number
-        if (line_nr < 1 || line_nr > text.length) {
-            alert("Line number out of range.");
-            return;
-        }
-
-        // Create a range and selection
-        const range = document.createRange();
-        const sel = window.getSelection();
-
-        // Find the target text node for the given line
-        let charCount = 0;
-        let targetNode = null;
-        let offset = 0;
-
-        function findNode(node) {
-            if (node.nodeType === Node.TEXT_NODE) {
-                const lines = node.textContent.split("\n");
-                console.log('lines: ' + lines.length);
-                for (let i = 0; i < lines.length; i++) {
-                    charCount++;
-                    if (charCount === line_nr) {
-                        targetNode = node;
-                        offset = lines.slice(0, i).join("\n").length + (i > 0 ? 1 : 0);
-                        return true;
-                    }
-                }
-            } else {
-                for (let child of node.childNodes) {
-                    if (findNode(child)) return true;
+main.goto_line_find_node = (node, line_nr) => {
+    let line_count = 0;
+    if (node.nodeType === Node.TEXT_NODE) {
+        const lines = node.textContent.split("\n");
+        console.log('lines: ' + lines.length);
+        for (let i = 0; i < lines.length; i++) {
+            line_count++;
+            if (line_count === line_nr) {
+                let targetNode = node;
+                let offset = lines.slice(0, i).join("\n").length + (i > 0 ? 1 : 0);
+                return {
+                    "targetNode" :targetNode,
+                    "offset": offset
                 }
             }
-            return false;
         }
+    } else {
+        for (let child of node.childNodes) {
+            let result = main.goto_line_find_node(child, line_nr);
+            if(result !== false){
+                return result;
+            }
+        }
+    }
+    return false;
+}
 
-        // Simpler approach: navigate by block elements
-        const childLines = editor.childNodes;
-        if (line_nr <= childLines.length) {
-            targetNode = childLines[line_nr - 1].firstChild || childLines[line_nr - 1];
-            offset = 0;
-        }
+main.goto_line = (editor, line_nr) => {
+    const text = editor.innerText.split("\n");
+    console.log(text.length);
+    // Validate line number
+    if (line_nr < 1 || line_nr > text.length) {
+        alert("Line number out of range.");
+        return;
+    }
 
-        if (targetNode) {
-            range.setStart(targetNode, offset);
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
-            editor.focus();
-        } else {
-            alert("Could not find the specified line.");
-        }
+    // Create a range and selection
+    const range= document.createRange();
+    const sel = window.getSelection();
+
+    // Find the target text node for the given line
+
+    let result = main.goto_line_find_node(editor, line_nr);
+
+    console.log(result);
+    return;
+
+
+    let offset = 0;
+
+
+
+
+
+
+    if (targetNode) {
+        range.setStart(targetNode, offset);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        editor.focus();
+    } else {
+        alert("Could not find the specified line.");
+    }
     
 
 }
