@@ -86,7 +86,7 @@ class Application {
         $method = $destination->get('function');
         try {
             $methods = get_class_methods($controller) ?? [];
-            if(!in_array($method, $methods)){
+            if($method !== null && !in_array($method, $methods)){
                 throw new Exception('Cannot call controller function in controller: ' . (string) $controller);
             }
         }
