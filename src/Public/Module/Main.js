@@ -94,6 +94,10 @@ main.event_source = (options) => {
         }
         if(event?.data) {
             let ping_data = JSON.parse(event.data);
+            if(ping_data?.action && ping_data?.action === 'login'){
+                content.html(content.html() + 'Login: ' + '<span class="cursor"></span>');
+                main.goto_line(terminal, 3);
+            }
             console.log(ping_data);
         }
     });
