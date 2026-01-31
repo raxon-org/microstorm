@@ -28,8 +28,8 @@ class FileRequest {
             header('ETag: ' . $etag . '-' . $gm);
             header('Cache-Control: public');
             header('Content-Type: ' . $contentType);
-
+            return File::read($url);
         }
-        return File::read($url);
+        return '';
     }
 }
