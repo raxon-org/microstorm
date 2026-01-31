@@ -37,20 +37,42 @@ main.goto_line_find_node = (node, line_nr) => {
     return false;
 }
 
-main.line_count = (editor) => {
-    const text = editor.innerText.split("\n");
-    return text.length;
+main.caret_get_offset = (element) => {
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return 0;
+
+    const range = selection.getRangeAt(0);
+    const preRange = range.cloneRange();
+
+    preRange.selectNodeContents(element);
+    preRange.setEnd(range.endContainer, range.endOffset);
+
+    return preRange.toString().length;
 }
 
-main.column_count = (editor, line_nr) => {
-    const text = editor.innerText.split("\n");
-    let index;
-    for(index=0; index < text.length; index++){
-        if(index === (line_nr - 1)){
-            return text[index].length;
+
+main.line_column = (element) => {
+    const offset = main.caret_get_offset(element);
+
+    // Normalize text: <div>, <p>, <br> → newlines
+    const text = element.innerText || element.textContent;
+
+    let line = 1;
+    let column = 1;
+    let count = 0;
+
+    for (let i = 0; i < text.length; i++) {
+        if (count === offset) break;
+
+        if (text[i] === '\n') {
+            line++;
+            column = 1;
+        } else {
+            column++;
         }
+        count++;
     }
-    return 0;
+    return { line, column };
 }
 
 main.goto_colum = (editor, column_nr) => {
@@ -79,7 +101,6 @@ main.goto_colum = (editor, column_nr) => {
                     range.collapse(true);
                     selection.removeAllRanges();
                     selection.addRange(range);
-                    editor.focus();
                     return;
                 }
                 offset++;
@@ -144,9 +165,12 @@ main.event_source = (options) => {
             let ping_data = JSON.parse(event.data);
             if(ping_data?.action && ping_data?.action === 'login'){
                 content.html(content.html() + "\n" + 'Login: ' + '<span class="cursor"></span>');
-                let line_nr = main.line_count(content);
-                main.goto_line(content, line_nr);
-                content.focus();
+
+                let result = main.line_column(content);
+                console.log(result);
+
+                // main.goto_line(content, line_nr);
+                // content.focus();
             }
             console.log(ping_data);
         }
