@@ -1,11 +1,15 @@
 <?php
 namespace Microstorm\Controller;
 
+use Exception;
 use Module\Data;
 use Module\File;
 
 class FileRequest {
 
+    /**
+     * @throws Exception
+     */
     public function get(Data $config): string
     {
         $current = $config->get('route.current');
@@ -15,11 +19,9 @@ class FileRequest {
         $url = str_replace('../', '', $config->get('directory.source') . 'Public/' . $current->get('path'));
         if(File::exists($url) && !headers_sent()){
             $extension = File::extension($url);
-            switch ($extension){
-                case 'css': $contentType = 'text/css'; break;
-                case 'json': $contentType = 'application/json'; break;
-                case 'js': $contentType = 'application/javascript'; break;
-                default: $contentType = 'text/plain';
+            $content_type = $config->get('extensions.' . $extension);
+            if($content_type === null){
+                throw new Exception('Extension "' . $extension . '" is not supported.');
             }
             $etag = sha1($url);
             $gm = gmdate('D, d M Y H:i:s T', File::mtime($url));
@@ -27,9 +29,14 @@ class FileRequest {
             header('Last-Modified: '. $gm);
             header('ETag: ' . $etag . '-' . $gm);
             header('Cache-Control: public');
-            header('Content-Type: ' . $contentType);
+            header('Content-Type: ' . $content_type);
             return File::read($url);
         }
-        return '';
+        elseif(headers_sent()){
+            throw new Exception('Headers already sent.');
+        } else {
+            //404 error ?
+            return '';
+        }
     }
 }

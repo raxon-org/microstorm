@@ -59,8 +59,9 @@ class Application {
             if ($config->get('directory.root') === $config->get('directory.temp')) {
                 throw new Exception('$dir argument is invalid.');
             }
+            $config = $this->config_extension($config);
             $this->config($config);
-            $this->config_extension($config);
+
         }
         $data = $this->data();
         if ($data === null) {
