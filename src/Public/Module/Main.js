@@ -54,18 +54,12 @@ main.goto_line = (editor, line_nr) => {
     // Find the target text node for the given line
 
     let result = main.goto_line_find_node(editor, line_nr);
-
-    console.log(result);
-    return;
-
-
-    let offset = 0;
-
-
-
-
-
-
+    if(result === false){
+        alert("Could not find the specified line.");
+        return;
+    }
+    let offset = result?.offset;
+    let targetNode = result?.targetNode;
     if (targetNode) {
         range.setStart(targetNode, offset);
         range.collapse(true);
