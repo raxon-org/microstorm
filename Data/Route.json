@@ -46,8 +46,8 @@
     {
       "name": "api/sse",
       "controller": "Microstorm:Controller:Api:Sse:main",
-      "path": "\/",
-      "priority": 2002,
+      "path": "\/api\/sse\/",
+      "priority": 2003,
       "method": [
         "GET",
         "POST"
