@@ -43,6 +43,8 @@ main.line_column = (editable, line, column) => {
     const targetLine = lines[line -1];
     const col = Math.min(column - 1, targetLine.length);
 
+    console.log(targetLine);
+
     // Convert line/column to absolute offset
     let offset = 0;
     for (let i = 0; i < line - 1; i++) {
