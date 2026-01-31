@@ -42,8 +42,15 @@ main.line_count = (editor) => {
     return text.length;
 }
 
-main.column_count = (entity) => {
-    return entity.innerText.length;
+main.column_count = (editor, line_nr) => {
+    const text = editor.innerText.split("\n");
+    let index;
+    for(index=0; index < text.length; index++){
+        if(index === line_nr){
+            return text[index].length;
+        }
+    }
+    return 0;
 }
 
 main.goto_colum = (editor, column_nr) => {
@@ -107,8 +114,8 @@ main.goto_line = (editor, line_nr) => {
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
-        console.log(main.column_count(targetNode));
-        main.goto_colum(targetNode, main.column_count(targetNode));
+        console.log(main.column_count(editor, line_nr));
+        main.goto_colum(targetNode, main.column_count(editor, line_nr));
     } else {
         alert("Could not find the specified line.");
     }
