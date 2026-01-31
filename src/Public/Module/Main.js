@@ -19,6 +19,7 @@ main.keyboard_backspace = (options) => {
         return;
     }
     const stopSpan = terminal.select('.cursor');
+    onsole.log(stopSpan);
     const sel = window.getSelection();
     if (!sel.rangeCount) return;
 
