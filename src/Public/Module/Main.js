@@ -18,7 +18,7 @@ main.keyboard_backspace = (options) => {
     if (event.key !== "Backspace") {
         return;
     }
-    const stopSpan = terminal.select('.cursor');
+    const stopSpan = document.getElementsByClassName('.cursor');
     const sel = window.getSelection();
     if (!sel.rangeCount) return;
 
