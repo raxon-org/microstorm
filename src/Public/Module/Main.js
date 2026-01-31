@@ -63,6 +63,9 @@ main.line_column = (editable, line, column) => {
         if (node.nodeType === Node.TEXT_NODE) {
             const nextOffset = currentOffset + node.length;
             if (offset <= nextOffset) {
+                console.log(currentOffset);
+                console.log(nextOffset);
+                console.log(offset);
                 range.setStart(node, offset - currentOffset);
                 range.collapse(true);
                 selection.removeAllRanges();
@@ -101,9 +104,11 @@ main.event_source = (options) => {
         if(event?.data) {
             let ping_data = JSON.parse(event.data);
             if(ping_data?.action && ping_data?.action === 'login'){
-                content.html(content.html() + "\n" + 'Login: ' + '<span class="cursor"></span>');
+                content.html(content.html() + "\n" + 'Login: ');
                 let line_nr = main.line_count(content);
                 let column_nr = main.column_count(content, line_nr);
+                console.log(line_nr);
+                console.log(column_nr);
                 main.line_column(content, line_nr, column_nr);
             }
             console.log(ping_data);
