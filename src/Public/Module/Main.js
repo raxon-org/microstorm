@@ -51,6 +51,7 @@ main.line_column = (editable, line, column) => {
         offset += lines[i].length + 1; // +1 for '\n'
     }
     offset += col;
+    console.log(offset);
 
     // Walk text nodes to find offset
     const range = document.createRange();
