@@ -1,0 +1,36 @@
+{
+    "@see": "https://docs.raxon.org/Packages/raxon/priya/",
+    "name": "Javascript",
+    "core": "",
+    "prototype": "",
+    "extension": ".js",
+    "collect": {
+        "expose": {
+            "namespace": "_",
+            "require": "require",
+            "window": {
+                "in_array": "in_array",
+                "is": "is",
+                "object": "object",
+                "string": "string",
+                "microtime": "microtime",
+                "trim": "trim",
+                "run": "run",
+                "select": "select",
+                "get": "get",
+                "header": "header",
+                "cookie": "cookie",
+                "request": "request",
+                "attach": "attach",
+                "redirect": "redirect"
+            }
+        },
+        "version": "0.3.18"
+    },
+    "require": {
+        "file": [
+            "Core-0.3.18.js"
+        ]
+    },
+    "query": "0.3.16"
+}
