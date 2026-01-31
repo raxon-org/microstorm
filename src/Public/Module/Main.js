@@ -37,9 +37,13 @@ main.goto_line_find_node = (node, line_nr) => {
     return false;
 }
 
+main.line_count = (editor) => {
+    const text = editor.innerText.split("\n");
+    return text.length;
+}
+
 main.goto_line = (editor, line_nr) => {
     const text = editor.innerText.split("\n");
-    console.log(text.length);
     // Validate line number
     if (line_nr < 1 || line_nr > text.length) {
         alert("Line number out of range.");
@@ -72,8 +76,6 @@ main.goto_line = (editor, line_nr) => {
 
 }
 
-
-
 main.event_source = (options) => {
     let eventSource = new EventSource(options?.url?.sse, {
         withCredentials: true,
@@ -96,7 +98,8 @@ main.event_source = (options) => {
             let ping_data = JSON.parse(event.data);
             if(ping_data?.action && ping_data?.action === 'login'){
                 content.html(content.html() + 'Login: ' + '<span class="cursor"></span>');
-                content.focus();
+                let line_nr = main.line_count(content);
+                main.goto_line(content, line_nr);
             }
             console.log(ping_data);
         }
