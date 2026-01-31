@@ -42,13 +42,13 @@ main.line_count = (editor) => {
     return text.length;
 }
 
-main.column_count = (editorm line_nr) => {
+main.column_count = (editor, line_nr) => {
     const text = editor.innerText.split("\n");
     const line = text[line_nr] ?? {'length': 0};
     return line.length;
 }
 
-main.goto_colum(editor, column_nr) => {
+main.goto_colum = (editor, column_nr) => {
     const selection = window.getSelection();
     const range = document.createRange();
 
@@ -69,7 +69,7 @@ main.goto_colum(editor, column_nr) => {
             if (text[i] === '\n') {
                 offset = 0; // reset column on new line
             } else {
-                if (offset === column) {
+                if (offset === column_nr) {
                     range.setStart(node, i);
                     range.collapse(true);
                     selection.removeAllRanges();
@@ -142,6 +142,7 @@ main.event_source = (options) => {
                 let line_nr = main.line_count(content);
                 let column_nr = main.column_count(content, line_nr);
                 main.goto_line(content, line_nr);
+                main.goto_colum(content, column_nr);
             }
             console.log(ping_data);
         }
