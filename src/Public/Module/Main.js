@@ -27,58 +27,14 @@ main.column_count = (editor, line_nr) => {
     }
     return 0;
 }
-
-main.line_column = (editable, line, column) => {
-    editable.focus();
-
-    const text = editable.innerText || editable.textContent;
-    console.log(text.length);
-    const lines = text.split('\n');
-
-    if (line < 1) line = 1;
-    if (line > lines.length) line = lines.length;
-
-    console.log(lines);
-    console.log(line);
-
-    const targetLine = lines[line -1];
-    const col = Math.min(column-1 , targetLine.length);
-
-    console.log(targetLine);
-
-    // Convert line/column to absolute offset
-    let offset = 0;
-    for (let i = 0; i < line - 1; i++) {
-        offset += lines[i].length + 1; // +1 for '\n'
-    }
-    offset += col;
-    console.log(offset);
-
-    // Walk text nodes to find offset
+main.focus_end = (editor) => {
+    editor.focus();
     const range = document.createRange();
+    range.selectNodeContents(editor);
+    range.collapse(false);
     const selection = window.getSelection();
-
-    let currentOffset = 0;
-
-    function walk(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-            const nextOffset = currentOffset + node.length;
-            if (offset <= nextOffset) {
-                range.setStart(node, node.length - 1);
-                range.collapse(true);
-                selection.removeAllRanges();
-                selection.addRange(range);
-                return true;
-            }
-            currentOffset = nextOffset;
-        } else {
-            for (const child of node.childNodes) {
-                if (walk(child)) return true;
-            }
-        }
-        return false;
-    }
-    walk(editable);
+    selection.removeAllRanges();
+    selection.addRange(range);
 }
 
 main.event_source = (options) => {
@@ -107,7 +63,7 @@ main.event_source = (options) => {
                 let column_nr = main.column_count(content, line_nr);
                 console.log(line_nr);
                 console.log(column_nr);
-                main.line_column(content, line_nr, column_nr);
+                main.focus_end(content);
             }
             console.log(ping_data);
         }
