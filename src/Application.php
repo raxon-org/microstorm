@@ -74,7 +74,6 @@ class Application {
     {
         $this->config_update($server, $files, $cookie);
         $this->request_configure();
-        d($this->request());
         $this->route_configure();
         $file_request = $this->destination('file_request');
         d($file_request);
