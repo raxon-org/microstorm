@@ -13,6 +13,8 @@ main.event_source = (selector) => {
     let eventSource = new EventSource(url_sse, {
         withCredentials: true,
     });
+    let last_event_id = 0;
+    let retry = 0;
     eventSource.addEventListener('ping', (event) => {
         let content = select(selector);
         if(parseInt(event.lastEventId) >= parseInt(last_event_id)){
