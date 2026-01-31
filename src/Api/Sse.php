@@ -14,7 +14,6 @@ class Sse {
      */
     public function main(Data $config): void
     {
-
         set_time_limit(2 * 60 * 60);
         date_default_timezone_set("Europe/Amsterdam");
         header("Cache-Control: no-cache");
