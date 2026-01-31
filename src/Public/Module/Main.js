@@ -6,6 +6,7 @@ main.init = (options) => {
         terminal.html('Initializing terminal...<br><span class="prompt" contenteditable="true"></span>');
         let prompt = terminal.select('.prompt');
         prompt.focus();
+        console.log('focus?');
     } else {
         return;
     }
