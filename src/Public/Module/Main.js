@@ -55,6 +55,7 @@ main.caret_get_offset = (element) => {
 
 main.line_column = (element) => {
     const offset = main.caret_get_offset(element);
+    console.log(offset);
 
     // Normalize text: <div>, <p>, <br> → newlines
     const text = element.innerText || element.textContent;
