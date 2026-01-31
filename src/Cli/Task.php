@@ -134,7 +134,7 @@ class Task {
             return false;
         }
         $data = new Data(Core::object(File::read($url_task)));
-        $filter = Filter::list($data->get('task'))->where([
+        $filter = Filter::list($data->get('Task'))->where([
             'status' => [
                 'value' => self::PENDING,
                 'operator' => '==='
@@ -161,7 +161,7 @@ class Task {
             return false;
         }
         $data = new Data(Core::object(File::read($url_task)));
-        return $data->get('task.' . $this->options('task.uuid'));
+        return $data->get('Task.' . $this->options('task.uuid'));
     }
 
     /**
@@ -257,14 +257,14 @@ class Task {
                     $data = new Data(Core::object(File::read($url_task)));
                     $task = $data->get('task.' . $record->uuid);
                     $task = Core::object_merge($task, $record);
-                    $data->set('task.' . $record->uuid, $task);
+                    $data->set('Task.' . $record->uuid, $task);
                     $data->write($url_task);
                 } else {
                     Dir::create($dir_task, Dir::CHMOD);
                     $data = new Data();
                     $task = (object) [];
                     $task->{$record->uuid} = $record;
-                    $data->set('task', $task);
+                    $data->set('Task', $task);
                     $data->write($url_task);
                 }
                 break;
@@ -294,16 +294,16 @@ class Task {
                 $url_task= $dir_task . 'Task.json';
                 if(File::exists($url_task)){
                     $data = new Data(Core::object(File::read($url_task)));
-                    $task = $data->get('task.' . $record->uuid);
+                    $task = $data->get('Task.' . $record->uuid);
                     $task = array_merge(Core::object_array($task), $record);
-                    $data->set('task.' . $record->uuid, $task);
+                    $data->set('Task.' . $record->uuid, $task);
                     $data->write($url_task);
                 } else {
                     Dir::create($dir_task, Dir::CHMOD);
                     $data = new Data();
                     $task = (object) [];
                     $task->{$record->uuid} = $record;
-                    $data->set('task', $task);
+                    $data->set('Task', $task);
                     $data->write($url_task);
                 }
                 break;
@@ -325,16 +325,16 @@ class Task {
                 $url_task= $dir_task . 'Task.json';
                 if(File::exists($url_task)){
                     $data = new Data(Core::object(File::read($url_task)));
-                    $task = $data->get('task.' . $record->uuid);
+                    $task = $data->get('Task.' . $record->uuid);
                     $task = array_merge(Core::object_array($task), $record);
-                    $data->set('task.' . $record->uuid, $task);
+                    $data->set('Task.' . $record->uuid, $task);
                     $data->write($url_task);
                 } else {
                     Dir::create($dir_task, Dir::CHMOD);
                     $data = new Data();
                     $task = (object) [];
                     $task->{$record->uuid} = $record;
-                    $data->set('task', $task);
+                    $data->set('Task', $task);
                     $data->write($url_task);
                 }
             }
