@@ -114,8 +114,7 @@ main.goto_line = (editor, line_nr) => {
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
-        console.log(main.column_count(editor, line_nr));
-        main.goto_colum(targetNode, main.column_count(editor, line_nr));
+        main.goto_colum(editor, main.column_count(editor, line_nr));
     } else {
         alert("Could not find the specified line.");
     }
