@@ -30,7 +30,6 @@ class Sse {
         $id = 1;
         while(true){
             $time = microtime();
-            ddd($config);
             $line = $time . PHP_EOL;
             echo "id: $id\n";
             echo "event: ping\n";
