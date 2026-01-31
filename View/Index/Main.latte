@@ -157,7 +157,13 @@
         }
     </style>
     <script src="/Js/Priya/0.3.18/Priya.js"></script>
-    <script src="/Module/Input.js" type="module"></script>
+    <script src="/Module/Main.js" type="module"></script>
+    <script type="module">
+        import main from "/Module/Main.js";
+        ready(() => {
+            main.init();
+        });
+    </script>
 </head>
 <body>
 <aside class="sidebar">
@@ -178,15 +184,7 @@
         </div>
     </div>
 
-    <div class="terminal" id="terminal">
-        {foreach $shell as $line}
-        {$line} <br>
-        {/foreach}
-    </div>
-
-    <div class="inputbar">
-        <textarea name="prompt"></textarea>
-        <button type="submit">Send</button>
+    <div class="terminal" contenteditable="true">
     </div>
 </main>
 </body>
