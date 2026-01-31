@@ -42,6 +42,47 @@ main.line_count = (editor) => {
     return text.length;
 }
 
+main.column_count = (editorm line_nr) => {
+    const text = editor.innerText.split("\n");
+    const line = text[line_nr] ?? {'length': 0};
+    return line.length;
+}
+
+main.goto_colum(editor, column_nr) => {
+    const selection = window.getSelection();
+    const range = document.createRange();
+
+        // Get all text nodes inside the contenteditable
+    const walker = document.createTreeWalker(
+        editor,
+        NodeFilter.SHOW_TEXT,
+        null
+    );
+
+    let node;
+    let offset = 0;
+
+    while ((node = walker.nextNode())) {
+        const text = node.textContent;
+
+        for (let i = 0; i < text.length; i++) {
+            if (text[i] === '\n') {
+                offset = 0; // reset column on new line
+            } else {
+                if (offset === column) {
+                    range.setStart(node, i);
+                    range.collapse(true);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    editor.focus();
+                    return;
+                }
+                offset++;
+            }
+        }
+    }
+}
+
 main.goto_line = (editor, line_nr) => {
     const length = main.line_count(editor);
     // Validate line number
@@ -99,7 +140,7 @@ main.event_source = (options) => {
             if(ping_data?.action && ping_data?.action === 'login'){
                 content.html(content.html() + "\n" + 'Login: ' + '<span class="cursor"></span>');
                 let line_nr = main.line_count(content);
-                console.log(line_nr);
+                let column_nr = main.column_count(content, line_nr);
                 main.goto_line(content, line_nr);
             }
             console.log(ping_data);
