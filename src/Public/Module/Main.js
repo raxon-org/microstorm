@@ -43,7 +43,7 @@ main.line_count = (editor) => {
 }
 
 main.column_count = (entity) => {
-    return entity.textContent.length;
+    return entity.innerText.length;
 }
 
 main.goto_colum = (editor, column_nr) => {
