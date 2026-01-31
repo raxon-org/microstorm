@@ -4,9 +4,7 @@ main.init = (options) => {
     let terminal = select(options?.selector);
     if(terminal){
         terminal.html('Initializing terminal...<br>' + "\n" + '<span class="cursor"></span><br>' + "\n");
-        let lc = main.line_column(terminal);
-        console.log(lc);
-        // main.goto_line(terminal, 2);
+        main.goto_line(terminal, 2);
     } else {
         return;
     }
@@ -39,43 +37,21 @@ main.goto_line_find_node = (node, line_nr) => {
     return false;
 }
 
-main.caret_get_offset = (element) => {
-    const selection = window.getSelection();
-    if (!selection.rangeCount) return 0;
-
-    const range = selection.getRangeAt(0);
-    const preRange = range.cloneRange();
-
-    preRange.selectNodeContents(element);
-    preRange.setEnd(range.endContainer, range.endOffset);
-
-    return preRange.toString().length;
+main.line_count = (editor) => {
+    const text = editor.innerText.split("\n");
+    return text.length;
 }
 
-
-main.line_column = (element) => {
-    const offset = main.caret_get_offset(element);
-    console.log(offset);
-
-    // Normalize text: <div>, <p>, <br> → newlines
-    const text = element.innerText || element.textContent;
-
-    let line = 1;
-    let column = 1;
-    let count = 0;
-
-    for (let i = 0; i < text.length; i++) {
-        if (count === offset) break;
-
-        if (text[i] === '\n') {
-            line++;
-            column = 1;
-        } else {
-            column++;
+main.column_count = (editor, line_nr) => {
+    const text = editor.innerText.split("\n");
+    let index;
+    console.log('line nr:' + line_nr);
+    for(index=0; index < text.length; index++){
+        if(index === line_nr){
+            return text[index].length;
         }
-        count++;
     }
-    return { line, column };
+    return 0;
 }
 
 main.goto_colum = (editor, column_nr) => {
@@ -94,7 +70,7 @@ main.goto_colum = (editor, column_nr) => {
 
     while ((node = walker.nextNode())) {
         const text = node.textContent;
-        console.log(text);
+
         for (let i = 0; i < text.length; i++) {
             if (text[i] === '\n') {
                 offset = 0; // reset column on new line
@@ -104,6 +80,7 @@ main.goto_colum = (editor, column_nr) => {
                     range.collapse(true);
                     selection.removeAllRanges();
                     selection.addRange(range);
+                    editor.focus();
                     return;
                 }
                 offset++;
@@ -134,11 +111,13 @@ main.goto_line = (editor, line_nr) => {
     let offset = result?.offset;
     let targetNode = result?.targetNode;
     if (targetNode) {
+        console.log(offset);
         range.setStart(targetNode, offset);
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
-        main.goto_colum(editor, main.column_count(editor, line_nr));
+        // console.log(main.column_count(editor, line_nr));
+        // main.goto_colum(targetNode, main.column_count(editor, line_nr));
     } else {
         alert("Could not find the specified line.");
     }
@@ -168,12 +147,9 @@ main.event_source = (options) => {
             let ping_data = JSON.parse(event.data);
             if(ping_data?.action && ping_data?.action === 'login'){
                 content.html(content.html() + "\n" + 'Login: ' + '<span class="cursor"></span>');
-
-                let result = main.line_column(content);
-                console.log(result);
-
-                // main.goto_line(content, line_nr);
-                // content.focus();
+                let line_nr = main.line_count(content);
+                main.goto_line(content, line_nr);
+                content.focus();
             }
             console.log(ping_data);
         }
