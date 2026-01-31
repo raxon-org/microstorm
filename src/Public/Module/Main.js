@@ -45,6 +45,8 @@ main.line_count = (editor) => {
 main.column_count = (editor, line_nr) => {
     const text = editor.innerText.split("\n");
     let index;
+    console.log('line nr:' + line_nr);
+    console.log(text);
     for(index=0; index < text.length; index++){
         if(index === line_nr){
             return text[index].length;
