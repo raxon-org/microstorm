@@ -32,7 +32,7 @@ main.line_column = (editable, line, column) => {
     editable.focus();
 
     const text = editable.innerText || editable.textContent;
-    console(text.length);
+    console.log(text.length);
     const lines = text.split('\n');
 
     if (line < 1) line = 1;
