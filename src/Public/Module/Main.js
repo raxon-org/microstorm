@@ -107,6 +107,7 @@ main.goto_line = (editor, line_nr) => {
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
+        console.log(main.column_count(targetNode));
         main.goto_colum(targetNode, main.column_count(targetNode));
     } else {
         alert("Could not find the specified line.");
@@ -138,9 +139,8 @@ main.event_source = (options) => {
             if(ping_data?.action && ping_data?.action === 'login'){
                 content.html(content.html() + "\n" + 'Login: ' + '<span class="cursor"></span>');
                 let line_nr = main.line_count(content);
-                let column_nr = main.column_count(content, line_nr);
                 main.goto_line(content, line_nr);
-                editor.focus();
+                content.focus();
             }
             console.log(ping_data);
         }
