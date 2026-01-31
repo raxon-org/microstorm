@@ -60,6 +60,7 @@ class Application {
                 throw new Exception('$dir argument is invalid.');
             }
             $this->config($config);
+            $this->config_extension($config);
         }
         $data = $this->data();
         if ($data === null) {
