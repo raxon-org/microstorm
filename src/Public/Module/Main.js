@@ -1,22 +1,23 @@
 let main = {};
 
-main.init = () => {
-    let selector = '.terminal';
-    let terminal = select(selector);
+main.init = (options) => {
+    let terminal = select(options?.selector);
     if(terminal){
-        terminal.html('Initializing terminal...');
+        terminal.html('Initializing terminal...<br><span class="cursor">|</span>');
+    } else {
+        return;
     }
-    main.event_source(selector);
+    main.event_source(options);
 }
 
-main.event_source = (selector) => {
-    let eventSource = new EventSource(url_sse, {
+main.event_source = (options) => {
+    let eventSource = new EventSource(options?.url?.sse, {
         withCredentials: true,
     });
     let last_event_id = 0;
     let retry = 0;
     eventSource.addEventListener('ping', (event) => {
-        let content = select(selector);
+        let content = select(options?.selector);
         if(parseInt(event.lastEventId) >= parseInt(last_event_id)){
             last_event_id = event.lastEventId;
         }
