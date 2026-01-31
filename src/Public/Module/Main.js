@@ -32,6 +32,7 @@ main.goto_line = (editor, line_nr) => {
         function findNode(node) {
             if (node.nodeType === Node.TEXT_NODE) {
                 const lines = node.textContent.split("\n");
+                console.log('lines: ' + lines.length);
                 for (let i = 0; i < lines.length; i++) {
                     charCount++;
                     if (charCount === line_nr) {
