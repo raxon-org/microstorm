@@ -75,11 +75,12 @@ class Application {
         $this->config_update($server, $files, $cookie);
         $this->request_configure();
         $this->route_configure();
-        $file_request = $this->destination('file_request');
-        d($file_request);
-        $destination = $this->destination('page');
+        $destination = $this->destination('file_request');
         if($destination === false){
-            throw new Exception('Cannot find route.');
+            $destination = $this->destination('page');
+            if($destination === false){
+                throw new Exception('Cannot find route.');
+            }
         }
         $controller = $destination->get('controller');
         $method = $destination->get('function');
