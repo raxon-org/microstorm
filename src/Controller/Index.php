@@ -10,7 +10,8 @@ class Index {
         $latte = new Engine;
         // cache directory
         $latte->setTempDirectory($config->get('directory.temp') . 'Latte' . DIRECTORY_SEPARATOR);
-
+        $output = [];
+        /*
         $host = 'workandtravel.world';
         $port = 22;
         $username = 'remco';
@@ -48,6 +49,7 @@ class Index {
         }
 // Close the shell
         fclose($shell);
+        */
         /* template variables */
         $params = [
             'shell' => $output
