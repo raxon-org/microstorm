@@ -4,7 +4,7 @@ main.init = (options) => {
     let terminal = select(options?.selector);
     if(terminal){
         terminal.html('Initializing terminal...<br>' + "\n");
-        main.goto_line(terminal, 1);
+        main.goto_line(terminal, 2);
     } else {
         return;
     }
