@@ -156,7 +156,7 @@ class Sse {
                         $data->set('command.action', 'user.password');
                         @ssh2_disconnect($connection);
                     }
-                    elseif($connection && $is_authenticated === true) {
+                    if($connection && $is_authenticated === true) {
                         $output[] = '✓ Authentication successful' . PHP_EOL;
                         $data->set('command.action', 'shell');
                     }
