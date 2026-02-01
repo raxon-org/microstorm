@@ -102,6 +102,14 @@ main.event_source = (options) => {
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
                         break;
+                    case 'login.password':
+                        if(to_remove){
+                            to_remove.remove();
+                        }
+                        content.html(output + '<span class="cursor" contenteditable="true"></span>');
+                        cursor = content.select('.cursor');
+                        main.cursor(options, cursor, data);
+                        break;
                 }
 
                 //main.focus_end(content)

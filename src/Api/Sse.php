@@ -70,7 +70,18 @@ class Sse {
                     echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
                     $data->delete('command.action');
                     $data->write($url_command);
-                    //$data->delete('command.action');
+                }
+                break;
+                case 'login.password': {
+                    $output = $data->get('output') ?? [];
+                    $pop = array_pop($output);
+                    $pop .= $data->get('user.host') . "\n";
+                    $output[] = $pop;
+                    $output[] =  'Password:&nbsp;';
+                    $data->set('output', $output);
+                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                    $data->delete('command.action');
+                    $data->write($url_command);
                 }
                 break;
                 default: {

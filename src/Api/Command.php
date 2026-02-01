@@ -27,23 +27,25 @@ class Command {
             return;
         }
         $action = $this->request('action');
+        $dir_command = $this->config->get('directory.temp') . 'Command/';
+        Dir::create($dir_command, Dir::CHMOD);
+        $url = $dir_command . $uuid . '.json';
+        if(!File::exists($url)){
+            throw new Exception('Command not found');
+        }
         switch($action){
-            case 'login': {
-                $dir_command = $this->config->get('directory.temp') . 'Command/';
-                Dir::create($dir_command, Dir::CHMOD);
-                $url = $dir_command . $uuid . '.json';
-                if(File::exists($url)){
-                    $login = trim(substr($input, 0,-1)); //removes \n and tabs and spaces
-                    $data = new Data(Core::object(File::read($url)));
-                    $data->set('user.login', $login);
-                    $data->set('command.action', 'login.host');
-                    $output = $data->get('output') ?? [];
-                    $data->set('output', $output);
-                    $data->write($url);
-                } else {
-                    throw new Exception('Command not found');
-                }
-            }
+            case 'login':
+                $login = trim(substr($input, 0,-1)); //removes \n and tabs and spaces
+                $data = new Data(Core::object(File::read($url)));
+                $data->set('user.login', $login);
+                $data->set('command.action', 'login.host');
+                $data->write($url);
+            case 'login.host':
+                $host = trim(substr($input, 0,-1));
+                $data = new Data(Core::object(File::read($url)));
+                $data->set('user.host', $host);
+                $data->set('command.action', 'login.password');
+                $data->write($url);
             break;
         }
     }
