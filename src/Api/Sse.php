@@ -33,6 +33,8 @@ class Sse {
         $time_start = time();
         $uuid = Core::uuid();
         while(true){
+            echo "id: $id\n";
+            echo "event: ping\n";
             $time_current = time();
             //read command line
             $dir_command = $config->get('directory.temp') . 'Command/';
@@ -43,14 +45,16 @@ class Sse {
                 $data->set('Command.action', 'login');
                 $data->set('Command.uuid', $uuid);
                 $data->write($url_command);
+                echo 'data: ' . Core::object($data->data('Command'),Core::JSON_LINE);
             } else {
                 $data = new Data(Core::object(File::read($url_command)));
                 $action = $data->get('Command.action');
                 switch($action){
-                    case 'login':
                     case 'login.host': {
-                        //nothing
-                    }
+                        ddd($data);
+                        $data->set('command.user', $data->get('User'));
+                        echo 'data: ' . Core::object($data->data('Command'),Core::JSON_LINE);
+                        }
                     break;
                     default:
                         $data->delete('Command.action');
@@ -58,9 +62,6 @@ class Sse {
                 }
 
             }
-            echo "id: $id\n";
-            echo "event: ping\n";
-            echo 'data: ' . Core::object($data->data('Command'),Core::JSON_LINE);
             echo "\n\n";
             flush();
             $id++;
