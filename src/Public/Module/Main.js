@@ -84,7 +84,7 @@ main.event_source = (options) => {
             ){
                 let cursor = null;
                 const to_remove = content.select('.cursor');
-                const output = data?.output.implode("\n");
+                const output = data?.output.join("\n");
                 switch(data?.command?.action){
                     case 'login':
                         if(to_remove){
