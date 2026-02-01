@@ -27,8 +27,6 @@ class Application {
         $this->config($config);
         $this->data($data);
         $this->init();
-
-        echo 'Hello Microstorm!' . PHP_EOL;
     }
 
     /**
