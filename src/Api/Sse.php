@@ -115,7 +115,6 @@ class Sse {
                     echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
                     $data->delete('command.action');
                     $data->write($url_command);
-                    global $connection;
                     @ssh2_disconnect($connection);
                 break;
                 case 'login.shell':
@@ -168,6 +167,7 @@ class Sse {
                 case 'shell':
                     $output = $data->get('output') ?? [];
                     $output[] = '$ ';
+                    @ssh2_disconnect($connection);
                     ddd($data);
                     $ping_data = new Data(Core::deep_clone($data->data()));
                     if($ping_data->has('user.password')){
