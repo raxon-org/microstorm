@@ -169,20 +169,17 @@ class Sse {
                     $output = $data->get('output') ?? [];
                     $output[] = '$ ';
                     if($shell === null){
-                        /*
                         $shell = @ssh2_shell($connection, 'xterm');
                         if (!$shell) {
                             $output[] = '❌ Could not open SSH shell' . PHP_EOL;
                         } else {
-//                            fwrite($shell, "whoami\n");
-                            /*
+                            fwrite($shell, "whoami\n");
                             fwrite($shell, "uname -a\n");
                             stream_set_blocking($shell, true); // Wait for output
                             while ($line = fgets($shell)) {
                                 $output[] = $line;
                             }
                         }
-                        */
                     }
                     $ping_data = new Data(Core::deep_clone($data->data()));
                     if($ping_data->has('user.password')){
