@@ -85,16 +85,17 @@ main.event_source = (options) => {
                 let cursor = null;
                 switch(data?.command?.action){
                     case 'login':
+                        content.select('.cursor').remove();
                         content.html(content.html() + "\n" + ' Login:&nbsp;<span class="cursor" contenteditable="true"></span>');
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
                         break;
                     case 'login.host':
-                        content.html(content.html() + "\n" + ' Host:&nbsp;<span class="cursor" contenteditable="true"></span>');
+                        content.select('.cursor').remove();
+                        content.html(content.html() + data?.user.login + "\n" + ' Host:&nbsp;<span class="cursor" contenteditable="true"></span>');
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
                         break;
-
                 }
 
                 //main.focus_end(content)
