@@ -57,7 +57,7 @@ class Command {
             break;
             case 'shell';
                 $command = trim(substr($input, 0,-1));
-                switch(strolower($command)){
+                switch(strtolower($command)){
                     case 'exit':
                         $data = new Data(Core::object(File::read($url)));
                         $data->set('user.exit',true);
