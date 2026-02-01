@@ -79,8 +79,7 @@ main.event_source = (options) => {
         if(event?.data) {
             let data = JSON.parse(event.data);
             if(
-                data?.uuid &&
-                data?.command?.action
+                data?.uuid
             ){
                 let cursor = null;
                 const to_remove = content.select('.cursor');
