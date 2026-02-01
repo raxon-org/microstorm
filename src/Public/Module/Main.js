@@ -3,12 +3,21 @@ let main = {};
 main.init = (options) => {
     let terminal = select(options?.selector);
     if(terminal){
-        terminal.html('Initializing terminal...<br>' + "\n" + '<span class="cursor"></span><br>' + "\n");
+        terminal.html(' <span contenteditable="false" class="readonly">Initializing terminal...<br></span>' + "\n" );
+        main.readonly(terminal);
         main.focus_end(terminal);
     } else {
         return;
     }
     main.event_source(options);
+}
+
+main.readonly = (editor) => {
+    editor.addEventListener('beforeinput', (e) => {
+        if (e.target.closest('.readonly')) {
+            e.preventDefault();
+        }
+    });
 }
 
 main.line_count = (editor) => {
@@ -58,16 +67,8 @@ main.event_source = (options) => {
         if(event?.data) {
             let ping_data = JSON.parse(event.data);
             if(ping_data?.action && ping_data?.action === 'login'){
-                content.html(content.html() + "\n" + 'Login:&nbsp;<input type="text" name="prompt" value=""/>');
-                let input = content.select('input[name="prompt"]');
-                input.focus();
-                /*
-                let line_nr = main.line_count(content);
-                let column_nr = main.column_count(content, line_nr);
-                console.log(line_nr);
-                console.log(column_nr);
-                main.focus_end(content);
-                 */
+                content.html(content.html() + "\n" + ' <span contenteditable="false" class="readonly">Login:&nbsp;</span>');
+                main.focus_end(content)
             }
             console.log(ping_data);
         }
