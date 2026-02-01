@@ -112,7 +112,7 @@ class Sse {
                         $ping_data->set('user.password', '[redacted]');
                     }
                     echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
-                    echo PHP_EOL . PHP_EOL;
+                    echo "\n\n";
                     $data->delete('command.action');
                     $data->write($url_command);
                     global $connection;
