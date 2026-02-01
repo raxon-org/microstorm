@@ -13,14 +13,21 @@ main.init = (options) => {
 }
 
 main.readonly = (editor) => {
+    content.addEventListener("input", () => {
+        const nodelist = content.select(".readonly")
+        for(let index = 0; index < nodelist.length; index++){
+            let span = nodelist[index];
+            span.setAttribute("contenteditable", "false");
+        }
+    });
     editor.addEventListener("input", (e) => {
         const sel = window.getSelection();
         if (!sel.rangeCount) return;
         console.log(e);
         const range = sel.getRangeAt(0);
         const node = range.startContainer;
-console.log('######################NODE');
-console.log(node);
+        console.log('######################NODE');
+        console.log(node);
         // Prevent deleting protected spans
         if (
             (e.key === "Backspace" || e.key === "Delete") &&
@@ -108,11 +115,6 @@ main.event_source = (options) => {
             let ping_data = JSON.parse(event.data);
             if(ping_data?.action && ping_data?.action === 'login'){
                 content.html(content.html() + "\n" + ' <span class="readonly">Login:&nbsp;</span><span class="cursor"></span>');
-                content.addEventListener("input", () => {
-                    content.select(".readonly").forEach(span => {
-                        span.setAttribute("contenteditable", "false");
-                    });
-                });
                 //main.focus_end(content)
                 let cursor = select('.cursor');
                 cursor.focus();
