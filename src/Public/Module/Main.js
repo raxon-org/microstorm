@@ -20,6 +20,18 @@ main.readonly = (editor) => {
             span.setAttribute("contenteditable", "false");
         }
     });
+    editor.addEventListener("keydown", (e) => {
+        if (e.key !== "Delete" && e.key !== "Backspace") return;
+
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+
+        const range = selection.getRangeAt(0);
+
+        const to_delete = main.get_node_about_to_delete(range, e.key);
+        console.log("Will delete:", to_delete);
+    });
+    /*
     editor.addEventListener("input", (e) => {
         console.log(e);
         const sel = window.getSelection();
@@ -52,6 +64,7 @@ main.readonly = (editor) => {
             e.preventDefault();
         }
     });
+    */
     editor.addEventListener("click", (e) => {
         if (e.target.classList.contains("readonly")) {
             const range = document.createRange();
@@ -74,6 +87,31 @@ main.readonly = (editor) => {
 
     });
      */
+}
+
+main.get_node_about_to_delete = (range, key) => {
+    const container = range.startContainer;
+    const offset = range.startOffset;
+    // Text node
+    if (container.nodeType === Node.TEXT_NODE) {
+        if (key === "Backspace" && offset > 0) {
+            return container;
+        }
+        if (key === "Delete" && offset < container.length) {
+            return container;
+        }
+        // At text boundary → look at siblings
+        return key === "Backspace"
+            ? container.previousSibling
+            : container.nextSibling;
+    }
+    // Element node
+    if (container.nodeType === Node.ELEMENT_NODE) {
+        return key === "Backspace"
+            ? container.childNodes[offset - 1]
+            : container.childNodes[offset];
+    }
+    return null;
 }
 
 main.line_count = (editor) => {
