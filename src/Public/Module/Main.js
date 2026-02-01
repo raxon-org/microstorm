@@ -38,16 +38,17 @@ main.focus_end = (editor) => {
     selection.addRange(range);
 }
 
-main.cursor = (options, cursor) => {
+main.cursor = (options, cursor, data) => {
     cursor.on('keydown', (event) => {
         if(event.key === 'Enter'){
             if(event.shiftKey === false){
                 event.preventDefault();
-                const data = {
+                const post = {
                     'command': cursor.text + '\n',
-                    'uuid': options.uuid
+                    'uuid': data?.uuid,
+                    'action': data?.command
                 };
-                request(options?.url?.command, data, (url, response) => {
+                request(options?.url?.command, post, (url, response) => {
                     console.log(response);
                 })
                 console.log(event);
@@ -85,8 +86,7 @@ main.event_source = (options) => {
                 content.html(content.html() + "\n" + ' Login:&nbsp;<span class="cursor" contenteditable="true"></span>');
                 //main.focus_end(content)
                 let cursor = content.select('.cursor');
-                options.uuid = data.uuid;
-                main.cursor(options, cursor);
+                main.cursor(options, cursor, data);
             }
             console.log(data);
         }
