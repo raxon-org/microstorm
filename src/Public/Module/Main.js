@@ -46,7 +46,7 @@ main.cursor = (options, cursor, data) => {
                 const post = {
                     'command': cursor.innerText + '\n',
                     'uuid': data?.uuid,
-                    'action': data?.command
+                    'action': data?.action
                 };
                 request(options?.url?.command, post, (url, response) => {
                     console.log(response);
