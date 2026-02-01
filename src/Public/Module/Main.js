@@ -80,10 +80,10 @@ main.event_source = (options) => {
             let data = JSON.parse(event.data);
             if(
                 data?.uuid &&
-                data?.action
+                data?.command?.action
             ){
                 let cursor = null;
-                switch(data?.action){
+                switch(data?.command?.action){
                     case 'login':
                         content.html(content.html() + "\n" + ' Login:&nbsp;<span class="cursor" contenteditable="true"></span>');
                         cursor = content.select('.cursor');
