@@ -52,20 +52,20 @@ class Sse {
             $action = $data->get('command.action');
             switch($action){
                 case 'login': {
-                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
-                    $data->delete('command.action');
                     $output = $data->get('output') ?? [];
                     $output[] =  'Login:&nbsp;';
                     $data->set('output', $output);
+                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                    $data->delete('command.action');
                     $data->write($url_command);
                 }
                 break;
                 case 'login.host': {
-                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
-                    $data->delete('command.action');
                     $output = $data->get('output') ?? [];
                     $output[] =  'Host:&nbsp;';
                     $data->set('output', $output);
+                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                    $data->delete('command.action');
                     $data->write($url_command);
                     //$data->delete('command.action');
                 }
