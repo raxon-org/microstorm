@@ -23,6 +23,8 @@ class Command {
         $this->config($config);
         $input = $this->request('input');
         $uuid = $this->request('uuid');
+        d($input);
+        ddd($uuid);
         if(!$uuid){
             return;
         }
