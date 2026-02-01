@@ -164,6 +164,7 @@ class Sse {
                     echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
                     $data->delete('command.action');
                     $data->write($url_command);
+                break;
                 default:
                     echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
 
