@@ -167,10 +167,6 @@ class Sse {
                 case 'shell':
                     $output = $data->get('output') ?? [];
                     $output[] = '$ ';
-                    if($data->get('user.exit') === true){
-                        @ssh2_disconnect($connection);
-                        $output[] = 'Exiting...' . PHP_EOL;
-                    }
                     $ping_data = new Data(Core::deep_clone($data->data()));
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
@@ -182,12 +178,20 @@ class Sse {
                     $data->write($url_command);
                 break;
                 default:
+                    $output = $data->get('output') ?? [];
+                    if($data->get('user.exit') === true){
+                        @ssh2_disconnect($connection);
+                        $output[] = 'Exiting...' . PHP_EOL;
+                    }
                     $ping_data = new Data(Core::deep_clone($data->data()));
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
+                    $ping_data->set('output', $output);
+                    $data->set('output', $output);
                     echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
-
+                    $data->delete('command.action');
+                    $data->write($url_command);
                 break;
             }
             echo "\n\n";
