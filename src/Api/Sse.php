@@ -49,6 +49,7 @@ class Sse {
             } else {
                 $data = new Data(Core::object(File::read($url_command)));
                 $action = $data->get('command.action');
+                echo 'data: action:' . $action . "\n";
                 switch($action){
                     case 'login.host': {
                         echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
