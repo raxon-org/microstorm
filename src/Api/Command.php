@@ -27,20 +27,17 @@ class Command {
             return;
         }
         $action = $this->request('action');
-        d($action);
         switch($action){
             case 'login': {
                 $dir_command = $this->config->get('directory.temp') . 'Command/';
                 Dir::create($dir_command, Dir::CHMOD);
                 $url = $dir_command . $uuid . '.json';
-                d(File::exists($url));
                 if(File::exists($url)){
                     $login = trim(substr($input, 0,-1)); //removes \n and tabs and spaces
                     $data = new Data(Core::object(File::read($url)));
                     $data->set('user.login', $login);
                     $data->set('command.action', 'login.host');
                     $output = $data->get('output') ?? [];
-                    $output[] = $input;
                     $data->set('output', $output);
                     $data->write($url);
                 } else {
