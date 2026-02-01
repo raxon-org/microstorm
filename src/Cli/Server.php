@@ -43,6 +43,7 @@ class Server {
                             $command .= $record[$i] . ' ';
                         }
                         $command .= '>> /dev/null 2>&1 & echo $!';
+                        $output = [];
                         exec($command, $output, $code);
                         ddd($output);
                     }
