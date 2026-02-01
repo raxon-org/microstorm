@@ -16,7 +16,7 @@ main.readonly = (editor) => {
     editor.addEventListener("input", (e) => {
         const sel = window.getSelection();
         if (!sel.rangeCount) return;
-
+        console.log(e);
         const range = sel.getRangeAt(0);
         const node = range.startContainer;
 
