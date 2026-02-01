@@ -25,8 +25,10 @@ class Server {
         switch($this->request('module')){
             case 'restart': {
                 exec('ps auxww | grep \'frankenphp run\'', $output, $code);
-
-                ddd($output);
+                foreach($output as $line){
+                    $explode = explode(' ', $line);
+                    d($explode);
+                }
             }
             break;
             default:
