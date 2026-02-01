@@ -56,12 +56,7 @@ class Sse {
                     $output = $data->get('output') ?? [];
                     $output[] =  'Login:&nbsp;';
                     $data->set('output', $output);
-                    $ping_data = clone $data;
-                    $user = $data->get('user');
-                    if($user !== null){
-                        $user = clone $user;
-                    }
-                    $ping_data->set('user', $user);
+                    $ping_data = new Data(clone $data->data());
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
@@ -77,12 +72,7 @@ class Sse {
                     $output[] = $pop;
                     $output[] =  'Host:&nbsp;';
                     $data->set('output', $output);
-                    $ping_data = clone $data;
-                    $user = $data->get('user');
-                    if($user !== null){
-                        $user = clone $user;
-                    }
-                    $ping_data->set('user', $user);
+                    $ping_data = new Data(clone $data->data());
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
@@ -106,12 +96,7 @@ class Sse {
                     }
                     $data->set('user.port', $port);
                     $data->set('output', $output);
-                    $ping_data = clone $data;
-                    $user = $data->get('user');
-                    if($user !== null){
-                        $user = clone $user;
-                    }
-                    $ping_data->set('user', $user);
+                    $ping_data = new Data(clone $data->data());
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
@@ -123,12 +108,7 @@ class Sse {
                     $output = [];
                     $output[] = 'Opening shell...' . PHP_EOL;
                     $data->set('output', $output);
-                    $ping_data = clone $data;
-                    $user = $data->get('user');
-                    if($user !== null){
-                        $user = clone $user;
-                    }
-                    $ping_data->set('user', $user);
+                    $ping_data = new Data(clone $data->data());
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
