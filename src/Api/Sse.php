@@ -47,6 +47,7 @@ class Sse {
                 $data = new Data(Core::object(File::read($url_command)));
                 $action = $data->get('Command.action');
                 switch($action){
+                    case 'login':
                     case 'login.host': {
                         //nothing
                     }

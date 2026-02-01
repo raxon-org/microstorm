@@ -38,7 +38,6 @@ class Command {
                     $data->set('User.login', $login);
                     $data->set('Command.action', 'login.host');
                     $data->write($url);
-                    ddd($data);
                 } else {
                     throw new Exception('Command not found');
                 }
