@@ -86,6 +86,14 @@ class Sse {
                     $pop .= $data->get('user.host') . "\n";
                     $output[] = $pop;
                     $output[] =  'Password:&nbsp;';
+                    $host = $data->get('user.host');
+                    $explode = explode(':', $host, 2);
+                    if(array_key_exists(1, $explode)){
+                        $port = $explode[1];
+                    } else {
+                        $port = 22;
+                    }
+                    $data->set('user.port', $port);
                     $data->set('output', $output);
                     $ping_data = clone $data;
                     if($ping_data->has('user.password')) {
@@ -106,6 +114,39 @@ class Sse {
                     }
                     echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
                     $data->delete('command.action');
+                    $data->write($url_command);
+
+                    global $connection;
+                    if($connection === null) {
+                        $connection = @ssh2_connect($data->get('user.host'), $data->get('user.port'));
+                    }
+                    if (!$connection) {
+                        $output[] = '❌ Could not connect to ' . $data->get('user.host') . ' on port ' .$data->get('user.port');
+                        $data->set('output', $output);
+                        echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
+                        $data->delete('command.action');
+                        $data->write($url_command);
+                    } else {
+                        $data->set('connection', true);
+                        $output[] = '✓ Connected to ' . $data->get('user.host') . ' on port ' . $data->get('user.port') . PHP_EOL;
+                    }
+                    $is_authenticated = $data->get('user.authenticated');
+                    if($is_authenticated === null){
+                        $is_authenticated = @ssh2_auth_password($connection, $data->get('user.login'), $data->get('user.password'));
+                        $data->set('user.authenticated', $is_authenticated);
+                    }
+                    if ($is_authenticated === false) {
+                        $output[] = '❌ Authentication failed' . PHP_EOL;
+                        $data->set('command.action', 'user.password');
+                        @ssh2_disconnect($connection);
+                    } else {
+                        $output[] = '✓ Authentication successful' . PHP_EOL;
+                        $output[] = '$ ';
+                        $data->set('command.action', 'shell');
+                    }
+                    $ping_data->set('output', $output);
+                    $data->set('output', $output);
+                    echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
                     $data->write($url_command);
                 break;
                 default:

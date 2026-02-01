@@ -55,6 +55,7 @@ class Command {
                 $data->set('command.action', 'login.shell');
                 $data->write($url);
                 break;
+
         }
     }
 }
