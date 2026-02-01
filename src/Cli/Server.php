@@ -27,8 +27,22 @@ class Server {
                 exec('ps auxww | grep \'frankenphp run\'', $output, $code);
                 foreach($output as $line){
                     $explode = explode(' ', $line);
-                    d($explode);
+                    $record = [];
+                    foreach($explode as $key => $value){
+                        if($value !== ''){
+                            $record[] = $value;
+                        }
+                    }
+                    d($record);
+                    /*
+                    if(array_key_exists(33, $explode) && stristr($explode[33], 'Caddyfile')){
+                        exec('kill -9 ' . $explode[1]);
+                    }
+                    [33]=>
+  string(22) "/Application/Caddyfile"
+                    */
                 }
+
             }
             break;
             default:
