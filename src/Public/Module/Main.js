@@ -67,7 +67,7 @@ main.event_source = (options) => {
         if(event?.data) {
             let ping_data = JSON.parse(event.data);
             if(ping_data?.action && ping_data?.action === 'login'){
-                content.html(content.html() + "\n" + ' <span contenteditable="false" class="readonly">Login:&nbsp;</span><span contenteditable="true" class="cursor"></span>');
+                content.html(content.html() + "\n" + ' <span contenteditable="false" class="readonly">Login:&nbsp;</span><span class="cursor"></span>');
                 //main.focus_end(content)
                 let cursor = select('.cursor');
                 cursor.focus();
