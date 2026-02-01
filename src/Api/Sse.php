@@ -144,7 +144,6 @@ class Sse {
                     }
                     elseif($connection && $is_authenticated === true) {
                         $output[] = '✓ Authentication successful' . PHP_EOL;
-                        $output[] = '$ ';
                         $data->set('command.action', 'shell');
                         @ssh2_disconnect($connection);
                     }
@@ -153,6 +152,14 @@ class Sse {
                     echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
                     $data->write($url_command);
                 break;
+                case 'shell':
+                    $output = $data->get('output') ?? [];
+                    $output[] = '$ ';
+                    $ping_data->set('output', $output);
+                    $data->set('output', $output);
+                    echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
+                    $data->delete('command.action');
+                    $data->write($url_command);
                 default:
                     echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
 
