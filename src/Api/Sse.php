@@ -107,15 +107,14 @@ class Sse {
                     $output = [];
                     $output[] = 'Opening shell...' . PHP_EOL;
                     $data->set('output', $output);
-                    $data->set('output', $output);
                     $ping_data = clone $data;
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
                     echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
+                    echo PHP_EOL . PHP_EOL;
                     $data->delete('command.action');
                     $data->write($url_command);
-
                     global $connection;
                     if($connection === null) {
                         $connection = @ssh2_connect($data->get('user.host'), $data->get('user.port'));
