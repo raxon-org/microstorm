@@ -138,7 +138,8 @@ class Sse {
                     }
                     if ($connection && $is_authenticated === false) {
                         $output[] = '❌ Authentication failed' . PHP_EOL;
-                        $data->set('command.action', 'user.password');
+                        $data->set('command.action', 'shell');
+//                        $data->set('command.action', 'user.password');
                         @ssh2_disconnect($connection);
                     }
                     elseif($connection && $is_authenticated === true) {
