@@ -175,7 +175,7 @@ class Sse {
                         } else {
                             fwrite($shell, "whoami\n");
                             fwrite($shell, "uname -a\n");
-//                            stream_set_blocking($shell, true); // Wait for output
+                            stream_set_blocking($shell, true); // Wait for output
                             while ($line = fgets($shell)) {
                                 $output[] = $line;
                             }
@@ -208,7 +208,12 @@ class Sse {
                         $output[] = 'Exiting...' . PHP_EOL;
                     }
                     if($data->get('command.input') !== null){
-                        $output[] = '-->' . $data->get('command.input') . PHP_EOL;
+                        fwrite($shell, $data->get('command.input') . "\n");
+                        $output[] = $data->get('command.input') . PHP_EOL;
+                        while ($line = fgets($shell)) {
+                            $output[] = $line;
+                        }
+                        $data->delete('command.input');
                     }
                     $ping_data = new Data(Core::deep_clone($data->data()));
                     if($ping_data->has('user.password')){
