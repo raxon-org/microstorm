@@ -9,6 +9,7 @@ use Module\File;
 use Plugin;
 
 class Command {
+    use Plugin\Config;
     use Plugin\Console;
     use Plugin\Request;
 
