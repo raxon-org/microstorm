@@ -207,6 +207,7 @@ class Sse {
                         fclose($shell);
                         $output[] = 'Exiting...' . PHP_EOL;
                     }
+                    ddd($data);
                     if($data->get('command.input') !== null){
                         $output[] = '-->' . $data->get('command.input') . PHP_EOL;
                     }
