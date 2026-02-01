@@ -13,6 +13,18 @@
       ]
     },
     {
+      "name": "server",
+      "path": "server",
+      "priority": 1001,
+      "controller": "Microstorm:Cli:Server:run",
+      "request": {
+        "language": "en"
+      },
+      "method": [
+        "CLI"
+      ]
+    },
+    {
       "name": "task",
       "path": "task",
       "priority": 1001,
