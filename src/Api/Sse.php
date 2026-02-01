@@ -62,6 +62,9 @@ class Sse {
                 break;
                 case 'login.host': {
                     $output = $data->get('output') ?? [];
+                    $pop = array_pop($output);
+                    $pop .= $data->get('user.login') . "\n";
+                    $output[] = $pop;
                     $output[] =  'Host:&nbsp;';
                     $data->set('output', $output);
                     echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
