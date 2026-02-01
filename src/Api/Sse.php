@@ -168,7 +168,7 @@ class Sse {
                 case 'shell':
                     $output = $data->get('output') ?? [];
                     $output[] = '$ ';
-                    $output[] = var_dump($data);
+                    ddd($data);
                     $ping_data = new Data(Core::deep_clone($data->data()));
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
