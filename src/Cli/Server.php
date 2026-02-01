@@ -34,7 +34,7 @@ class Server {
                         }
                     }
                     if(stristr(end($record), 'Caddyfile')){
-                        exec('kill -9 ' . $record[1]);
+                        exec('kill ' . $record[1]);
                     }
                     if(array_key_exists(10, $record) && $record[10] === 'frankenphp'){
                         $count = count($record);
