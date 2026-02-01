@@ -33,7 +33,6 @@ main.readonly = (editor) => {
             (e.key === "Backspace" || e.key === "Delete") &&
             node.parentElement?.classList.contains("readonly")
         ) {
-            let span =
             e.preventDefault();
         }
         else if (
