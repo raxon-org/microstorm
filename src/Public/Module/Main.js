@@ -43,6 +43,10 @@ main.cursor = (options, cursor) => {
         if(event.key === 'Enter'){
             if(event.shiftKey === false){
                 event.preventDefault();
+                const data = {
+                    'command': cursor.text + '\n',
+                    'uuid': options.uuid
+                };
                 request(options?.url?.command, data, (url, response) => {
                     console.log(response);
                 })
@@ -72,14 +76,19 @@ main.event_source = (options) => {
             eventSource.close();
         }
         if(event?.data) {
-            let ping_data = JSON.parse(event.data);
-            if(ping_data?.action && ping_data?.action === 'login'){
+            let data = JSON.parse(event.data);
+            if(
+                data?.uuid &&
+                data?.action &&
+                data?.action === 'login'
+            ){
                 content.html(content.html() + "\n" + ' Login:&nbsp;<span class="cursor" contenteditable="true"></span>');
                 //main.focus_end(content)
                 let cursor = content.select('.cursor');
+                options.uuid = data.uuid;
                 main.cursor(options, cursor);
             }
-            console.log(ping_data);
+            console.log(data);
         }
     });
 }
