@@ -52,7 +52,7 @@ class Sse {
                 switch($action){
                     case 'login.host': {
                         echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
-                        $data->delete('command.action');
+                        //$data->delete('command.action');
                     }
                     break;
                     default: {
