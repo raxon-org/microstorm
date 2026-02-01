@@ -33,14 +33,17 @@ class Server {
                             $record[] = $value;
                         }
                     }
-                    d($record);
-                    /*
-                    if(array_key_exists(33, $explode) && stristr($explode[33], 'Caddyfile')){
-                        exec('kill -9 ' . $explode[1]);
+                    if(stristr(end($record), 'Caddyfile')){
+                        exec('kill -9 ' . $record[1]);
                     }
-                    [33]=>
-  string(22) "/Application/Caddyfile"
-                    */
+                    if(array_key_exists(10, $record) && $record[10] === 'frankenphp'){
+                        $count = count($record);
+                        $command = 'nohup ';// . $record[11] . ' run >> /dev/null 2>&1 & echo $!';
+                        for($i= 10; $i < $count; $i++){
+                            $command .= $record[$i] . ' ';
+                        }
+                        ddd($command);
+                    }
                 }
 
             }
