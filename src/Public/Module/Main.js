@@ -39,7 +39,6 @@ main.focus_end = (editor) => {
 }
 
 main.cursor = (options, cursor, data) => {
-    console.log(data);
     cursor.on('keydown', (event) => {
         if(event.key === 'Enter'){
             if(event.shiftKey === false){
@@ -47,7 +46,7 @@ main.cursor = (options, cursor, data) => {
                 const post = {
                     'input': cursor.innerText + '\n',
                     'uuid': data?.uuid,
-                    'action': data?.action
+                    'action': data?.command?.action
                 };
                 request(options?.url?.command, post, (url, response) => {
                     console.log(response);
