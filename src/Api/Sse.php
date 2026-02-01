@@ -46,18 +46,19 @@ class Sse {
                 $data->set('uuid', $uuid);
                 $data->write($url_command);
                 echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                $data->delete('command.action');
             } else {
                 $data = new Data(Core::object(File::read($url_command)));
                 $action = $data->get('command.action');
-                echo 'data: action:' . $action . "\n";
                 switch($action){
                     case 'login.host': {
                         echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                        $data->delete('command.action');
                         //$data->delete('command.action');
                     }
                     break;
                     default: {
-                        $data->delete('command.action');
+
                         echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
                     }
                     break;
