@@ -13,6 +13,8 @@ class Command {
     use Plugin\Console;
     use Plugin\Request;
 
+    private ?object $config = null;
+
     /**
      * @throws Exception
      */
