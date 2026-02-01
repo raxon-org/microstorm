@@ -45,7 +45,16 @@ class Sse {
                 $data->write($url_command);
             } else {
                 $data = new Data(Core::object(File::read($url_command)));
-                $data->delete('Command.action');
+                $action = $data->get('Command.action');
+                switch($action){
+                    case 'login.host': {
+                        //nothing
+                    }
+                    default:
+                        $data->delete('Command.action');
+                    break;
+                }
+
             }
             echo "id: $id\n";
             echo "event: ping\n";
