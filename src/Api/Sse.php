@@ -104,6 +104,20 @@ class Sse {
                     $data->delete('command.action');
                     $data->write($url_command);
                 break;
+                case 'login.exit':
+                    $output = $data->get('output') ?? [];
+                    $output[] = 'Exiting...' . PHP_EOL;
+                    $data->set('output', $output);
+                    $ping_data = new Data(Core::deep_clone($data->data()));
+                    if($ping_data->has('user.password')){
+                        $ping_data->set('user.password', '[redacted]');
+                    }
+                    echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
+                    $data->delete('command.action');
+                    $data->write($url_command);
+                    global $connection;
+                    @ssh2_disconnect($connection);
+                break;
                 case 'login.shell':
                     $output = [];
                     $output[] = 'Opening shell...' . PHP_EOL;
@@ -145,7 +159,6 @@ class Sse {
                     elseif($connection && $is_authenticated === true) {
                         $output[] = '✓ Authentication successful' . PHP_EOL;
                         $data->set('command.action', 'shell');
-                        @ssh2_disconnect($connection);
                     }
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
@@ -155,6 +168,7 @@ class Sse {
                 case 'shell':
                     $output = $data->get('output') ?? [];
                     $output[] = '$ ';
+                    $output[] = var_dump($data);
                     $ping_data = new Data(Core::deep_clone($data->data()));
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
