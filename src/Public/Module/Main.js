@@ -54,7 +54,7 @@ main.cursor = (options, cursor, data) => {
                 console.log(event);
             }
         }
-    })
+    });
     cursor.focus();
 }
 
