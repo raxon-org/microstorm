@@ -5,7 +5,7 @@ main.init = (options) => {
     if(terminal){
         terminal.html(' <span class="readonly">Initializing terminal...<br></span>' + "\n" );
         main.readonly(terminal);
-        main.focus_end(terminal);
+        //main.focus_end(terminal);
     } else {
         return;
     }
@@ -95,6 +95,11 @@ main.event_source = (options) => {
             let ping_data = JSON.parse(event.data);
             if(ping_data?.action && ping_data?.action === 'login'){
                 content.html(content.html() + "\n" + ' <span class="readonly">Login:&nbsp;</span><span class="cursor"></span>');
+                content.addEventListener("input", () => {
+                    content.select(".readonly").forEach(span => {
+                        span.setAttribute("contenteditable", "false");
+                    });
+                });
                 //main.focus_end(content)
                 let cursor = select('.cursor');
                 cursor.focus();
