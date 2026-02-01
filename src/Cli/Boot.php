@@ -35,8 +35,8 @@ class Boot {
             return 'Installing...' .PHP_EOL;
         }
         if($this->options('update')){
-            $command = 'microstorm server restart &';
-            exec($command);
+//            $command = 'microstorm server restart &';
+//            exec($command);
         }
         return '';
     }
