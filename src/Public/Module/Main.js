@@ -83,15 +83,20 @@ main.event_source = (options) => {
                 data?.command?.action
             ){
                 let cursor = null;
+                const to_remove = content.select('.cursor');
                 switch(data?.command?.action){
                     case 'login':
-                        content.select('.cursor').remove();
+                        if(to_remove){
+                            to_remove.remove();
+                        }
                         content.html(content.html() + "\n" + ' Login:&nbsp;<span class="cursor" contenteditable="true"></span>');
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
                         break;
                     case 'login.host':
-                        content.select('.cursor').remove();
+                        if(to_remove){
+                            to_remove.remove();
+                        }
                         content.html(content.html() + data?.user.login + "\n" + ' Host:&nbsp;<span class="cursor" contenteditable="true"></span>');
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
