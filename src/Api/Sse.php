@@ -190,7 +190,11 @@ class Sse {
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
                     echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
-                    $data->delete('command.action');
+                    if($data->get('user.exit') === true){
+                        $data->set('command.action', 'login');
+                    } else {
+                        $data->delete('command.action');
+                    }
                     $data->write($url_command);
                 break;
             }
