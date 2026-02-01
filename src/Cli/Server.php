@@ -24,7 +24,8 @@ class Server {
         $url = $this->config->get('directory.temp') . 'Boot/Boot.json';
         switch($this->request('module')){
             case 'restart': {
-                ddd('frankenphp restart command');
+                exec('ps auxww | grep frankenphp', $output, $code);
+                ddd($output);
             }
             break;
             default:
