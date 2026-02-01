@@ -14,12 +14,14 @@ main.init = (options) => {
 
 main.readonly = (editor) => {
     editor.addEventListener('beforeinput', (e) => {
-        if(e.target.closest('.cursor')){
-
+        if(e.target.closest('span')){
+            console.log(e.target.closest('span'));
         }
+        /*
         else if (e.target.closest('.readonly')) {
             e.preventDefault();
         }
+         */
     });
 }
 
