@@ -191,6 +191,9 @@ class Sse {
                     $data->set('output', $output);
                     echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
                     if($data->get('user.exit') === true){
+                        $data->delete('user.exit');
+                        $data->delete('connection');
+                        $data->set('output', []);
                         $data->set('command.action', 'login');
                     } else {
                         $data->delete('command.action');
