@@ -35,8 +35,8 @@ class Command {
                 if(File::exists($url)){
                     $login = trim(substr($input, 0,-1)); //removes \n and tabs and spaces
                     $data = new Data(Core::object(File::read($url)));
-                    $data->set('User.login', $login);
-                    $data->set('Command.action', 'login.host');
+                    $data->set('user.login', $login);
+                    $data->set('command.action', 'login.host');
                     $data->write($url);
                 } else {
                     throw new Exception('Command not found');

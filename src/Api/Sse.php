@@ -42,17 +42,16 @@ class Sse {
             $url_command = $dir_command. $uuid . '.json';;
             if(!File::exists($url_command)){
                 $data = new Data();
-                $data->set('Command.action', 'login');
-                $data->set('Command.uuid', $uuid);
+                $data->set('command.action', 'login');
+                $data->set('uuid', $uuid);
                 $data->write($url_command);
-                echo 'data: ' . Core::object($data->data('Command'),Core::JSON_LINE);
+                echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
             } else {
                 $data = new Data(Core::object(File::read($url_command)));
-                $action = $data->get('Command.action');
+                $action = $data->get('command.action');
                 switch($action){
                     case 'login.host': {
-                        ddd($data);
-                        echo 'data: ' . Core::object($data->data('Command'),Core::JSON_LINE);
+                        echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
                         }
                     break;
                     default:
