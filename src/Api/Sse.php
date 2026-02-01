@@ -50,6 +50,7 @@ class Sse {
             }
             $data = new Data(Core::object(File::read($url_command)));
             $action = $data->get('command.action');
+            global $connection;
             switch($action){
                 case 'login':
                     $output = $data->get('output') ?? [];
@@ -113,9 +114,12 @@ class Sse {
                     }
                     echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
                     echo "\n\n";
+                    flush();
+                    $id++;
+                    echo "id: $id\n";
+                    echo "event: ping\n";
                     $data->delete('command.action');
                     $data->write($url_command);
-                    global $connection;
                     if($connection === null) {
                         $connection = @ssh2_connect($data->get('user.host'), $data->get('user.port'));
                     }
