@@ -109,6 +109,8 @@ class Sse {
                     $output[] = 'Opening shell...' . PHP_EOL;
                     $data->set('output', $output);
                     $ping_data = clone $data;
+                    $user = clone $data->get('user');
+                    $ping_data->set('user', $user);
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
