@@ -87,38 +87,11 @@ main.event_source = (options) => {
                 const output = data?.output.join("");
                 switch(data?.command?.action){
                     case 'login':
-                        if(to_remove){
-                            to_remove.remove();
-                        }
-                        content.html(output + '<span class="cursor" contenteditable="true"></span>');
-                        cursor = content.select('.cursor');
-                        main.cursor(options, cursor, data);
-                    break;
                     case 'login.host':
-                        if(to_remove){
-                            to_remove.remove();
-                        }
-                        content.html(output + '<span class="cursor" contenteditable="true"></span>');
-                        cursor = content.select('.cursor');
-                        main.cursor(options, cursor, data);
-                    break;
                     case 'login.password':
-                        if(to_remove){
-                            to_remove.remove();
-                        }
-                        content.html(output + '<span class="cursor" contenteditable="true"></span>');
-                        cursor = content.select('.cursor');
-                        main.cursor(options, cursor, data);
-                    break;
                     case 'login.shell':
-                        if(to_remove){
-                            to_remove.remove();
-                        }
-                        content.html(output + '<span class="cursor" contenteditable="true"></span>');
-                        cursor = content.select('.cursor');
-                        main.cursor(options, cursor, data);
-                    break;
                     case 'shell':
+                    default:
                         if(to_remove){
                             to_remove.remove();
                         }
