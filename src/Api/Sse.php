@@ -152,8 +152,8 @@ class Sse {
                     }
                     if ($connection && $is_authenticated === false) {
                         $output[] = '❌ Authentication failed' . PHP_EOL;
-                        $data->set('command.action', 'shell');
-//                        $data->set('command.action', 'user.password');
+//                        $data->set('command.action', 'shell');
+                        $data->set('command.action', 'user.password');
                         @ssh2_disconnect($connection);
                     }
                     elseif($connection && $is_authenticated === true) {
@@ -194,6 +194,7 @@ class Sse {
                     $output = $data->get('output') ?? [];
                     if($data->get('user.exit') === true){
                         @ssh2_disconnect($connection);
+                        fclose($shell);
                         $output[] = 'Exiting...' . PHP_EOL;
                     }
                     if($data->get('command.input') !== null){
