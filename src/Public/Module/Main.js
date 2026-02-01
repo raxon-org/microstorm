@@ -13,7 +13,7 @@ main.init = (options) => {
 }
 
 main.readonly = (editor) => {
-    content.addEventListener("input", () => {
+    editor.addEventListener("input", () => {
         const nodelist = editor.select(".readonly")
         for(let index = 0; index < nodelist.length; index++){
             let span = nodelist[index];
