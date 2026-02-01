@@ -41,8 +41,10 @@ main.focus_end = (editor) => {
 main.cursor = (cursor) => {
     cursor.on('keydown', (event) => {
         if(event.key === 'Enter'){
-            console.log(event);
-            event.preventDefault();
+            if(event.shiftKey === false){
+                event.preventDefault();
+                console.log(event);
+            }
         }
     })
 }
