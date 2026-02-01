@@ -13,16 +13,38 @@ main.init = (options) => {
 }
 
 main.readonly = (editor) => {
-    editor.addEventListener('beforeinput', (e) => {
-        if(e.target.closest('span')){
-            console.log(e.target.closest('span'));
+    editor.addEventListener("keydown", (e) => {
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return;
+
+        const range = sel.getRangeAt(0);
+        const node = range.startContainer;
+
+        // Prevent deleting protected spans
+        if (
+            (e.key === "Backspace" || e.key === "Delete") &&
+            node.parentElement?.classList.contains("readonly")
+        ) {
+            e.preventDefault();
         }
+        else if (
+            (e.key === "Backspace" || e.key === "Delete") &&
+            node?.classList.contains("readonly")
+        ) {
+            e.preventDefault();
+        }
+    });
+
+    /*
+    editor.addEventListener('beforeinput', (e) => {
+        console.log(e);
         /*
         else if (e.target.closest('.readonly')) {
             e.preventDefault();
         }
-         */
+
     });
+     */
 }
 
 main.line_count = (editor) => {
