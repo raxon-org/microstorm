@@ -45,7 +45,7 @@ class Server {
                         $command .= '>> /dev/null 2>&1 & echo $!';
                         $output = [];
                         exec($command, $output, $code);
-                        ddd($output);
+                        //output[0] === pid
                     }
                 }
 
