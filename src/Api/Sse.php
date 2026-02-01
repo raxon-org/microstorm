@@ -96,8 +96,7 @@ class Sse {
                     $data->write($url_command);
                 break;
                 case 'login.shell':
-                    $output = $data->get('output') ?? [];
-                    $output[] = PHP_EOL;
+                    $output = [];
                     $output[] = 'Opening shell...' . PHP_EOL;
                     $data->set('output', $output);
                     $data->set('output', $output);
