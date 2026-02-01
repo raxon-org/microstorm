@@ -79,7 +79,8 @@ main.event_source = (options) => {
         if(event?.data) {
             let data = JSON.parse(event.data);
             if(
-                data?.uuid
+                data?.uuid &&
+                data?.command?.action
             ){
                 let cursor = null;
                 const to_remove = content.select('.cursor');
@@ -90,10 +91,12 @@ main.event_source = (options) => {
                     case 'login.password':
                     case 'login.shell':
                     case 'shell':
+                    case 'shell.command':
                     default:
                         if(to_remove){
                             to_remove.remove();
                         }
+                        console.log(output);
                         content.html(output + '<span class="cursor" contenteditable="true"></span>');
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);

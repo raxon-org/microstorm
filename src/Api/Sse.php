@@ -223,7 +223,12 @@ class Sse {
                         $data->set('output', []);
                         $data->set('command.action', 'login');
                     } else {
-                        $data->delete('command.action');
+                        if($data->get('command.input') !== null){
+                            $data->delete('shell.command');
+                        } else {
+                            $data->delete('command.action');
+                        }
+
                     }
                     $data->write($url_command);
                 break;
