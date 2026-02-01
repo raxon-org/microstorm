@@ -54,10 +54,12 @@ class Sse {
                 case 'login': {
                     echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
                     $data->delete('command.action');
+                    $data->write($url_command);
                 }
                 case 'login.host': {
                     echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
                     $data->delete('command.action');
+                    $data->write($url_command);
                     //$data->delete('command.action');
                 }
                 break;
