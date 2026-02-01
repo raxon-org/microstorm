@@ -10,12 +10,20 @@ use Plugin;
 
 class Command {
     use Plugin\Console;
+    use Plugin\Request;
 
     /**
      * @throws Exception
      */
     public function main(Data $config): void
     {
-        ddd($config);
+        $input = $this->request('input');
+        $action = $this->request('action');
+        switch($action){
+            case 'login': {
+                ddd($input);
+            }
+            break;
+        }
     }
 }
