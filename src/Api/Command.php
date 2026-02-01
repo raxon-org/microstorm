@@ -54,7 +54,7 @@ class Command {
                 $data->set('user.password', $password);
                 $data->set('command.action', 'login.shell');
                 $data->write($url);
-                break;
+            break;
 
         }
     }
