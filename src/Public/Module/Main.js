@@ -14,7 +14,10 @@ main.init = (options) => {
 
 main.readonly = (editor) => {
     editor.addEventListener('beforeinput', (e) => {
-        if (e.target.closest('.readonly')) {
+        if(e.target.closest('.cursor')){
+
+        }
+        else if (e.target.closest('.readonly')) {
             e.preventDefault();
         }
     });
