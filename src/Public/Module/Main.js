@@ -5,113 +5,11 @@ main.init = (options) => {
     if(terminal){
         terminal.html('Initializing terminal...' + "\n" );
         // main.readonly(terminal);
-        main.focus_end(terminal);
+        //main.focus_end(terminal);
     } else {
         return;
     }
     main.event_source(options);
-}
-
-main.readonly = (editor) => {
-    editor.addEventListener("input", () => {
-        const nodelist = editor.select(".readonly")
-        for(let index = 0; index < nodelist.length; index++){
-            let span = nodelist[index];
-            span.setAttribute("contenteditable", "false");
-        }
-    });
-    editor.addEventListener("keydown", (e) => {
-        if (e.key !== "Delete" && e.key !== "Backspace") return;
-
-        const selection = window.getSelection();
-        if (!selection.rangeCount) return;
-
-        const range = selection.getRangeAt(0);
-
-        const to_delete = main.get_node_about_to_delete(range, e.key);
-        console.log("Will delete:", to_delete);
-    });
-    /*
-    editor.addEventListener("input", (e) => {
-        console.log(e);
-        const sel = window.getSelection();
-        if (!sel.rangeCount) return;
-        console.log(e);
-        const range = sel.getRangeAt(0);
-        const node = range.startContainer;
-        console.log('######################NODE');
-        console.log(node);
-        if(e.inputType === "deleteContentBackward"){
-            const range = document.createRange();
-            range.setStartBefore(e.target);
-            range.collapse(true);
-
-            const sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-        }
-        // Prevent deleting protected spans
-        if (
-            (e.key === "Backspace" || e.key === "Delete") &&
-            node.parentElement?.classList.contains("readonly")
-        ) {
-            e.preventDefault();
-        }
-        else if (
-            (e.key === "Backspace" || e.key === "Delete") &&
-            node?.classList.contains("readonly")
-        ) {
-            e.preventDefault();
-        }
-    });
-    */
-    editor.addEventListener("click", (e) => {
-        if (e.target.classList.contains("readonly")) {
-            const range = document.createRange();
-            range.setStartAfter(e.target);
-            range.collapse(true);
-
-            const sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-        }
-    });
-
-    /*
-    editor.addEventListener('beforeinput', (e) => {
-        console.log(e);
-        /*
-        else if (e.target.closest('.readonly')) {
-            e.preventDefault();
-        }
-
-    });
-     */
-}
-
-main.get_node_about_to_delete = (range, key) => {
-    const container = range.startContainer;
-    const offset = range.startOffset;
-    // Text node
-    if (container.nodeType === Node.TEXT_NODE) {
-        if (key === "Backspace" && offset > 0) {
-            return container;
-        }
-        if (key === "Delete" && offset < container.length) {
-            return container;
-        }
-        // At text boundary → look at siblings
-        return key === "Backspace"
-            ? container.previousSibling
-            : container.nextSibling;
-    }
-    // Element node
-    if (container.nodeType === Node.ELEMENT_NODE) {
-        return key === "Backspace"
-            ? container.childNodes[offset - 1]
-            : container.childNodes[offset];
-    }
-    return null;
 }
 
 main.line_count = (editor) => {
@@ -140,6 +38,15 @@ main.focus_end = (editor) => {
     selection.addRange(range);
 }
 
+main.cursor = (cursor) => {
+    cursor.on('keydown', (event) => {
+        if(event.key === 'Enter'){
+            console.log(event);
+            event.preventDefault();
+        }
+    })
+}
+
 main.event_source = (options) => {
     let eventSource = new EventSource(options?.url?.sse, {
         withCredentials: true,
@@ -164,7 +71,7 @@ main.event_source = (options) => {
                 content.html(content.html() + "\n" + ' Login:&nbsp;<span class="cursor" contenteditable="true"></span>');
                 //main.focus_end(content)
                 let cursor = content.select('.cursor');
-                cursor.focus();
+                main.cursor(cursor);
             }
             console.log(ping_data);
         }
