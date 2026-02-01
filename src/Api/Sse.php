@@ -45,28 +45,26 @@ class Sse {
                 $data->set('command.action', 'login');
                 $data->set('uuid', $uuid);
                 $data->write($url_command);
-                echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
-                $data->delete('command.action');
-            } else {
-                $data = new Data(Core::object(File::read($url_command)));
-                $action = $data->get('command.action');
-                switch($action){
-                    case 'login': {
-                        echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
-                        $data->delete('command.action');
-                    }
-                    case 'login.host': {
-                        echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
-                        $data->delete('command.action');
-                        //$data->delete('command.action');
-                    }
-                    break;
-                    default: {
-                        echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
-                    }
-                    break;
+//                echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+//                $data->delete('command.action');
+            }
+            $data = new Data(Core::object(File::read($url_command)));
+            $action = $data->get('command.action');
+            switch($action){
+                case 'login': {
+                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                    $data->delete('command.action');
                 }
-
+                case 'login.host': {
+                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                    $data->delete('command.action');
+                    //$data->delete('command.action');
+                }
+                break;
+                default: {
+                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                }
+                break;
             }
             echo "\n\n";
             flush();
