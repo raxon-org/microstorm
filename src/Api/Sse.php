@@ -175,7 +175,7 @@ class Sse {
                         } else {
                             fwrite($shell, "whoami\n");
                             fwrite($shell, "uname -a\n");
-                            stream_set_blocking($shell, true); // Wait for output
+//                            stream_set_blocking($shell, true); // Wait for output
                             while ($line = fgets($shell)) {
                                 $output[] = $line;
                             }
