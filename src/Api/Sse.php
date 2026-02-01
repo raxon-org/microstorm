@@ -56,6 +56,7 @@ class Sse {
                     $data->delete('command.action');
                     $data->write($url_command);
                 }
+                break;
                 case 'login.host': {
                     echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
                     $data->delete('command.action');
