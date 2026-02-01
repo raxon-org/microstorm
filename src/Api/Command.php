@@ -27,6 +27,7 @@ class Command {
             return;
         }
         $action = $this->request('action');
+        d($action);
         switch($action){
             case 'login': {
                 $dir_command = $this->config->get('directory.temp') . 'Command/';
