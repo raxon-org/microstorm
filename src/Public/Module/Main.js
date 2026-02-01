@@ -19,12 +19,14 @@ main.readonly = (editor) => {
         console.log(e);
         const range = sel.getRangeAt(0);
         const node = range.startContainer;
-
+console.log('######################NODE');
+console.log(node);
         // Prevent deleting protected spans
         if (
             (e.key === "Backspace" || e.key === "Delete") &&
             node.parentElement?.classList.contains("readonly")
         ) {
+            let span =
             e.preventDefault();
         }
         else if (
