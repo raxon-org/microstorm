@@ -29,6 +29,15 @@ main.readonly = (editor) => {
         const node = range.startContainer;
         console.log('######################NODE');
         console.log(node);
+        if(e.inputType === "deleteContentBackward"){
+            const range = document.createRange();
+            range.setStartBefore(e.target);
+            range.collapse(true);
+
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
         // Prevent deleting protected spans
         if (
             (e.key === "Backspace" || e.key === "Delete") &&
