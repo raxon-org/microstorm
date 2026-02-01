@@ -173,7 +173,10 @@ class Sse {
                         if (!$shell) {
                             $output[] = '❌ Could not open SSH shell' . PHP_EOL;
                         } else {
+                            fwrite($shell, "whoami\n");
+                            /*
                             fwrite($shell, "uname -a\n");
+                            */
                             stream_set_blocking($shell, true); // Wait for output
                             while ($line = fgets($shell)) {
                                 $output[] = $line;
