@@ -20,6 +20,7 @@ class Command {
      */
     public function main(Data $config): void
     {
+        $this->config($config);
         $input = $this->request('input');
         $action = $this->request('action');
         switch($action){
