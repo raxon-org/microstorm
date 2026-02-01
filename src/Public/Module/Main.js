@@ -14,7 +14,7 @@ main.init = (options) => {
 
 main.readonly = (editor) => {
     content.addEventListener("input", () => {
-        const nodelist = content.select(".readonly")
+        const nodelist = editor.select(".readonly")
         for(let index = 0; index < nodelist.length; index++){
             let span = nodelist[index];
             span.setAttribute("contenteditable", "false");
