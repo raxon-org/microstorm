@@ -163,11 +163,11 @@ class Sse {
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
                     echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
-                    $data->write($url_command);
-                break;
-                case 'shell':
-                    $output = $data->get('output') ?? [];
-                    $output[] = '$ ';
+                    echo "\n\n";
+                    flush();
+                    $id++;
+                    echo "id: $id\n";
+                    echo "event: ping\n";
                     if($shell === null){
                         $shell = @ssh2_shell($connection, 'xterm');
                         if (!$shell) {
@@ -180,7 +180,16 @@ class Sse {
                                 $output[] = $line;
                             }
                         }
+                        $ping_data->set('output', $output);
+                        $data->set('output', $output);
+                        echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
                     }
+                    $data->write($url_command);
+                break;
+                case 'shell':
+                    $output = $data->get('output') ?? [];
+                    $output[] = '$ ';
+
                     $ping_data = new Data(Core::deep_clone($data->data()));
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
