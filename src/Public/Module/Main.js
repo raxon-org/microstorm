@@ -38,11 +38,14 @@ main.focus_end = (editor) => {
     selection.addRange(range);
 }
 
-main.cursor = (cursor) => {
+main.cursor = (options, cursor) => {
     cursor.on('keydown', (event) => {
         if(event.key === 'Enter'){
             if(event.shiftKey === false){
                 event.preventDefault();
+                request(options?.url?.command, data, (url, response) => {
+                    console.log(response);
+                })
                 console.log(event);
             }
         }
@@ -74,7 +77,7 @@ main.event_source = (options) => {
                 content.html(content.html() + "\n" + ' Login:&nbsp;<span class="cursor" contenteditable="true"></span>');
                 //main.focus_end(content)
                 let cursor = content.select('.cursor');
-                main.cursor(cursor);
+                main.cursor(options, cursor);
             }
             console.log(ping_data);
         }

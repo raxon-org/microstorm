@@ -64,6 +64,16 @@
         "GET",
         "POST"
       ]
+    },
+    {
+      "name": "api/command/",
+      "controller": "Microstorm:Api:Command:main",
+      "path": "\/api\/command\/{$uuid:uuid}\/",
+      "priority": 2004,
+      "method": [
+        "GET",
+        "POST"
+      ]
     }
   ]
 }
