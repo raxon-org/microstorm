@@ -80,13 +80,25 @@ main.event_source = (options) => {
             let data = JSON.parse(event.data);
             if(
                 data?.uuid &&
-                data?.action &&
-                data?.action === 'login'
+                data?.action
             ){
-                content.html(content.html() + "\n" + ' Login:&nbsp;<span class="cursor" contenteditable="true"></span>');
+                let cursor = null;
+                switch(data?.action){
+                    case 'login':
+                        content.html(content.html() + "\n" + ' Login:&nbsp;<span class="cursor" contenteditable="true"></span>');
+                        cursor = content.select('.cursor');
+                        main.cursor(options, cursor, data);
+                        break;
+                    case 'login.host':
+                        content.html(content.html() + "\n" + ' Host:&nbsp;<span class="cursor" contenteditable="true"></span>');
+                        cursor = content.select('.cursor');
+                        main.cursor(options, cursor, data);
+                        break;
+
+                }
+
                 //main.focus_end(content)
-                let cursor = content.select('.cursor');
-                main.cursor(options, cursor, data);
+
             }
             console.log(data);
         }
