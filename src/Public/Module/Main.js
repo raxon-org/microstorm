@@ -89,7 +89,7 @@ main.event_source = (options) => {
                         if(to_remove){
                             to_remove.remove();
                         }
-                        content.html(content.html() + "\n" + ' Login:&nbsp;<span class="cursor" contenteditable="true"></span>');
+                        content.html(data?.output + '<span class="cursor" contenteditable="true"></span>');
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
                         break;
@@ -97,7 +97,7 @@ main.event_source = (options) => {
                         if(to_remove){
                             to_remove.remove();
                         }
-                        content.html(content.html() + data?.user.login + "\n" + ' Host:&nbsp;<span class="cursor" contenteditable="true"></span>');
+                        content.html(data?.output + '<span class="cursor" contenteditable="true"></span>');
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
                         break;

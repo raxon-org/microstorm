@@ -39,6 +39,9 @@ class Command {
                     $data = new Data(Core::object(File::read($url)));
                     $data->set('user.login', $login);
                     $data->set('command.action', 'login.host');
+                    $output = $data->get('output') ?? [];
+                    $output[] = $input;
+                    $data->set('output', $output);
                     $data->write($url);
                 } else {
                     throw new Exception('Command not found');
