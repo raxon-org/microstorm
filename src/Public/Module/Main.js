@@ -44,7 +44,7 @@ main.cursor = (options, cursor, data) => {
             if(event.shiftKey === false){
                 event.preventDefault();
                 const post = {
-                    'command': cursor.text() + '\n',
+                    'command': cursor.innerText + '\n',
                     'uuid': data?.uuid,
                     'action': data?.command
                 };
