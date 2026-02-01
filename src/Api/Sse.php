@@ -57,6 +57,8 @@ class Sse {
                     $output[] =  'Login:&nbsp;';
                     $data->set('output', $output);
                     $ping_data = clone $data;
+                    $user = clone $data->get('user');
+                    $ping_data->set('user', $user);
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
@@ -73,6 +75,8 @@ class Sse {
                     $output[] =  'Host:&nbsp;';
                     $data->set('output', $output);
                     $ping_data = clone $data;
+                    $user = clone $data->get('user');
+                    $ping_data->set('user', $user);
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
@@ -97,7 +101,9 @@ class Sse {
                     $data->set('user.port', $port);
                     $data->set('output', $output);
                     $ping_data = clone $data;
-                    if($ping_data->has('user.password')) {
+                    $user = clone $data->get('user');
+                    $ping_data->set('user', $user);
+                    if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
                     echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
@@ -158,6 +164,12 @@ class Sse {
                 case 'shell':
                     $output = $data->get('output') ?? [];
                     $output[] = '$ ';
+                    $ping_data = clone $data;
+                    $user = clone $data->get('user');
+                    $ping_data->set('user', $user);
+                    if($ping_data->has('user.password')){
+                        $ping_data->set('user.password', '[redacted]');
+                    }
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
                     echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
