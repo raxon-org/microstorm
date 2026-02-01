@@ -55,6 +55,18 @@ class Command {
                 $data->set('command.action', 'login.shell');
                 $data->write($url);
             break;
+            case 'shell';
+                $command = trim(substr($input, 0,-1));
+                switch(strolower($command)){
+                    case 'exit':
+                        $data = new Data(Core::object(File::read($url)));
+                        $data->set('user.exit',true);
+                        $data->set('command.action', 'login.exit');
+                        $data->write($url);
+                    default:
+                }
+
+                break;
 
         }
     }
