@@ -33,7 +33,7 @@ class Command {
                 Dir::create($dir_command, Dir::CHMOD);
                 $url = $dir_command . $uuid . '.json';
                 if(File::exists($url)){
-                    $login = trim(substr($input, -1)); //removes \n and tabs and spaces
+                    $login = trim(substr($input, 0,-1)); //removes \n and tabs and spaces
                     $data = new Data(Core::object(File::read($url)));
                     $data->set('User.login', $login);
                     $data->set('Command.action', 'login.host');
