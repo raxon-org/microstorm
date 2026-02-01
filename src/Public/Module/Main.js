@@ -47,6 +47,7 @@ main.cursor = (cursor) => {
             }
         }
     })
+    cursor.focus();
 }
 
 main.event_source = (options) => {
