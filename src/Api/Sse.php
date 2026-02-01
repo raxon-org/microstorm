@@ -51,42 +51,67 @@ class Sse {
             $data = new Data(Core::object(File::read($url_command)));
             $action = $data->get('command.action');
             switch($action){
-                case 'login': {
+                case 'login':
                     $output = $data->get('output') ?? [];
                     $output[] =  'Login:&nbsp;';
                     $data->set('output', $output);
-                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                    $ping_data = clone $data;
+                    if($ping_data->has('user.password')){
+                        $ping_data->set('user.password', '[redacted]');
+                    }
+                    echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
                     $data->delete('command.action');
                     $data->write($url_command);
-                }
+
                 break;
-                case 'login.host': {
+                case 'login.host':
                     $output = $data->get('output') ?? [];
                     $pop = array_pop($output);
                     $pop .= $data->get('user.login') . "\n";
                     $output[] = $pop;
                     $output[] =  'Host:&nbsp;';
                     $data->set('output', $output);
-                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                    $ping_data = clone $data;
+                    if($ping_data->has('user.password')){
+                        $ping_data->set('user.password', '[redacted]');
+                    }
+                    echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
                     $data->delete('command.action');
                     $data->write($url_command);
-                }
+
                 break;
-                case 'login.password': {
+                case 'login.password':
                     $output = $data->get('output') ?? [];
                     $pop = array_pop($output);
                     $pop .= $data->get('user.host') . "\n";
                     $output[] = $pop;
                     $output[] =  'Password:&nbsp;';
                     $data->set('output', $output);
-                    echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
+                    $ping_data = clone $data;
+                    if($ping_data->has('user.password')) {
+                        $ping_data->set('user.password', '[redacted]');
+                    }
+                    echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
                     $data->delete('command.action');
                     $data->write($url_command);
-                }
                 break;
-                default: {
+                case 'login.shell':
+                    $output = $data->get('output') ?? [];
+                    $output[] = PHP_EOL;
+                    $output[] = 'Opening shell...' . PHP_EOL;
+                    $data->set('output', $output);
+                    $data->set('output', $output);
+                    $ping_data = clone $data;
+                    if($ping_data->has('user.password')){
+                        $ping_data->set('user.password', '[redacted]');
+                    }
+                    echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
+                    $data->delete('command.action');
+                    $data->write($url_command);
+                break;
+                default:
                     echo 'data: ' . Core::object($data->data(),Core::JSON_LINE);
-                }
+
                 break;
             }
             echo "\n\n";

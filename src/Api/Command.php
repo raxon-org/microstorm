@@ -40,6 +40,7 @@ class Command {
                 $data->set('user.login', $login);
                 $data->set('command.action', 'login.host');
                 $data->write($url);
+            break;
             case 'login.host':
                 $host = trim(substr($input, 0,-1));
                 $data = new Data(Core::object(File::read($url)));
@@ -47,6 +48,13 @@ class Command {
                 $data->set('command.action', 'login.password');
                 $data->write($url);
             break;
+            case 'login.password':
+                $password = trim(substr($input, 0,-1));
+                $data = new Data(Core::object(File::read($url)));
+                $data->set('user.password', $password);
+                $data->set('command.action', 'login.shell');
+                $data->write($url);
+                break;
         }
     }
 }
