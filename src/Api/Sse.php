@@ -51,6 +51,7 @@ class Sse {
                     case 'login.host': {
                         //nothing
                     }
+                    break;
                     default:
                         $data->delete('Command.action');
                     break;
