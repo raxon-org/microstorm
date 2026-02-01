@@ -133,7 +133,6 @@ class Sse {
                     }
                     $is_authenticated = $data->get('user.authenticated');
                     if($connection && $is_authenticated === null){
-                        ddd($data);
                         $is_authenticated = @ssh2_auth_password($connection, $data->get('user.login'), $data->get('user.password'));
                         $data->set('user.authenticated', $is_authenticated);
                     }
