@@ -224,7 +224,7 @@ class Sse {
                         $data->set('command.action', 'login');
                     } else {
                         if($data->get('command.input') !== null){
-                            $data->delete('shell.command');
+                            $data->set('command.action', 'shell.command');
                         } else {
                             $data->delete('command.action');
                         }
