@@ -23,9 +23,9 @@ class Boot {
         $this->config($config);
         $url = $this->config->get('directory.temp') . 'Boot/Boot.json';
         if(!File::exists($url)){
-            $this->flags('install', true);
+            $this->options('install', true);
         }
-        if($this->flags('install')){
+        if($this->options('install')){
             if(!File::exists($url)){
                 $this->cron_restore();
             }
