@@ -13,7 +13,7 @@ main.init = (options) => {
 }
 
 main.readonly = (editor) => {
-    editor.addEventListener("keydown", (e) => {
+    editor.addEventListener("input", (e) => {
         const sel = window.getSelection();
         if (!sel.rangeCount) return;
 
@@ -32,6 +32,17 @@ main.readonly = (editor) => {
             node?.classList.contains("readonly")
         ) {
             e.preventDefault();
+        }
+    });
+    editor.addEventListener("click", (e) => {
+        if (e.target.classList.contains("readonly")) {
+            const range = document.createRange();
+            range.setStartAfter(e.target);
+            range.collapse(true);
+
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
         }
     });
 
