@@ -52,7 +52,6 @@ class Sse {
                 switch($action){
                     case 'login.host': {
                         ddd($data);
-                        $data->set('command.user', $data->get('User'));
                         echo 'data: ' . Core::object($data->data('Command'),Core::JSON_LINE);
                         }
                     break;
