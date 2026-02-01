@@ -21,6 +21,7 @@ main.readonly = (editor) => {
         }
     });
     editor.addEventListener("input", (e) => {
+        console.log(e);
         const sel = window.getSelection();
         if (!sel.rangeCount) return;
         console.log(e);
