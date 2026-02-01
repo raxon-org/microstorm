@@ -42,7 +42,9 @@ class Server {
                         for($i= 10; $i < $count; $i++){
                             $command .= $record[$i] . ' ';
                         }
-                        ddd($command);
+                        $command .= '>> /dev/null 2>&1 & echo $!';
+                        exec($command, $output, $code);
+                        ddd($output);
                     }
                 }
 
