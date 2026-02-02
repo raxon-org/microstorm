@@ -69,6 +69,7 @@ class Command {
                         $data->set('command.input',$command);
                         $data->set('command.action', 'shell.command');
                         $data->write($url);
+                        ddd($data);
                         break;
                 }
 
