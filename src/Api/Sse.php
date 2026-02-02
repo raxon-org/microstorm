@@ -173,11 +173,18 @@ class Sse {
                         if (!$shell) {
                             $output[] = '❌ Could not open SSH shell' . PHP_EOL;
                         } else {
-                            fwrite($shell, "whoami\n");
-                            fwrite($shell, "uname -a\n");
                             stream_set_blocking($shell, false); // Wait for output
+                            fwrite($shell, "\n");
                             while ($line = fgets($shell)) {
                                 $output[] = $line;
+                                $ping_data->set('output', $output);
+                                $data->set('output', $output);
+                                echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
+                                echo "\n\n";
+                                flush();
+                                $id++;
+                                echo "id: $id\n";
+                                echo "event: ping\n";
                             }
 //                            stream_set_blocking($shell, false);
                         }
