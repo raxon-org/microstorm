@@ -86,10 +86,6 @@ main.event_source = (options) => {
                 let cursor = content.select('.cursor');
                 let command = '';
                 if(cursor){
-                    cursor.focus();
-                    const range = document.createRange();
-                    range.selectNodeContents(cursor);
-                    range.collapse(false); // false = collapse to end
                     command = cursor.innerText;
                 }
                 /*
@@ -137,17 +133,13 @@ main.event_source = (options) => {
                         main.cursor(options, cursor, data);
                         if(command){
                             cursor.innerText = command;
+                            const range = document.createRange();
+                            range.selectNodeContents(cursor);
+                            range.collapse(false); // false = collapse to end
+                            const selection = window.getSelection();
+                            selection.removeAllRanges();
+                            selection.addRange(range);
                         }
-                        /*
-                        const selection = window.getSelection();
-                        selection.removeAllRanges();
-                        selection.addRange(range);
-                         */
-                        /*
-                        if(range !== null){
-                            main.cursor_position_restore(range);
-                        }
-                         */
                     break;
                 }
 
