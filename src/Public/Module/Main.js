@@ -104,18 +104,20 @@ main.event_source = (options) => {
                         if(to_remove){
                             to_remove.remove();
                         }
-                        console.log(output);
+                        let range = null;
                         if(!cursor){
                             content.html(output + '<span class="cursor" contenteditable="true"></span>');
                             cursor = content.select('.cursor');
                         } else {
-                            const range = main.cursor_position_save();
+                            range = main.cursor_position_save();
                             content.html(output);
                             content.append(cursor);
                             cursor = content.select('.cursor');
-                            main.cursor_position_restore(range);
                         }
                         main.cursor(options, cursor, data);
+                        if(range !== null){
+                            main.cursor_position_restore(range);
+                        }
                     break;
                 }
 
