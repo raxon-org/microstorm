@@ -101,16 +101,18 @@ main.event_source = (options) => {
                     case 'shell':
                     case 'shell.command':
                     default:
+                        let range = null;
+                        if(cursor !== null){
+                            cursor.focus();
+                            range = main.cursor_position_save();
+                        }
                         if(to_remove){
                             to_remove.remove();
                         }
-                        let range = null;
                         if(!cursor){
                             content.html(output + '<span class="cursor" contenteditable="true"></span>');
                             cursor = content.select('.cursor');
                         } else {
-                            cursor.focus();
-                            range = main.cursor_position_save();
                             content.html(output);
                             content.append(cursor);
                             cursor = content.select('.cursor');
