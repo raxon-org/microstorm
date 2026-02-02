@@ -275,18 +275,18 @@ class Sse {
                         $data->set('output', []);
                         $data->set('command.action', 'login');
                     } else {
-                            $ping_data = new Data(Core::deep_clone($data->data()));
-                            if($ping_data->has('user.password')){
-                                $ping_data->set('user.password', '[redacted]');
+                        $ping_data = new Data(Core::deep_clone($data->data()));
+                        if($ping_data->has('user.password')){
+                            $ping_data->set('user.password', '[redacted]');
+                        }
+                        if($shell){
+                            while ($line = fgets($shell)) {
+                                $output[] = $line;
                             }
-                            if($shell){
-                                while ($line = fgets($shell)) {
-                                    $output[] = $line;
-                                }
-                            }
-                            $ping_data->set('output', $output);
-                            $data->set('output', $output);
-                            echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
+                        }
+                        $ping_data->set('output', $output);
+                        $data->set('output', $output);
+                        echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
                         $data->delete('command.action');
                     }
                     /*
