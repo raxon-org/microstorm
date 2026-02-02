@@ -85,7 +85,11 @@ main.event_source = (options) => {
                 let cursor = null;
                 const to_remove = content.select('.cursor');
                 if(to_remove){
-                    cursor = to_remove.pop() ?? null;
+                    if(to_remove.length > 1){
+                        cursor = to_remove.pop() ?? null;
+                    } else {
+                        cursor = to_remove;
+                    }
                 }
                 const output = data?.output.join("");
                 switch(data?.command?.action){
