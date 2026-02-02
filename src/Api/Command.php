@@ -56,6 +56,7 @@ class Command {
                 $data->write($url);
             break;
             case 'shell';
+            case 'shell.command':
                 $command = trim(substr($input, 0,-1));
                 switch(strtolower($command)){
                     case 'exit':
@@ -67,7 +68,7 @@ class Command {
                     default:
                         $data = new Data(Core::object(File::read($url)));
                         $data->set('command.input',$command);
-                        $data->set('command.action', 'shell');
+                        $data->set('command.action', 'shell.command');
                         $data->write($url);
                         break;
                 }
