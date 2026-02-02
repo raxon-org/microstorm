@@ -66,7 +66,7 @@ class Command {
                     default:
                         $data = new Data(Core::object(File::read($url)));
                         $data->set('command.input',$command);
-                        $data->delete('command.action');
+                        $data->set('command.action', 'shell.command');
                         $data->write($url);
                 }
 

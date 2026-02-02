@@ -201,6 +201,7 @@ class Sse {
                     $data->delete('command.action');
                     $data->write($url_command);
                 break;
+                case 'shell.command':
                 default:
                     $output = $data->get('output') ?? [];
                     if($data->get('user.exit') === true){
