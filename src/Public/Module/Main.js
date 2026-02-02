@@ -107,7 +107,16 @@ main.event_source = (options) => {
                         if(!cursor){
                             content.html(output + '<span class="cursor" contenteditable="true"></span>');
                         } else {
+                            const range = document.createRange();
+                            range.selectNodeContents(cursor);
+                            range.collapse(false);
+                            const selection = window.getSelection();
+                            selection.removeAllRanges();
+                            selection.addRange(range);
                             content.html(output + cursor.outerHTML);
+                            cursor.focus();
+                            selection.removeAllRanges();
+                            selection.addRange(range);
                         }
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
