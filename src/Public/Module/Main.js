@@ -57,6 +57,9 @@ main.cursor = (options, cursor, data) => {
         }
     });
     cursor.focus();
+    const range = document.createRange();
+    range.selectNodeContents(cursor);
+    range.collapse(false); // false = collapse to end
 }
 
 main.event_source = (options) => {
