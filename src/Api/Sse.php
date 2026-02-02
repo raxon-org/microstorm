@@ -207,7 +207,7 @@ class Sse {
                     $data->delete('command.action');
                     $data->write($url_command);
                 break;
-                case 'shell.command':
+//                case 'shell.command':
                 default:
                     $output = $data->get('output') ?? [];
                     if($data->get('user.exit') === true){
@@ -265,6 +265,7 @@ class Sse {
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
+                    /*
                     if($shell){
                         while ($line = fgets($shell)) {
                             $output[] = $line;
@@ -278,6 +279,7 @@ class Sse {
                             echo "event: ping\n";
                         }
                     }
+                    */
                     $data->write($url_command);
                 break;
             }
