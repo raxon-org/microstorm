@@ -84,7 +84,9 @@ main.event_source = (options) => {
             ){
                 let cursor = null;
                 const to_remove = content.select('.cursor');
-                cursor = to_remove.pop() ?? null;
+                if(to_remove){
+                    cursor = to_remove.pop() ?? null;
+                }
                 const output = data?.output.join("");
                 switch(data?.command?.action){
                     case 'login':
