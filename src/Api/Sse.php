@@ -229,7 +229,7 @@ class Sse {
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
                     echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
-                    $data->delete('command.action');
+                    $data->set('command.action', 'shell');
                     $data->write($url_command);
                 break;
 //                case 'shell.command':
