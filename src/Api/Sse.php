@@ -210,12 +210,13 @@ class Sse {
                     }
                     if($data->get('command.input') !== null){
                         $output[] = $data->get('command.input') . PHP_EOL;
-                        stream_set_blocking($shell, true);
+//                        stream_set_blocking($shell, true);
+                        stream_set_blocking($shell, false);
                         fwrite($shell, $data->get('command.input') . "\n");
                         while ($line = fgets($shell)) {
                             $output[] = $line;
                         }
-                        stream_set_blocking($shell, false);
+//                        stream_set_blocking($shell, false);
                         $data->delete('command.input');
                         $data->delete('command.action');
                     }
