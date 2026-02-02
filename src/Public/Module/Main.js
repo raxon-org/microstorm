@@ -107,7 +107,7 @@ main.event_source = (options) => {
                         if(!cursor){
                             content.html(output + '<span class="cursor" contenteditable="true"></span>');
                         } else {
-                            content.html(output + '<span class="cursor" contenteditable="true">'+ cursor.innerText +'</span>');
+                            content.html(output + cursor.outerHTML);
                         }
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
