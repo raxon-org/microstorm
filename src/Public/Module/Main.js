@@ -84,6 +84,7 @@ main.event_source = (options) => {
             ){
                 let cursor = null;
                 const to_remove = content.select('.cursor');
+                cursor = to_remove.pop() ?? null;
                 const output = data?.output.join("");
                 switch(data?.command?.action){
                     case 'login':
@@ -97,7 +98,11 @@ main.event_source = (options) => {
                             to_remove.remove();
                         }
                         console.log(output);
-                        content.html(output + '<span class="cursor" contenteditable="true"></span>');
+                        if(!cursor){
+                            content.html(output + '<span class="cursor" contenteditable="true"></span>');
+                        } else {
+                            content.html(output + cursor.html());
+                        }
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
                     break;
