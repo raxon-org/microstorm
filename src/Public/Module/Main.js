@@ -57,12 +57,6 @@ main.cursor = (options, cursor, data) => {
         }
     });
     cursor.focus();
-    const range = document.createRange();
-    range.selectNodeContents(cursor);
-    range.collapse(false); // false = collapse to end
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
 }
 
 main.event_source = (options) => {
@@ -89,7 +83,15 @@ main.event_source = (options) => {
                 data?.uuid &&
                 data?.command?.action
             ){
-                let cursor = null;
+                let cursor = content.select('.cursor');
+                let command = '';
+                if(cursor){
+                    cursor.focus();
+                    const range = document.createRange();
+                    range.selectNodeContents(cursor);
+                    range.collapse(false); // false = collapse to end
+                    command = range.toString();
+                }
                 /*
                 const to_remove = content.select('.cursor');
                 if(to_remove){
@@ -133,6 +135,12 @@ main.event_source = (options) => {
                         }
                          */
                         main.cursor(options, cursor, data);
+                        if(command){
+                            cursor.innerText = command;
+                        }
+                        const selection = window.getSelection();
+                        selection.removeAllRanges();
+                        selection.addRange(range);
                         /*
                         if(range !== null){
                             main.cursor_position_restore(range);
