@@ -109,6 +109,7 @@ main.event_source = (options) => {
                             content.html(output + '<span class="cursor" contenteditable="true"></span>');
                             cursor = content.select('.cursor');
                         } else {
+                            cursor.focus();
                             range = main.cursor_position_save();
                             content.html(output);
                             content.append(cursor);
