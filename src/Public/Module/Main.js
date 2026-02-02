@@ -60,6 +60,9 @@ main.cursor = (options, cursor, data) => {
     const range = document.createRange();
     range.selectNodeContents(cursor);
     range.collapse(false); // false = collapse to end
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
 }
 
 main.event_source = (options) => {
