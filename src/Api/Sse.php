@@ -209,7 +209,7 @@ class Sse {
                         fclose($shell);
                         $output[] = 'Exiting...' . PHP_EOL;
                     }
-                    if($data->get('command.input') !== null){
+                    if($data->has('command.input')){
                         $output[] = $data->get('command.input') . PHP_EOL;
 //                        stream_set_blocking($shell, true);
                         stream_set_blocking($shell, false);
