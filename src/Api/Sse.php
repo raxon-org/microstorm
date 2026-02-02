@@ -189,10 +189,10 @@ class Sse {
                             }
 //                            stream_set_blocking($shell, false);
                         }
-                        $ping_data->set('output', $output);
-                        $data->set('output', $output);
-                        echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
                     }
+                    $ping_data->set('output', $output);
+                    $data->set('output', $output);
+                    echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
                     $data->write($url_command);
                 break;
                 case 'shell':
@@ -202,26 +202,35 @@ class Sse {
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
-                if($data->get('command.input') !== null){
-                    fwrite($shell, $data->get('command.input') . "\n");
-                    while ($line = fgets($shell)) {
-                        $output[] = $line;
-                        $ping_data->set('output', $output);
-                        $data->set('output', $output);
-                        echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
-                        echo "\n\n";
-                        flush();
-                        $id++;
-                        echo "id: $id\n";
-                        echo "event: ping\n";
+                    if($data->get('user.exit') === true){
+                        if($connection){
+                            @ssh2_disconnect($connection);
+                        }
+                        if($shell){
+                            fclose($shell);
+                        }
+                        $output[] = 'Exiting...' . PHP_EOL;
                     }
-                }
-                $ping_data->set('output', $output);
-                $data->set('output', $output);
-                echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
-                $data->delete('command.action');
-                $data->delete('command.input');
-                $data->write($url_command);
+                    if($data->get('command.input') !== null){
+                        fwrite($shell, $data->get('command.input') . "\n");
+                        while ($line = fgets($shell)) {
+                            $output[] = $line;
+                            $ping_data->set('output', $output);
+                            $data->set('output', $output);
+                            echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
+                            echo "\n\n";
+                            flush();
+                            $id++;
+                            echo "id: $id\n";
+                            echo "event: ping\n";
+                        }
+                        $data->delete('command.input');
+                    }
+                    $ping_data->set('output', $output);
+                    $data->set('output', $output);
+                    echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
+                    $data->delete('command.action');
+                    $data->write($url_command);
                 break;
 //                case 'shell.command':
                 default:
