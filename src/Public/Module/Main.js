@@ -105,6 +105,7 @@ main.event_source = (options) => {
                         if(cursor !== null){
                             cursor.focus();
                             range = main.cursor_position_save();
+                            cursor.remove();
                         }
                         if(to_remove){
                             to_remove.remove();
