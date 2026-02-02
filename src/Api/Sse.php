@@ -218,8 +218,6 @@ class Sse {
                             $output[] = $line;
                         }
 //                        stream_set_blocking($shell, false);
-                        $data->delete('command.input');
-                        $data->delete('command.action');
                     }
                     $ping_data = new Data(Core::deep_clone($data->data()));
                     if($ping_data->has('user.password')){
@@ -235,7 +233,8 @@ class Sse {
                         $data->set('command.action', 'login');
                     } else {
                         if($data->get('command.input') !== null){
-                            $data->set('command.action', 'shell.command');
+                            $data->delete('command.input');
+                            $data->delete('command.action');
                         } else {
                             $data->delete('command.action');
                         }
