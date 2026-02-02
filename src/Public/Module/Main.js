@@ -49,6 +49,7 @@ main.cursor = (options, cursor, data) => {
                     'action': data?.command?.action
                 };
                 request(options?.url?.command, post, (url, response) => {
+                    cursor.innerText = '';
                     console.log(response);
                 })
                 console.log(event);
