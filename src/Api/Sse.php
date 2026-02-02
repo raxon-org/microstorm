@@ -236,6 +236,9 @@ class Sse {
                         if($ping_data->has('user.password')){
                             $ping_data->set('user.password', '[redacted]');
                         }
+                        while ($line = fgets($shell)) {
+                            $output[] = $line;
+                        }
                         $ping_data->set('output', $output);
                         $data->set('output', $output);
                         echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
