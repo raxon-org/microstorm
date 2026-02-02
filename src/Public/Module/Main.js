@@ -104,10 +104,11 @@ main.event_source = (options) => {
                             to_remove.remove();
                         }
                         console.log(output);
+                        console.log(cursor.html());
                         if(!cursor){
                             content.html(output + '<span class="cursor" contenteditable="true"></span>');
                         } else {
-                            content.html(output + cursor.html());
+                            content.html(output + '<span class="cursor" contenteditable="true">'+ cursor.innerText +'</span>');
                         }
                         cursor = content.select('.cursor');
                         main.cursor(options, cursor, data);
