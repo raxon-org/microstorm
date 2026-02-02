@@ -137,6 +137,7 @@ main.cursor_position_save = () => {
 
 main.cursor_position_restore = (range) => {
     if (!range) return;
+    console.log(range);
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
