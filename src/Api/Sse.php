@@ -216,16 +216,31 @@ class Sse {
                         fwrite($shell, $data->get('command.input') . "\n");
                         while ($line = fgets($shell)) {
                             $output[] = $line;
+                            $ping_data = new Data(Core::deep_clone($data->data()));
+                            if($ping_data->has('user.password')){
+                                $ping_data->set('user.password', '[redacted]');
+                            }
+                            $ping_data->set('output', $output);
+                            $data->set('output', $output);
+                            echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
+                            echo "\n\n";
+                            flush();
+                            $id++;
+                            echo "id: $id\n";
+                            echo "event: ping\n";
+
                         }
 //                        stream_set_blocking($shell, false);
+                    } else {
+                        $ping_data = new Data(Core::deep_clone($data->data()));
+                        if($ping_data->has('user.password')){
+                            $ping_data->set('user.password', '[redacted]');
+                        }
+                        $ping_data->set('output', $output);
+                        $data->set('output', $output);
+                        echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
                     }
-                    $ping_data = new Data(Core::deep_clone($data->data()));
-                    if($ping_data->has('user.password')){
-                        $ping_data->set('user.password', '[redacted]');
-                    }
-                    $ping_data->set('output', $output);
-                    $data->set('output', $output);
-                    echo 'data: ' . Core::object($ping_data->data(),Core::JSON_LINE);
+
                     if($data->get('user.exit') === true){
                         $data->delete('user.exit');
                         $data->delete('connection');
@@ -238,7 +253,6 @@ class Sse {
                         } else {
                             $data->delete('command.action');
                         }
-
                     }
                     $data->write($url_command);
                 break;
