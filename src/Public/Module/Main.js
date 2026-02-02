@@ -90,7 +90,7 @@ main.event_source = (options) => {
                     const range = document.createRange();
                     range.selectNodeContents(cursor);
                     range.collapse(false); // false = collapse to end
-                    command = range.toString();
+                    command = cursor.innerText;
                 }
                 /*
                 const to_remove = content.select('.cursor');
@@ -138,9 +138,11 @@ main.event_source = (options) => {
                         if(command){
                             cursor.innerText = command;
                         }
+                        /*
                         const selection = window.getSelection();
                         selection.removeAllRanges();
                         selection.addRange(range);
+                         */
                         /*
                         if(range !== null){
                             main.cursor_position_restore(range);
