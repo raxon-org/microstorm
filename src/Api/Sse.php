@@ -213,18 +213,18 @@ class Sse {
                     }
                     if($data->get('command.input') !== null){
                         fwrite($shell, $data->get('command.input') . "\n");
-                        while ($line = fgets($shell)) {
-                            $output[] = $line;
-                            $ping_data->set('output', $output);
-                            $data->set('output', $output);
-                            echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
-                            echo "\n\n";
-                            flush();
-                            $id++;
-                            echo "id: $id\n";
-                            echo "event: ping\n";
-                        }
                         $data->delete('command.input');
+                    }
+                    while ($line = fgets($shell)) {
+                        $output[] = $line;
+                        $ping_data->set('output', $output);
+                        $data->set('output', $output);
+                        echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
+                        echo "\n\n";
+                        flush();
+                        $id++;
+                        echo "id: $id\n";
+                        echo "event: ping\n";
                     }
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
