@@ -109,14 +109,12 @@ main.event_source = (options) => {
                             content.html(output + '<span class="cursor" contenteditable="true"></span>');
                             cursor = content.select('.cursor');
                         } else {
-                            const start = cursor.selectionStart;
-                            const end = cursor.selectionEnd;
+                            const range = main.cursor_position_save();
                             content.html(output);
                             content.append(cursor);
                             cursor = content.select('.cursor');
-                            cursor.setSelectionRange(start, end);
+                            main.cursor_position_restore(range);
                         }
-
                         main.cursor(options, cursor, data);
                     break;
                 }
@@ -127,6 +125,19 @@ main.event_source = (options) => {
             console.log(data);
         }
     });
+}
+
+main.cursor_position_save = () => {
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return null;
+    return selection.getRangeAt(0);
+}
+
+main.cursor_position_restore = (range) => {
+    if (!range) return;
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
 }
 
 export { main }
