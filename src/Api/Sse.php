@@ -175,11 +175,11 @@ class Sse {
                         } else {
                             fwrite($shell, "whoami\n");
                             fwrite($shell, "uname -a\n");
-                            stream_set_blocking($shell, true); // Wait for output
+                            stream_set_blocking($shell, false); // Wait for output
                             while ($line = fgets($shell)) {
                                 $output[] = $line;
                             }
-                            stream_set_blocking($shell, false);
+//                            stream_set_blocking($shell, false);
                         }
                         $ping_data->set('output', $output);
                         $data->set('output', $output);
