@@ -63,11 +63,13 @@ class Command {
                         $data->set('user.exit',true);
                         $data->set('command.action', 'login.exit');
                         $data->write($url);
+                        break;
                     default:
                         $data = new Data(Core::object(File::read($url)));
                         $data->set('command.input',$command);
                         $data->set('command.action', 'shell.command');
                         $data->write($url);
+                        break;
                 }
 
                 break;
