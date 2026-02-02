@@ -174,6 +174,7 @@ class Sse {
                             $output[] = '❌ Could not open SSH shell' . PHP_EOL;
                         } else {
                             stream_set_blocking($shell, false); // Wait for output
+                            usleep(100000);
                             fwrite($shell, "\n");
                             while ($line = fgets($shell)) {
                                 $output[] = $line;
@@ -201,11 +202,25 @@ class Sse {
                     if($ping_data->has('user.password')){
                         $ping_data->set('user.password', '[redacted]');
                     }
-                    $ping_data->set('output', $output);
-                    $data->set('output', $output);
-                    echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
-                    $data->delete('command.action');
-                    $data->write($url_command);
+                if($data->get('command.input') !== null){
+                    fwrite($shell, $data->get('command.input') . "\n");
+                    while ($line = fgets($shell)) {
+                        $output[] = $line;
+                        $ping_data->set('output', $output);
+                        $data->set('output', $output);
+                        echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
+                        echo "\n\n";
+                        flush();
+                        $id++;
+                        echo "id: $id\n";
+                        echo "event: ping\n";
+                    }
+                }
+                $ping_data->set('output', $output);
+                $data->set('output', $output);
+                echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
+                $data->delete('command.action');
+                $data->write($url_command);
                 break;
 //                case 'shell.command':
                 default:
