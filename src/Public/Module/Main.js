@@ -101,27 +101,32 @@ main.event_source = (options) => {
                     case 'shell':
                     case 'shell.command':
                     default:
-                        let range = null;
+                        // let range = null;
                         if(cursor !== null){
-                            cursor.focus();
-                            range = main.cursor_position_save();
+                            // cursor.focus();
+                            // range = main.cursor_position_save();
                             cursor.remove();
                         }
                         if(to_remove){
                             to_remove.remove();
                         }
+                        content.html(output + '<span class="cursor" contenteditable="true"></span>');
+                        /*
                         if(!cursor){
-                            content.html(output + '<span class="cursor" contenteditable="true"></span>');
+
                             cursor = content.select('.cursor');
                         } else {
                             content.html(output);
                             content.append(cursor);
                             cursor = content.select('.cursor');
                         }
+                         */
                         main.cursor(options, cursor, data);
+                        /*
                         if(range !== null){
                             main.cursor_position_restore(range);
                         }
+                         */
                     break;
                 }
 
