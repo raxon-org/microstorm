@@ -88,16 +88,6 @@ main.event_source = (options) => {
                 if(cursor){
                     command = cursor.innerText;
                 }
-                /*
-                const to_remove = content.select('.cursor');
-                if(to_remove){
-                    if(to_remove.length > 1){
-                        cursor = to_remove.pop() ?? null;
-                    } else {
-                        cursor = to_remove;
-                    }
-                }
-                 */
                 const output = data?.output.join("");
                 switch(data?.command?.action){
                     case 'login':
