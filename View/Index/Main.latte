@@ -170,16 +170,18 @@
     </style>
     <script src="/Js/Priya/0.3.18/Priya.js"></script>
     <script src="/Module/Main.js" type="module"></script>
+    <script src="/Module/Code.js" type="module"></script>
     <script type="module">
         import { main } from "/Module/Main.js";
         ready(() => {
             main.init({
-                'selector': '.terminal',
+                'selector': '.terminal .language-bash',
                 'url': {
                     'sse': '/api/sse',
                     'command': '/api/command'
                 }
             });
+            code.init();
         });
     </script>
 </head>
@@ -203,7 +205,9 @@
     </div>
 
     <div class="terminal">
-
+        <pre>
+            <code class="language-bash"></code>
+        </pre>
     </div>
 </main>
 </body>
