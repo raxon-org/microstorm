@@ -1,62 +1,55 @@
-import hljs from '/Js/Highlight/highlight.min.js';
-import bash from '/Js/Highlight/languages/javascript';
 let code = {};
 
 code.init = () => {
-    hljs.highlightAll();
-    let list = select('.prettyprinted');
-    console.log(list);
-    if(is.nodeList(list)){
-        for(let i=0; i < list.length; i++){
-            let item = list[i];
-            let copy = priya.create('button');
-            copy.type = 'button';
-            copy.title = 'Copy to clipboard';
-            copy.html('<img src="/Svg/Icon/Copy.svg" alt="Copy" />');
-            copy.on('click', () => {
-                let code = item.select('code');
-                let text = code.textContent;
-                let array = text.split('\n');
-                let index;
-                for(index=0; index < array.length; index++){
-                    array[index] = array[index].trim();
-                }
-                text = array.join('\n');
-                navigator.clipboard.writeText(text).then(function() {
-                    //nothing
-                }).catch(function(error) {
-                    //nothing
-                });
-            });
-            copy.addClass('copy');
-            item.append(copy);
-        }
-    } else {
-        let item = list;
-        let copy = priya.create('button');
-        copy.type = 'button';
-        copy.title = 'Copy to clipboard';
-        copy.html('<img src="/Svg/Icon/Copy.svg" alt="Copy" />');
-        copy.on('click', () => {
-            let code = item.select('code');
-            let text = code.textContent ;
-            let array = text.split('\n');
-            let index;
-            for(index=0; index < array.length; index++){
-                array[index] = array[index].trim();
+
+}
+
+code.ansi_to_html = (input) => {
+    const ANSI_REGEX = /\x1b\[([0-9;]+)m/g;
+
+    const styles = {
+        0:  () => "</span>",
+
+        // text styles
+        1:  () => '<span style="font-weight:bold">',
+        3:  () => '<span style="font-style:italic">',
+        4:  () => '<span style="text-decoration:underline">',
+
+        // foreground colors
+        30: () => '<span style="color:black">',
+        31: () => '<span style="color:red">',
+        32: () => '<span style="color:green">',
+        33: () => '<span style="color:yellow">',
+        34: () => '<span style="color:blue">',
+        35: () => '<span style="color:magenta">',
+        36: () => '<span style="color:cyan">',
+        37: () => '<span style="color:white">',
+
+            // bright foreground colors
+        90: () => '<span style="color:gray">',
+        91: () => '<span style="color:lightcoral">',
+        92: () => '<span style="color:lightgreen">',
+        93: () => '<span style="color:lightyellow">',
+        94: () => '<span style="color:lightskyblue">',
+        95: () => '<span style="color:violet">',
+        96: () => '<span style="color:lightcyan">',
+        97: () => '<span style="color:white">',
+    };
+    let openSpans = 0;
+    const html = input.replace(ANSI_REGEX, (_, codes) => {
+        return codes.split(";").map(code => {
+            const fn = styles[code];
+            if (!fn) return "";
+            if (code === "0") {
+                const closing = "</span>".repeat(openSpans);
+                openSpans = 0;
+                return closing;
             }
-            text = array.join('\n');
-            navigator.clipboard.writeText(text).then(function() {
-                //nothing
-            }).catch(function(error) {
-                //nothing
-            });
-        });
-        copy.addClass('copy');
-        if(item){
-            item.append(copy);
-        }
-    }
+            openSpans++;
+            return fn();
+        }).join("");
+    });
+    return html + "</span>".repeat(openSpans);
 }
 
 export { code };
