@@ -175,7 +175,7 @@ class Sse {
                         } else {
                             stream_set_blocking($shell, false); // Wait for output
                             usleep(100000);
-                            fwrite($shell, "\n");
+//                            fwrite($shell, "\n");
                             while ($line = fgets($shell)) {
                                 $output[] = $line;
                                 $ping_data->set('output', $output);
@@ -212,7 +212,7 @@ class Sse {
                         $output[] = 'Exiting...' . PHP_EOL;
                     }
                     if($data->get('command.input') !== null){
-                        fwrite($shell, $data->get('command.input') . "\n");
+                        fwrite($shell, $data->get('command.input') . "| ansi2html\n");
                         $data->delete('command.input');
                     }
                     while ($line = fgets($shell)) {

@@ -1,5 +1,5 @@
 import hljs from '/Js/Highlight/highlight.min.js';
-
+import bash from '/Js/Highlight/languages/javascript';
 let code = {};
 
 code.init = () => {
