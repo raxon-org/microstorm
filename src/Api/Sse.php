@@ -214,8 +214,17 @@ class Sse {
                     if($data->get('command.input') !== null){
                         fwrite($shell, $data->get('command.input') . "\n");
                         $data->delete('command.input');
+                        switch($data->get('command.input')){
+                            case 'clear' :
+                                $output = [];
+                                break;
+
+                        }
                     }
                     while ($line = fgets($shell)) {
+                        if(preg_match('/\x1b\[([0-9;]+)m/', $line, $matches)){
+                            d($matches);
+                        }
                         $output[] = $line;
                         $ping_data->set('output', $output);
                         $data->set('output', $output);
