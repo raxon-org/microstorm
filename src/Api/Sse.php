@@ -212,7 +212,7 @@ class Sse {
                         $output[] = 'Exiting...' . PHP_EOL;
                     }
                     if($data->get('command.input') !== null){
-                        fwrite($shell, $data->get('command.input') . "| ansi2html\n");
+                        fwrite($shell, $data->get('command.input') . "\n");
                         $data->delete('command.input');
                     }
                     while ($line = fgets($shell)) {
