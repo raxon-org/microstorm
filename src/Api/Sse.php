@@ -239,7 +239,7 @@ class Sse {
 //                        echo "event: ping\n";
                     $screen = implode("\n", $output);
                     $screen = str_replace("\x1b[?2004h", '', $screen);
-                    $screen = str_replace("\x1b[?2004i", '', $screen);
+                    $screen = str_replace("\x1b[?2004l", '', $screen);
                     if(preg_match_all('/\x1b\[([0-9;]+)m/', $screen, $matches)){
                         $span_count = 0;
                         if(array_key_exists(0, $matches) && is_array($matches[0])){
