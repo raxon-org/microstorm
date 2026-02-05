@@ -190,9 +190,11 @@ class Sse {
 //                            stream_set_blocking($shell, false);
                         }
                     }
+                    /*
                     if(preg_match('/\x1b\[([0-9;]+)m/', implode('', $output), $matches)){
                         d($matches);
                     }
+                    */
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
                     echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
@@ -236,7 +238,20 @@ class Sse {
 //                        echo "event: ping\n";
                     }
                     if(preg_match('/\x1b\[([0-9;]+)m/', implode('', $output), $matches)){
-                        d($matches);
+                        $span_count = 0;
+                        foreach($matches as $match){
+                            foreach($output as $nr => $line){
+                                switch($match[0]){
+                                    case "\x1b[0m" :
+                                        $output[$nr] = str_replace($match[0], '',  $line);
+                                        $span_count = 0;
+                                    break;
+                                    default :
+                                        throw new Exception('Unknown match:' . $match[0] . ': ' . $line);
+                                }
+
+                            }
+                        }
                     }
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
