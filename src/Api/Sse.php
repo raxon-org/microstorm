@@ -242,7 +242,8 @@ class Sse {
                         foreach($matches as $match){
                             foreach($output as $nr => $line){
                                 switch($match[0]){
-                                    case "[0m":
+                                    case "\x1b[0m":
+                                    case "\033[0m":
                                         $output[$nr] = str_replace($match[0], '',  $line);
                                         $span_count = 0;
                                     break;
