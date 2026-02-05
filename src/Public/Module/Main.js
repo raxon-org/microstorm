@@ -67,6 +67,7 @@ main.event_source = (options) => {
     });
     let last_event_id = 0;
     let retry = 0;
+    let output_previous = '';
     eventSource.addEventListener('ping', (event) => {
         let content = select(options?.selector);
         if(parseInt(event.lastEventId) >= parseInt(last_event_id)){
@@ -91,7 +92,6 @@ main.event_source = (options) => {
                     command = cursor.innerText;
                 }
                 const output = data?.output.join("");
-                const output_previous = output;
                 switch(data?.command?.action){
                     case 'login':
                     case 'login.host':
@@ -135,6 +135,7 @@ main.event_source = (options) => {
                                 selection.addRange(range);
                             }
                         }
+                        output_previous = output;
                     break;
                 }
 
