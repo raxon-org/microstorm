@@ -247,6 +247,8 @@ class Sse {
                                         $span_count = 0;
                                     break;
                                     default :
+                                        d($match);
+                                        ddd($line);
                                         throw new Exception('Unknown match:' . $match[0] . ': ' . $line);
                                 }
 
