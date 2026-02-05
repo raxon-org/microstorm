@@ -238,7 +238,7 @@ class Sse {
 //                        echo "event: ping\n";
                     }
                     $screen = implode('', $output);
-                    if(preg_match('/\x1b\[([0-9;]+)m/', $screen, $matches)){
+                    if(preg_match_all('/\x1b\[([0-9;]+)m/', $screen, $matches)){
                         $span_count = 0;
                         foreach($matches as $match){
                             ddd($matches);
