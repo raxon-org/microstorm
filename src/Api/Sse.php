@@ -240,97 +240,102 @@ class Sse {
                     $screen = implode("\n", $output);
                     if(preg_match_all('/\x1b\[([0-9;]+)m/', $screen, $matches)){
                         $span_count = 0;
-                        foreach($matches as $match){
-                            switch($match){
-                                case "\x1b[0m" :
-                                    if($span_count > 0){
-                                        $screen = str_replace($match, str_repeat('</span>', $span_count), $screen);
-                                    }
-                                    $span_count = 0;
-                                break;
-                                case "\x1b[01;30m" :
-                                    $screen = str_replace($match, '<span style="color:black">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[01;31m" :
-                                    $screen = str_replace($match, '<span style="color:red">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[01;32m" :
-                                    $screen = str_replace($match, '<span style="color:green">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[01;33m" :
-                                    $screen = str_replace($match, '<span style="color:yellow">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[01;34m" :
-                                    $screen = str_replace($match, '<span style="color:blue">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[01;35m" :
-                                    $screen = str_replace($match, '<span style="color:purple">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[01;36m" :
-                                    $screen = str_replace($match, '<span style="color:cyan">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[01;37m" :
-                                    $screen = str_replace($match, '<span style="color:white">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[01;38m" :
-                                    $screen = str_replace($match, '<span style="color:gray">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[01;39m" :
-                                    $screen = str_replace($match, '<span style="color:lightgray">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[00;40m" :
-                                    $screen = str_replace($match, '<span style="background-color:black">', $screen);
-                                    $span_count++;
-                                    break;
-                                case "\x1b[00;41m" :
-                                    $screen = str_replace($match, '<span style="background-color:red">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[00;42m" :
-                                    $screen = str_replace($match, '<span style="background-color:green">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[00;43m" :
-                                    $screen = str_replace($match, '<span style="background-color:yellow">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[00;44m" :
-                                    $screen = str_replace($match, '<span style="background-color:blue">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[00;45m" :
-                                    $screen = str_replace($match, '<span style="background-color:purple">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[00;46m" :
-                                    $screen = str_replace($match, '<span style="background-color:cyan">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[00;47m" :
-                                    $screen = str_replace($match, '<span style="background-color:white">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[00;48m" :
-                                    $screen = str_replace($match, '<span style="background-color:gray">', $screen);
-                                    $span_count++;
-                                break;
-                                case "\x1b[00;49m" :
-                                    $screen = str_replace($match, '<span style="background-color:lightgray">', $screen);
-                                    $span_count++;
-                                break;
-                                default :
-                                    ddd($match);
+                        if(array_key_exists(0, $matches) && is_array($matches[0])){
+                            foreach($matches[0] as $key => $match) {
+                                ddd($matches[1][$key]);
 
+
+                                switch ($match) {
+                                    case "\x1b[0m" :
+                                        if ($span_count > 0) {
+                                            $screen = str_replace($match, str_repeat('</span>', $span_count), $screen);
+                                        }
+                                        $span_count = 0;
+                                        break;
+                                    case "\x1b[01;30m" :
+                                        $screen = str_replace($match, '<span style="color:black">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[01;31m" :
+                                        $screen = str_replace($match, '<span style="color:red">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[01;32m" :
+                                        $screen = str_replace($match, '<span style="color:green">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[01;33m" :
+                                        $screen = str_replace($match, '<span style="color:yellow">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[01;34m" :
+                                        $screen = str_replace($match, '<span style="color:blue">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[01;35m" :
+                                        $screen = str_replace($match, '<span style="color:purple">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[01;36m" :
+                                        $screen = str_replace($match, '<span style="color:cyan">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[01;37m" :
+                                        $screen = str_replace($match, '<span style="color:white">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[01;38m" :
+                                        $screen = str_replace($match, '<span style="color:gray">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[01;39m" :
+                                        $screen = str_replace($match, '<span style="color:lightgray">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[00;40m" :
+                                        $screen = str_replace($match, '<span style="background-color:black">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[00;41m" :
+                                        $screen = str_replace($match, '<span style="background-color:red">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[00;42m" :
+                                        $screen = str_replace($match, '<span style="background-color:green">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[00;43m" :
+                                        $screen = str_replace($match, '<span style="background-color:yellow">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[00;44m" :
+                                        $screen = str_replace($match, '<span style="background-color:blue">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[00;45m" :
+                                        $screen = str_replace($match, '<span style="background-color:purple">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[00;46m" :
+                                        $screen = str_replace($match, '<span style="background-color:cyan">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[00;47m" :
+                                        $screen = str_replace($match, '<span style="background-color:white">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[00;48m" :
+                                        $screen = str_replace($match, '<span style="background-color:gray">', $screen);
+                                        $span_count++;
+                                        break;
+                                    case "\x1b[00;49m" :
+                                        $screen = str_replace($match, '<span style="background-color:lightgray">', $screen);
+                                        $span_count++;
+                                        break;
+                                    default :
+                                        ddd($match);
+
+                                }
                             }
                         }
                     }
