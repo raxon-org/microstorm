@@ -244,181 +244,211 @@ class Sse {
                     $screen = str_replace("\x1b[?2004l", '', $screen);
                     if(preg_match_all('/\x1b\[([0-9;]+)m/', $screen, $matches)){
                         $span_count = 0;
+                        $red = null;
+                        $green = null;
+                        $blue = null;
                         if(array_key_exists(0, $matches) && is_array($matches[0])){
                             foreach($matches[0] as $key => $match) {
                                 $command = $matches[1][$key];
-                                switch ($command){
-                                    case '0':
-                                        if ($span_count > 0) {
-                                            $screen = str_replace($match, str_repeat('</span>', $span_count), $screen);
-                                        }
-                                        $span_count = 0;
-                                    break;
-                                    default:
-                                        $explode = explode(';', $command);
-                                        $color = null;
-                                        $background = null;
-                                        $bold = false;
-                                        $dim = false;
-                                        $italic = false;
-                                        $underline = false;
-                                        $blink = false;
-                                        $reverse = false;
-                                        $hidden = false;
-                                        $strike = false;
-                                        $reset = false;
-                                        foreach($explode as $item) {
-                                            $item = trim($item);
-                                            switch($item){
-                                                case '00':
-                                                case '0':
-                                                    $reset = true;
-                                                break;
-                                                case '01':
-                                                case '1':
-                                                    $bold = true;
-                                                break;
-                                                case '02':
-                                                case '2':
-                                                    $dim = true;
-                                                break;
-                                                case '03':
-                                                case '3':
-                                                    $italic = true;
-                                                break;
-                                                case '04':
-                                                case '4':
-                                                    $underline = true;
-                                                break;
-                                                case '05':
-                                                case '5':
-                                                    $blink = true;
-                                                break;
-                                                case '07':
-                                                case '7':
-                                                    $reverse = true;
-                                                break;
-                                                case '08':
-                                                case '8':
-                                                    $hidden = true;
-                                                break;
-                                                case '09':
-                                                case '9':
-                                                    $strike = true;
-                                                break;
-                                                case '30':
-                                                    $color = 'black';
-                                                break;
-                                                case '31':
-                                                    $color = 'red';
-                                                break;
-                                                case '32':
-                                                    $color = 'green';
-                                                break;
-                                                case '33':
-                                                    $color = 'yellow';
-                                                break;
-                                                case '34':
-                                                    $color = 'blue';
-                                                break;
-                                                case '35':
-                                                    $color = 'purple';
-                                                break;
-                                                case '36':
-                                                    $color = 'cyan';
-                                                break;
-                                                case '37':
-                                                    $color = 'white';
-                                                break;
-                                                case '38':
-                                                    $color = 'gray';
-                                                break;
-                                                case '39':
-                                                    $color = 'lightgray';
-                                                break;
-                                                case '40':
-                                                    $background = 'black';
-                                                break;
-                                                case '41':
-                                                    $background = 'red';
-                                                break;
-                                                case '42':
-                                                    $background = 'green';
-                                                break;
-                                                case '43':
-                                                    $background = 'yellow';
-                                                break;
-                                                case '44':
-                                                    $background = 'blue';
-                                                break;
-                                                case '45':
-                                                    $background = 'purple';
-                                                break;
-                                                case '46':
-                                                    $background = 'cyan';
-                                                break;
-                                                case '47':
-                                                    $background = 'white';
-                                                break;
-                                                case '48':
-                                                    $background = 'gray';
-                                                break;
-                                                case '49':
-                                                    $background = 'lightgray';
-                                                break;
-                                                default:
-                                                    d($command);
-                                                    ddd($item);
-                                                    break;
-                                            }
-                                        }
-                                        if($color !== null){
-                                            $screen = str_replace($match, '<span style="color:' . $color . '">', $screen);
-                                            $span_count++;
-                                        }
-                                        if($background !== null){
-                                            $screen = str_replace($match, '<span style="background-color:' . $background . '">', $screen);
-                                            $span_count++;
-                                        }
-                                        if($bold === true){
-                                            $screen = str_replace($match, '<span style="font-weight:bold">', $screen);
-                                            $span_count++;
-                                        }
-                                        if($dim === true){
-                                            $screen = str_replace($match, '<span style="font-weight:lighter">', $screen);
-                                            $span_count++;
-                                        }
-                                        if($italic === true){
-                                            $screen = str_replace($match, '<span style="font-style:italic">', $screen);
-                                            $span_count++;
-                                        }
-                                        if($underline === true){
-                                            $screen = str_replace($match, '<span style="text-decoration:underline">', $screen);
-                                            $span_count++;
-                                        }
-                                        if($blink === true){
-                                            $screen = str_replace($match, '<span style="text-decoration:blink">', $screen);
-                                            $span_count++;
-                                        }
-                                        if($reverse === true){
-                                            $screen = str_replace($match, '<span style="transform:scaleX(-1)">', $screen);
-                                            $span_count++;
-                                        }
-                                        if($hidden === true){
-                                            $screen = str_replace($match, '<span style="visibility:hidden">', $screen);
-                                            $span_count++;
-                                        }
-                                        if($strike === true){
-                                            $screen = str_replace($match, '<span style="text-decoration:line-through">', $screen);
-                                            $span_count++;
-                                        }
-                                        if($reset === true){
+                                $true_color = explode('38;2;', $command);
+                                $colors = null;
+                                if(array_key_exists(1, $true_color)){
+                                    $colors = explode(';', $true_color[1]);
+                                    if(array_key_exists(0, $colors)){
+                                        $red = $colors[0];
+                                    }
+                                    if(array_key_exists(1, $colors)){
+                                        $green = $colors[1];
+                                    }
+                                    if(array_key_exists(2, $colors)){
+                                        $blue = $colors[2];
+                                    }
+                                }
+                                if($colors === null){
+                                    switch ($command){
+                                        case '0':
                                             if ($span_count > 0) {
                                                 $screen = str_replace($match, str_repeat('</span>', $span_count), $screen);
                                             }
                                             $span_count = 0;
-                                        }
-                                    break;
+                                            break;
+                                        default:
+                                            $explode = explode(';', $command);
+                                            $color = null;
+                                            $background = null;
+                                            $bold = false;
+                                            $dim = false;
+                                            $italic = false;
+                                            $underline = false;
+                                            $blink = false;
+                                            $reverse = false;
+                                            $hidden = false;
+                                            $strike = false;
+                                            $reset = false;
+                                            foreach($explode as $item) {
+                                                $item = trim($item);
+                                                switch($item){
+                                                    case '00':
+                                                    case '0':
+                                                        $reset = true;
+                                                        break;
+                                                    case '01':
+                                                    case '1':
+                                                        $bold = true;
+                                                        break;
+                                                    case '02':
+                                                    case '2':
+                                                        $dim = true;
+                                                        break;
+                                                    case '03':
+                                                    case '3':
+                                                        $italic = true;
+                                                        break;
+                                                    case '04':
+                                                    case '4':
+                                                        $underline = true;
+                                                        break;
+                                                    case '05':
+                                                    case '5':
+                                                        $blink = true;
+                                                        break;
+                                                    case '07':
+                                                    case '7':
+                                                        $reverse = true;
+                                                        break;
+                                                    case '08':
+                                                    case '8':
+                                                        $hidden = true;
+                                                        break;
+                                                    case '09':
+                                                    case '9':
+                                                        $strike = true;
+                                                        break;
+                                                    case '30':
+                                                        $color = 'black';
+                                                        break;
+                                                    case '31':
+                                                        $color = 'red';
+                                                        break;
+                                                    case '32':
+                                                        $color = 'green';
+                                                        break;
+                                                    case '33':
+                                                        $color = 'yellow';
+                                                        break;
+                                                    case '34':
+                                                        $color = 'blue';
+                                                        break;
+                                                    case '35':
+                                                        $color = 'purple';
+                                                        break;
+                                                    case '36':
+                                                        $color = 'cyan';
+                                                        break;
+                                                    case '37':
+                                                        $color = 'white';
+                                                        break;
+                                                    case '38':
+                                                        $color = 'gray';
+                                                        break;
+                                                    case '39':
+                                                        $color = 'lightgray';
+                                                        break;
+                                                    case '40':
+                                                        $background = 'black';
+                                                        break;
+                                                    case '41':
+                                                        $background = 'red';
+                                                        break;
+                                                    case '42':
+                                                        $background = 'green';
+                                                        break;
+                                                    case '43':
+                                                        $background = 'yellow';
+                                                        break;
+                                                    case '44':
+                                                        $background = 'blue';
+                                                        break;
+                                                    case '45':
+                                                        $background = 'purple';
+                                                        break;
+                                                    case '46':
+                                                        $background = 'cyan';
+                                                        break;
+                                                    case '47':
+                                                        $background = 'white';
+                                                        break;
+                                                    case '48':
+                                                        $background = 'gray';
+                                                        break;
+                                                    case '49':
+                                                        $background = 'lightgray';
+                                                        break;
+                                                    default:
+                                                        d($command);
+                                                        ddd($item);
+                                                        break;
+                                                }
+                                            }
+                                            if($color !== null){
+                                                $screen = str_replace($match, '<span style="color:' . $color . '">', $screen);
+                                                $span_count++;
+                                            }
+                                            if($background !== null){
+                                                $screen = str_replace($match, '<span style="background-color:' . $background . '">', $screen);
+                                                $span_count++;
+                                            }
+                                            if($bold === true){
+                                                $screen = str_replace($match, '<span style="font-weight:bold">', $screen);
+                                                $span_count++;
+                                            }
+                                            if($dim === true){
+                                                $screen = str_replace($match, '<span style="font-weight:lighter">', $screen);
+                                                $span_count++;
+                                            }
+                                            if($italic === true){
+                                                $screen = str_replace($match, '<span style="font-style:italic">', $screen);
+                                                $span_count++;
+                                            }
+                                            if($underline === true){
+                                                $screen = str_replace($match, '<span style="text-decoration:underline">', $screen);
+                                                $span_count++;
+                                            }
+                                            if($blink === true){
+                                                $screen = str_replace($match, '<span style="text-decoration:blink">', $screen);
+                                                $span_count++;
+                                            }
+                                            if($reverse === true){
+                                                $screen = str_replace($match, '<span style="transform:scaleX(-1)">', $screen);
+                                                $span_count++;
+                                            }
+                                            if($hidden === true){
+                                                $screen = str_replace($match, '<span style="visibility:hidden">', $screen);
+                                                $span_count++;
+                                            }
+                                            if($strike === true){
+                                                $screen = str_replace($match, '<span style="text-decoration:line-through">', $screen);
+                                                $span_count++;
+                                            }
+                                            if($reset === true){
+                                                if ($span_count > 0) {
+                                                    $screen = str_replace($match, str_repeat('</span>', $span_count), $screen);
+                                                }
+                                                $span_count = 0;
+                                            }
+                                            if(is_array($colors)){
+                                                $red = $colors[0];
+                                                $green = $colors[1];
+                                                $blue = $colors[2];
+                                                $screen = str_replace($match, '<span style="color:rgb(' . $red . ',' . $green . ',' . $blue . ')">', $screen);
+                                                $span_count++;
+                                                $red = null;
+                                                $green = null;
+                                                $blue = null;
+                                                $colors = null;
+                                            }
+                                            break;
+                                    }
                                 }
                             }
                         }
