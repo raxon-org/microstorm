@@ -241,7 +241,9 @@ class Sse {
                     if(preg_match('/\x1b\[([0-9;]+)m/', $screen, $matches)){
                         $span_count = 0;
                         foreach($matches as $match){
-                            switch(substr($match[0], 1)){
+                            $action = substr($match[0], 0, 1);
+                            d($action);
+                            switch($action){
                                 case "[0m":
                                     $explode = explode($match[0], $screen, 2);
                                     if(array_key_exists(1, $explode)){
