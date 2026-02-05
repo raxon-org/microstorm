@@ -178,17 +178,20 @@ class Sse {
 //                            fwrite($shell, "\n");
                             while ($line = fgets($shell)) {
                                 $output[] = $line;
-                                $ping_data->set('output', $output);
-                                $data->set('output', $output);
-                                echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
-                                echo "\n\n";
-                                flush();
-                                $id++;
-                                echo "id: $id\n";
-                                echo "event: ping\n";
+//                                $ping_data->set('output', $output);
+//                                $data->set('output', $output);
+//                                echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
+//                                echo "\n\n";
+//                                flush();
+//                                $id++;
+//                                echo "id: $id\n";
+//                                echo "event: ping\n";
                             }
 //                            stream_set_blocking($shell, false);
                         }
+                    }
+                    if(preg_match('/\x1b\[([0-9;]+)m/', implode('', $output), $matches)){
+                        d($matches);
                     }
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
@@ -222,18 +225,18 @@ class Sse {
                         }
                     }
                     while ($line = fgets($shell)) {
-                        if(preg_match('/\x1b\[([0-9;]+)m/', $line, $matches)){
-                            d($matches);
-                        }
                         $output[] = $line;
-                        $ping_data->set('output', $output);
-                        $data->set('output', $output);
-                        echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
-                        echo "\n\n";
-                        flush();
-                        $id++;
-                        echo "id: $id\n";
-                        echo "event: ping\n";
+//                        $ping_data->set('output', $output);
+//                        $data->set('output', $output);
+//                        echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
+//                        echo "\n\n";
+//                        flush();
+//                        $id++;
+//                        echo "id: $id\n";
+//                        echo "event: ping\n";
+                    }
+                    if(preg_match('/\x1b\[([0-9;]+)m/', implode('', $output), $matches)){
+                        d($matches);
                     }
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
