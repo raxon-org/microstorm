@@ -264,7 +264,21 @@ class Sse {
                                         $blue = $colors[2];
                                     }
                                 }
-                                if($colors === null){
+                                $true_color_background = explode('48;2;', $command);
+                                $background_colors = null;
+                                if(array_key_exists(1, $true_color_background)){
+                                    $background_colors = explode(';', $true_color_background[1]);
+                                    if(array_key_exists(0, $background_colors)){
+                                        $background_red = $background_colors[0];
+                                    }
+                                    if(array_key_exists(1, $background_colors)){
+                                        $background_green = $background_colors[1];
+                                    }
+                                    if(array_key_exists(2, $background_colors)){
+                                        $background_blue = $background_colors[2];
+                                    }
+                                }
+                                if($colors === null && $background_colors === null){
                                     switch ($command){
                                         case '0':
                                             if ($span_count > 0) {
@@ -437,15 +451,20 @@ class Sse {
                                                 $span_count = 0;
                                             }
                                             if(is_array($colors)){
-                                                $red = $colors[0];
-                                                $green = $colors[1];
-                                                $blue = $colors[2];
                                                 $screen = str_replace($match, '<span style="color:rgb(' . $red . ',' . $green . ',' . $blue . ')">', $screen);
                                                 $span_count++;
                                                 $red = null;
                                                 $green = null;
                                                 $blue = null;
                                                 $colors = null;
+                                            }
+                                            if(is_array($background_colors)){
+                                                $screen = str_replace($match, '<span style="color:rgb(' . $background_red . ',' . $background_green . ',' . $background_blue . ')">', $screen);
+                                                $span_count++;
+                                                $background_red = null;
+                                                $background_green = null;
+                                                $background_blue = null;
+                                                $background_colors = null;
                                             }
                                             break;
                                     }
