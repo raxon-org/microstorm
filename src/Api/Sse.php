@@ -363,6 +363,7 @@ class Sse {
                                                     $background = 'lightgray';
                                                 break;
                                                 default:
+                                                    d($command);
                                                     ddd($item);
                                                     break;
                                             }
