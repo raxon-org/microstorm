@@ -91,6 +91,7 @@ main.event_source = (options) => {
                     command = cursor.innerText;
                 }
                 const output = data?.output.join("");
+                const output_previous = output;
                 switch(data?.command?.action){
                     case 'login':
                     case 'login.host':
@@ -110,27 +111,29 @@ main.event_source = (options) => {
                             to_remove.remove();
                         }
                          */
-                        content.html(output + '<span class="cursor" contenteditable="true"></span>');
-                        cursor = content.select('.cursor');
-                        /*
-                        if(!cursor){
+                        if(output !== output_previous){
+                            content.html(output + '<span class="cursor" contenteditable="true"></span>');
+                            cursor = content.select('.cursor');
+                            /*
+                            if(!cursor){
 
-                            cursor = content.select('.cursor');
-                        } else {
-                            content.html(output);
-                            content.append(cursor);
-                            cursor = content.select('.cursor');
-                        }
-                         */
-                        main.cursor(options, cursor, data);
-                        if(command){
-                            cursor.innerText = command;
-                            const range = document.createRange();
-                            range.selectNodeContents(cursor);
-                            range.collapse(false); // false = collapse to end
-                            const selection = window.getSelection();
-                            selection.removeAllRanges();
-                            selection.addRange(range);
+                                cursor = content.select('.cursor');
+                            } else {
+                                content.html(output);
+                                content.append(cursor);
+                                cursor = content.select('.cursor');
+                            }
+                             */
+                            main.cursor(options, cursor, data);
+                            if(command){
+                                cursor.innerText = command;
+                                const range = document.createRange();
+                                range.selectNodeContents(cursor);
+                                range.collapse(false); // false = collapse to end
+                                const selection = window.getSelection();
+                                selection.removeAllRanges();
+                                selection.addRange(range);
+                            }
                         }
                     break;
                 }
