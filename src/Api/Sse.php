@@ -54,6 +54,8 @@ class Sse {
             global $shell;
             switch($action){
                 case 'login':
+                    $connection = null;
+                    $shell = null;
                     $output = $data->get('output') ?? [];
                     $output[] =  'Login:&nbsp;';
                     $data->set('output', $output);
