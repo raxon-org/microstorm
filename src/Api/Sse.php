@@ -240,6 +240,7 @@ class Sse {
                     if(preg_match('/\x1b\[([0-9;]+)m/', implode('', $output), $matches)){
                         $span_count = 0;
                         foreach($matches as $match){
+                            dd(ord(substr($match, 0, 1)));
                             foreach($output as $nr => $line){
                                 switch($match[0]){
                                     case "\x1b[0m":
