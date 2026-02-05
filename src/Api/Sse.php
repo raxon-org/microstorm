@@ -237,7 +237,7 @@ class Sse {
 //                        echo "id: $id\n";
 //                        echo "event: ping\n";
                     }
-                    $screen = implode('', $output);
+                    $screen = implode("\n", $output);
                     if(preg_match_all('/\x1b\[([0-9;]+)m/', $screen, $matches)){
                         $span_count = 0;
                         foreach($matches as $match){
@@ -334,6 +334,7 @@ class Sse {
                             }
                         }
                     }
+                    $output = explode("\n", $screen);
                     $ping_data->set('output', $output);
                     $data->set('output', $output);
                     echo 'data: ' . Core::object($ping_data->data(), Core::JSON_LINE);
