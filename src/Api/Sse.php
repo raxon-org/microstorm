@@ -304,6 +304,7 @@ class Sse {
                                                 switch($item){
                                                     case '00':
                                                     case '0':
+                                                    case '':
                                                         $reset = true;
                                                         break;
                                                     case '01':
