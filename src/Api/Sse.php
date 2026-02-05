@@ -237,21 +237,22 @@ class Sse {
 //                        echo "id: $id\n";
 //                        echo "event: ping\n";
                     }
-                    if(preg_match('/\x1b\[([0-9;]+)m/', implode('', $output), $matches)){
+                    $screen = implode('', $output);
+                    if(preg_match('/\x1b\[([0-9;]+)m/', $screen, $matches)){
                         $span_count = 0;
                         foreach($matches as $match){
-                            foreach($output as $nr => $line){
-                                switch(substr($match[0], 1)){
-                                    case "[0m":
-                                        $output[$nr] = str_replace($match[0], '',  $line);
-                                        $span_count = 0;
-                                    break;
-                                    default :
-                                        d($match);
-                                        ddd($line);
-                                        throw new Exception('Unknown match:' . $match[0] . ': ' . $line);
-                                }
-
+                            switch(substr($match[0], 1)){
+                                case "[0m":
+                                    $explode = explode($match[0], $screen, 2);
+                                    if(array_key_exists(1, $explode)){
+                                        $screen = $explode[0] . '</span>' . $explode[1];
+                                    }
+                                    $span_count = 0;
+                                break;
+                                default :
+                                    d($match);
+                                    ddd($line);
+                                    throw new Exception('Unknown match:' . $match[0] . ': ' . $line);
                             }
                         }
                     }
