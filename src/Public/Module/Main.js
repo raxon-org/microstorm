@@ -110,7 +110,7 @@ main.event_source = (options) => {
                             to_remove.remove();
                         }
                          */
-                        content.html(code.ansi_to_html(output) + '<span class="cursor" contenteditable="true"></span>');
+                        content.html(output + '<span class="cursor" contenteditable="true"></span>');
                         cursor = content.select('.cursor');
                         /*
                         if(!cursor){
