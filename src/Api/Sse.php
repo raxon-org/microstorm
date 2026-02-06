@@ -247,9 +247,17 @@ class Sse {
                         $red = null;
                         $green = null;
                         $blue = null;
+                        $color = null;
+                        $background_color = null;
                         if(array_key_exists(0, $matches) && is_array($matches[0])){
                             foreach($matches[0] as $key => $match) {
                                 $command = $matches[1][$key];
+                                $color_256 = explode('38;5;', $command);
+                                if(array_key_exists(1, $color_256)){
+                                    $color = $color_256[1];
+                                    $color_scheme_256 = $this->color_scheme('256');
+                                    $color = $color_scheme_256[$color];
+                                }
                                 $true_color = explode('38;2;', $command);
                                 $colors = null;
                                 if(array_key_exists(1, $true_color)){
@@ -263,6 +271,12 @@ class Sse {
                                     if(array_key_exists(2, $colors)){
                                         $blue = $colors[2];
                                     }
+                                }
+                                $color_256_background = explode('48;5;', $command);
+                                if(array_key_exists(1, $color_256_background)){
+                                    $background_color = $color_256_background[1];
+                                    $color_scheme_256 = $this->color_scheme('256');
+                                    $background_color = $color_scheme_256[$color];
                                 }
                                 $true_color_background = explode('48;2;', $command);
                                 $background_colors = null;
@@ -278,7 +292,12 @@ class Sse {
                                         $background_blue = $background_colors[2];
                                     }
                                 }
-                                if($colors === null && $background_colors === null){
+                                if(
+                                    $color === null &&
+                                    $background_color === null &&
+                                    $colors === null &&
+                                    $background_colors === null
+                                ){
                                     switch ($command){
                                         case '0':
                                             if ($span_count > 0) {
@@ -451,23 +470,34 @@ class Sse {
                                                 }
                                                 $span_count = 0;
                                             }
-                                            if(is_array($colors)){
-                                                $screen = str_replace($match, '<span style="color:rgb(' . $red . ',' . $green . ',' . $blue . ')">', $screen);
-                                                $span_count++;
-                                                $red = null;
-                                                $green = null;
-                                                $blue = null;
-                                                $colors = null;
-                                            }
-                                            if(is_array($background_colors)){
-                                                $screen = str_replace($match, '<span style="color:rgb(' . $background_red . ',' . $background_green . ',' . $background_blue . ')">', $screen);
-                                                $span_count++;
-                                                $background_red = null;
-                                                $background_green = null;
-                                                $background_blue = null;
-                                                $background_colors = null;
-                                            }
                                             break;
+                                    }
+                                } else {
+                                    if($color){
+                                        $screen = str_replace($match, '<span style="color:' . $color . '">', $screen);
+                                        $span_count++;
+                                        $color = null;
+                                    }
+                                    if($background_color){
+                                        $screen = str_replace($match, '<span style="background-color:' . $background_color . '">', $screen);
+                                        $span_count++;
+                                        $background_color = null;
+                                    }
+                                    if(is_array($colors)){
+                                        $screen = str_replace($match, '<span style="color:rgb(' . $red . ',' . $green . ',' . $blue . ')">', $screen);
+                                        $span_count++;
+                                        $red = null;
+                                        $green = null;
+                                        $blue = null;
+                                        $colors = null;
+                                    }
+                                    if(is_array($background_colors)){
+                                        $screen = str_replace($match, '<span style="color:rgb(' . $background_red . ',' . $background_green . ',' . $background_blue . ')">', $screen);
+                                        $span_count++;
+                                        $background_red = null;
+                                        $background_green = null;
+                                        $background_blue = null;
+                                        $background_colors = null;
                                     }
                                 }
                             }
@@ -572,5 +602,30 @@ class Sse {
                 break;
             }
         }
+
     }
+
+    private function color_scheme($type = '256'){
+        $color_scheme = [];
+        switch($type){
+            case '256':
+                $steps = [
+                    0, 51, 102, 153, 204, 255
+                ];
+                for($r = 0; $r < count($steps); $r++){
+                    for($g = 0; $g < count($steps); $g++){
+                        for($b = 0; $b < count($steps); $b++){
+                            $color_scheme[] = 'rgb(' . $steps[$r] . ',' . $steps[$g] . ',' . $steps[$b] . ')';
+                        }
+                    }
+                }
+                for($i = 0; $i < 40; $i++){
+                    $grey = (int) round(($i / 39) * 255);
+                    $color_scheme[] = 'rgb(' . $grey . ',' . $grey . ',' . $grey . ')';
+                }
+                return $color_scheme;
+
+        }
+    }
+
 }
